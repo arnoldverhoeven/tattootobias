@@ -653,7 +653,7 @@ function defaults(){return JSON.parse(JSON.stringify(SEED))}
    2. tags.json next to this page: the published baseline every visitor gets.
    3. This browser (localStorage): instant, and the fallback when offline.
    The newest revision (rev) always wins. */
-var CMS={supabaseUrl:'',anonKey:'',site:'tattootobias',bucket:'site-media',file:'tags.json'};
+var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json'};
 var ONLINE=!!(CMS.supabaseUrl&&CMS.anonKey),SKEY='tattootobias-session',session=null;
 try{session=JSON.parse(localStorage.getItem(SKEY))}catch(e){}
 function readKey(k){try{var o=JSON.parse(localStorage.getItem(k));return o&&o.items&&o.tags?o:null}catch(e){return null}}
@@ -669,7 +669,7 @@ function save(){S.rev=Date.now();var ok=true;
  if(ONLINE&&session){clearTimeout(pushT);setSync('Saving…');pushT=setTimeout(push,700)}else setSync();
  return ok}
 function setSync(t){var el=$('a-sync');if(!el)return;el.textContent=t||(ONLINE?(session?'Saved online ✓':'Log in to save online'):'Saved in this browser · export to publish')}
-function api(path,opt,auth){opt=opt||{};opt.headers=opt.headers||{};opt.headers.apikey=CMS.anonKey;opt.headers.Authorization='Bearer '+(auth&&session?session.access_token:CMS.anonKey);
+function api(path,opt,auth){opt=opt||{};opt.headers=opt.headers||{};opt.headers.apikey=CMS.anonKey;if(auth&&session)opt.headers.Authorization='Bearer '+session.access_token;else if(CMS.anonKey.indexOf('eyJ')===0)opt.headers.Authorization='Bearer '+CMS.anonKey; /* new sb_publishable_ keys go in apikey only */
  return fetch(CMS.supabaseUrl.replace(/\/$/,'')+path,opt)}
 function setSession(j){session=j&&j.access_token?{access_token:j.access_token,refresh_token:j.refresh_token,exp:Date.now()+(j.expires_in||3600)*1000-60000}:null;
  try{session?localStorage.setItem(SKEY,JSON.stringify(session)):localStorage.removeItem(SKEY)}catch(e){}}
