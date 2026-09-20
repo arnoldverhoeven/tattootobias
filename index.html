@@ -10,6 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_BE">
 <meta property="og:image" content="https://tattootobias.com/wp-content/uploads/2020/11/traditional-tattoo-woman.jpg">
+<meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#121212">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23121212'/%3E%3Ctext x='32' y='46' font-family='Impact,Arial Black,sans-serif' font-size='40' text-anchor='middle' fill='%23e0342b'%3ET%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -409,7 +410,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 
 <section id="about" class="dark">
   <div class="wrap split">
-    <div class="ph rv"><img loading="lazy" src="https://tattootobias.com/wp-content/uploads/2025/12/tattoo-tobias-de-bruyn-traditional-tattoo-artist-studio-who-i-am.jpg" alt="Tobias De Bruyn, traditional tattoo artist, in his private studio in Antwerp"></div>
+    <div class="ph rv"><img loading="lazy" referrerpolicy="no-referrer" src="https://tattootobias.com/wp-content/uploads/2025/12/tattoo-tobias-de-bruyn-traditional-tattoo-artist-studio-who-i-am.jpg" alt="Tobias De Bruyn, traditional tattoo artist, in his private studio in Antwerp"></div>
     <div class="txt rv">
       <p class="eyebrow">Who I am</p>
       <h2>I'm Tobias.</h2>
@@ -423,7 +424,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 
 <section id="style" class="paper">
   <div class="wrap split rev">
-    <div class="ph rv"><img loading="lazy" src="https://tattootobias.com/wp-content/uploads/2025/12/tattoo-tobias-de-bruyn-traditional-tattoo-artist-studio-design.jpg" alt="Tattoo designs and line drawings in the studio of Tattoo Tobias"></div>
+    <div class="ph rv"><img loading="lazy" referrerpolicy="no-referrer" src="https://tattootobias.com/wp-content/uploads/2025/12/tattoo-tobias-de-bruyn-traditional-tattoo-artist-studio-design.jpg" alt="Tattoo designs and line drawings in the studio of Tattoo Tobias"></div>
     <div class="txt rv">
       <p class="eyebrow">My style</p>
       <h2>Timeless, bold &amp; designed for the body</h2>
@@ -440,7 +441,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 <section id="how" class="dark">
   <div class="wrap">
     <div class="split">
-      <div class="ph rv"><img loading="lazy" src="https://tattootobias.com/wp-content/uploads/2025/12/tattoo-tobias-de-bruyn-traditional-tattoo-artist-studio.jpg" alt="The calm private tattoo studio of Tattoo Tobias in Borgerhout"></div>
+      <div class="ph rv"><img loading="lazy" referrerpolicy="no-referrer" src="https://tattootobias.com/wp-content/uploads/2025/12/tattoo-tobias-de-bruyn-traditional-tattoo-artist-studio.jpg" alt="The calm private tattoo studio of Tattoo Tobias in Borgerhout"></div>
       <div class="txt rv">
         <p class="eyebrow">How I work</p>
         <h2>Honest, focused &amp; one-on-one</h2>
@@ -653,7 +654,10 @@ function defaults(){return JSON.parse(JSON.stringify(SEED))}
    2. tags.json next to this page: the published baseline every visitor gets.
    3. This browser (localStorage): instant, and the fallback when offline.
    The newest revision (rev) always wins. */
-var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json'};
+var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json',imgBase:''};
+/* imgBase: '' = photos load from tattootobias.com. Set to 'img/' once the photos are copied next to this page (see download-photos.ps1). */
+var WP='https://tattootobias.com/wp-content/uploads/';
+function SRC(u){return CMS.imgBase&&u.indexOf(WP)===0?CMS.imgBase+u.slice(WP.length):u}
 var ONLINE=!!(CMS.supabaseUrl&&CMS.anonKey),SKEY='tattootobias-session',session=null;
 try{session=JSON.parse(localStorage.getItem(SKEY))}catch(e){}
 function readKey(k){try{var o=JSON.parse(localStorage.getItem(k));return o&&o.items&&o.tags?o:null}catch(e){return null}}
@@ -716,7 +720,7 @@ function render(){
  grid.innerHTML='';
  view.slice(0,shown).forEach(function(it,ix){
   var b=document.createElement('button');b.className='tile';b.type='button';b.setAttribute('aria-label','Enlarge: '+it.t);
-  var im=new Image();im.loading='lazy';im.alt=it.t+' — tattoo by Tattoo Tobias, Antwerp';im.src=it.s;im.onerror=function(){b.remove()};
+  var im=new Image();im.loading='lazy';im.alt=it.t+' — tattoo by Tattoo Tobias, Antwerp';im.referrerPolicy='no-referrer';im.onerror=function(){if(im.src!==it.s&&SRC(it.s)!==it.s&&!im.dataset.f){im.dataset.f=1;im.src=it.s}else b.remove()};im.src=SRC(it.s);
   var c=document.createElement('span');c.className='cap';c.innerHTML='<small>'+esc(it.tags.map(tagLabel).filter(Boolean).join(' · '))+'</small>'+esc(it.t);
   b.appendChild(im);b.appendChild(c);b.onclick=function(){openLb(ix)};grid.appendChild(b);
  });
@@ -729,7 +733,7 @@ refresh();
 
 /* ---------- lightbox ---------- */
 var lb=$('lb'),li=$('lbimg'),lc=$('lbc'),pos=0,last;
-function show(){var it=view[pos];li.onerror=function(){li.onerror=null;li.src=it.s};li.src=it.s.indexOf('data:')===0?it.s:it.s.replace(/-\d+x\d+(\.jpg)$/,'$1');li.alt=it.t;lc.textContent=it.t+' · '+(pos+1)+' / '+view.length}
+function show(){var it=view[pos];li.onerror=function(){li.onerror=null;li.src=it.s};li.referrerPolicy='no-referrer';li.src=(it.s.indexOf('data:')===0||CMS.imgBase)?SRC(it.s):it.s.replace(/-\d+x\d+(\.jpg)$/,'$1');li.alt=it.t;lc.textContent=it.t+' · '+(pos+1)+' / '+view.length}
 function openLb(i){last=document.activeElement;pos=i;show();lb.classList.add('open');lb.querySelector('.x').focus()}
 function closeLb(){lb.classList.remove('open');li.removeAttribute('src');if(last)last.focus()}
 function step(d){pos=(pos+d+view.length)%view.length;show()}
@@ -753,6 +757,7 @@ if(ONLINE){$('a-pass').value='';$('a-demo').hidden=true;if(session)fresh().then(
 $('a-reset').onclick=function(){if(confirm('Discard the changes in this browser and go back to the published tags?')){localStorage.removeItem(KEY);S=normalize(defaults());pending=[];renderAdm();refresh();pull();toast('Back to the published tags')}};
 $('a-export').onclick=function(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));a.download='tattoo-tobias-tags-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();toast('Backup downloaded')};
 $('a-import').onchange=function(){var fl=this.files[0];if(!fl)return;var rd=new FileReader();rd.onload=function(){try{var o=JSON.parse(rd.result);if(!o.items||!o.tags)throw 0;S=normalize(o);save();renderAdm();refresh();toast('Backup restored — '+S.items.length+' photos')}catch(e){toast('This is not a valid backup file')}};rd.readAsText(fl);this.value=''};
+[].forEach.call(document.querySelectorAll('img[src^="'+WP+'"]'),function(im){var o=im.getAttribute('src');if(SRC(o)!==o){im.onerror=function(){im.onerror=null;im.src=o};im.src=SRC(o)}});
 if(location.hash==='#admin')openAdm();
 pull();
 
@@ -835,7 +840,7 @@ function renderList(){
  $('a-count').textContent='('+(list.length===S.items.length?list.length:list.length+' of '+S.items.length)+')';
  list.slice(0,ashown).forEach(function(it){
   var r=document.createElement('div');r.className='arow'+(it.hidden?' hid':'');
-  var im=new Image();im.loading='lazy';im.src=it.s;im.alt=it.t;r.appendChild(im);
+  var im=new Image();im.loading='lazy';im.referrerPolicy='no-referrer';im.onerror=function(){if(!im.dataset.f){im.dataset.f=1;im.src=it.s}};im.src=SRC(it.s);im.alt=it.t;r.appendChild(im);
   var c=document.createElement('div');
   if(it.up){var bd=document.createElement('span');bd.className='badge';bd.textContent='New upload';c.appendChild(bd)}
   var ti=document.createElement('input');ti.type='text';ti.value=it.t;ti.setAttribute('aria-label','Title');ti.onchange=function(){it.t=ti.value.trim()||'Untitled';save();toast('Title saved')};
