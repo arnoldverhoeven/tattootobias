@@ -654,7 +654,7 @@ function defaults(){return JSON.parse(JSON.stringify(SEED))}
    2. tags.json next to this page: the published baseline every visitor gets.
    3. This browser (localStorage): instant, and the fallback when offline.
    The newest revision (rev) always wins. */
-var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json',imgBase:'img/'};
+var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json',imgBase:(/(^|\.)agv-it\.be$/.test(location.hostname)?'https://tattootobias.netlify.app/':'')+'img/'} /* preview on agv-it.be has no img folder of its own: take the photos from the real site */;
 /* imgBase: '' = photos load from tattootobias.com. Set to 'img/' once the photos are copied next to this page (see download-photos.ps1). */
 var WP='https://tattootobias.com/wp-content/uploads/';
 function SRC(u){return CMS.imgBase&&u.indexOf(WP)===0?CMS.imgBase+u.slice(u.lastIndexOf('/')+1):u} /* one flat folder: img/<filename> */
