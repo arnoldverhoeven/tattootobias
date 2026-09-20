@@ -11,6 +11,7 @@
 <meta property="og:locale" content="en_BE">
 <meta property="og:image" content="https://tattootobias.com/wp-content/uploads/2020/11/traditional-tattoo-woman.jpg">
 <meta name="referrer" content="no-referrer">
+<meta name="build" content="2026-09-20-5">
 <meta name="theme-color" content="#121212">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23121212'/%3E%3Ctext x='32' y='46' font-family='Impact,Arial Black,sans-serif' font-size='40' text-anchor='middle' fill='%23e0342b'%3ET%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -589,13 +590,13 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com?subject=Tattoo%20idea&amp;body=Hi%20Tobias%2C%0A%0AHere%20is%20my%20tattoo%20idea.%0A%0AIdea%3A%20%5Bidea%5D%0APlacement%3A%20%5Bplacement%5D%0AApproximate%20size%3A%20%0ABlack%20or%20color%3A%20%0A%28If%20you%20have%20reference%20material%2C%20include%20it%29%0A%0A%0A%5BName%5D%0A%5BTelephone%20number%5D%0A">hello@tattootobias.com</a></span>
-  <span>Photography by Jannis Bachard · <a href="#admin" data-admin>Studio login</a></span>
+  <span>Photography by Jannis Bachard · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-20-5</span></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-20-5</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
@@ -654,7 +655,8 @@ function defaults(){return JSON.parse(JSON.stringify(SEED))}
    2. tags.json next to this page: the published baseline every visitor gets.
    3. This browser (localStorage): instant, and the fallback when offline.
    The newest revision (rev) always wins. */
-var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json',imgBase:(/(^|\.)agv-it\.be$/.test(location.hostname)?'https://tattootobias.netlify.app/':'')+'img/'} /* preview on agv-it.be has no img folder of its own: take the photos from the real site */;
+var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json',imgBase:''};
+var BUILD='2026-09-20-5';;
 /* imgBase: '' = photos load from tattootobias.com. Set to 'img/' once the photos are copied next to this page (see download-photos.ps1). */
 var WP='https://tattootobias.com/wp-content/uploads/';
 function SRC(u){return CMS.imgBase&&u.indexOf(WP)===0?CMS.imgBase+u.slice(u.lastIndexOf('/')+1):u} /* one flat folder: img/<filename> */
@@ -757,7 +759,16 @@ if(ONLINE){$('a-pass').value='';$('a-demo').hidden=true;if(session)fresh().then(
 $('a-reset').onclick=function(){if(confirm('Discard the changes in this browser and go back to the published tags?')){localStorage.removeItem(KEY);S=normalize(defaults());pending=[];renderAdm();refresh();pull();toast('Back to the published tags')}};
 $('a-export').onclick=function(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));a.download='tattoo-tobias-tags-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();toast('Backup downloaded')};
 $('a-import').onchange=function(){var fl=this.files[0];if(!fl)return;var rd=new FileReader();rd.onload=function(){try{var o=JSON.parse(rd.result);if(!o.items||!o.tags)throw 0;S=normalize(o);save();renderAdm();refresh();toast('Backup restored — '+S.items.length+' photos')}catch(e){toast('This is not a valid backup file')}};rd.readAsText(fl);this.value=''};
-[].forEach.call(document.querySelectorAll('img[src^="'+WP+'"]'),function(im){var o=im.getAttribute('src');if(SRC(o)!==o){im.onerror=function(){im.onerror=null;im.src=o};im.src=SRC(o)}});
+/* where do the photos live? try each place once, use the first that answers, remember it for this visit */
+var STATIC=[].slice.call(document.querySelectorAll('img[src^="'+WP+'"]'));STATIC.forEach(function(im){im.dataset.o=im.getAttribute('src')});
+function applyStatic(){STATIC.forEach(function(im){var o=im.dataset.o;im.onerror=function(){im.onerror=null;im.src=o};im.src=SRC(o)})}
+var BASES=[];if(ONLINE)BASES.push(CMS.supabaseUrl.replace(/\/$/,'')+'/storage/v1/object/public/'+CMS.bucket+'/'+CMS.site+'/img/');
+BASES.push('img/','https://tattootobias.netlify.app/img/');
+function setBase(b){try{sessionStorage.setItem('tt-imgbase',b)}catch(e){}if(b===CMS.imgBase)return;CMS.imgBase=b;applyStatic();refresh();if(logged)renderList()}
+function probe(i){if(i>=BASES.length)return setBase('');var t=new Image();t.onload=function(){t.naturalWidth>1?setBase(BASES[i]):probe(i+1)};t.onerror=function(){probe(i+1)};t.src=BASES[i]+'traditional-tattoo-woman.jpg'}
+try{var rb=sessionStorage.getItem('tt-imgbase');if(rb!==null&&(rb===''||BASES.indexOf(rb)>-1)){CMS.imgBase=rb;applyStatic();refresh()}}catch(e){}
+probe(0);
+console.log('Tattoo Tobias build '+BUILD);
 if(location.hash==='#admin')openAdm();
 pull();
 
