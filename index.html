@@ -11,7 +11,7 @@
 <meta property="og:locale" content="en_BE">
 <meta property="og:image" content="https://tattootobias.com/wp-content/uploads/2020/11/traditional-tattoo-woman.jpg">
 <meta name="referrer" content="no-referrer">
-<meta name="build" content="2026-09-23-2">
+<meta name="build" content="2026-09-23-3">
 <meta name="theme-color" content="#121212">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23121212'/%3E%3Ctext x='32' y='46' font-family='Impact,Arial Black,sans-serif' font-size='40' text-anchor='middle' fill='%23e0342b'%3ET%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -375,6 +375,18 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 .slots p{font-size:14px;color:#5a5448;margin:0}
 .pick{margin-top:18px;padding:14px 16px;border-left:3px solid var(--red);background:#fbf6ea;font-size:15px}
 .pick strong{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.04em;text-transform:uppercase;display:block}
+.aleg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin-bottom:12px}.aleg span{display:flex;align-items:center;gap:6px}
+.lg{width:14px;height:14px;border-radius:2px;display:inline-block}.lg.conf{background:var(--navy)}.lg.tent{background:var(--red)}.lg.free{background:#fff;border:1.5px solid #cfc6b0}.lg.closed{background:#e6dbc3}
+.acal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.acal>span{font-size:11px;font-weight:700;letter-spacing:.12em;text-align:center;color:#8d8677;padding:4px 0}
+.acal .d{min-height:96px;border:1.5px solid #cfc6b0;border-radius:var(--r);background:#fff;padding:6px;cursor:pointer;text-align:left;font-family:var(--body);color:var(--ink);display:flex;flex-direction:column;gap:3px}
+.acal .d:hover{border-color:var(--red)}.acal .d.on{outline:3px solid var(--red);outline-offset:-1px}
+.acal .d.closed{background:#e6dbc3;cursor:default;color:#8d8677}.acal .d.pastd{opacity:.5}.acal .d.today .n{color:var(--red-d)}
+.acal .d .n{font-weight:700;font-size:14px;display:flex;justify-content:space-between}.acal .d .n small{font-weight:500;color:#5a5448;font-size:11px}
+.acal .d .n small.full{color:var(--red-d);font-weight:700}
+.acal .b{font-size:11px;line-height:1.25;padding:3px 5px;border-radius:2px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acal .b.confirmed{background:var(--navy)}.acal .b.tentative{background:var(--red)}
+@media (max-width:767px){.acal .d{min-height:64px;padding:4px}.acal .b{font-size:9px;padding:2px 3px}}
 .req{font-style:normal;color:var(--red-d);font-weight:700}
 .ferr{color:var(--red-d);font-weight:700;font-size:14px;margin-top:10px;min-height:1em}
 /* admin tabs */
@@ -670,13 +682,13 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com?subject=Tattoo%20idea&amp;body=Hi%20Tobias%2C%0A%0AHere%20is%20my%20tattoo%20idea.%0A%0AIdea%3A%20%5Bidea%5D%0APlacement%3A%20%5Bplacement%5D%0AApproximate%20size%3A%20%0ABlack%20or%20color%3A%20%0A%28If%20you%20have%20reference%20material%2C%20include%20it%29%0A%0A%0A%5BName%5D%0A%5BTelephone%20number%5D%0A">hello@tattootobias.com</a></span>
-  <span>Photography by Jannis Bachard · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-23-2</span></span>
+  <span>Photography by Jannis Bachard · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-23-3</span></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-23-2</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-23-3</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
@@ -690,7 +702,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
     </div>
     <div id="a-main" hidden>
       <p class="demo" id="a-note"></p>
-      <div class="atabs" role="tablist"><button type="button" class="on" data-tab="photos">Photos</button><button type="button" data-tab="bookings">Bookings<i id="t-bcount"></i></button><button type="button" data-tab="avail">Availability</button></div>
+      <div class="atabs" role="tablist"><button type="button" class="on" data-tab="photos">Photos</button><button type="button" data-tab="bookings">Bookings<i id="t-bcount"></i></button><button type="button" data-tab="cal">Calendar</button><button type="button" data-tab="avail">Availability</button></div>
       <div id="tab-photos">
       <div class="acols">
         <div>
@@ -732,6 +744,14 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
             </div>
             <details class="adet"><summary>Past, declined &amp; expired <span id="b-pcount"></span></summary><div class="blist" id="b-past" style="margin-top:12px"></div></details>
           </div>
+        </div>
+      </div>
+      <div id="tab-cal" hidden>
+        <div class="card">
+          <div class="calh" style="margin-bottom:14px"><button type="button" id="ac-prev" aria-label="Previous month">‹</button><b id="ac-title"></b><button type="button" id="ac-next" aria-label="Next month">›</button></div>
+          <div class="aleg"><span><i class="lg conf"></i>Confirmed</span><span><i class="lg tent"></i>Requested (held)</span><span><i class="lg free"></i>Free hours</span><span><i class="lg closed"></i>Closed</span></div>
+          <div class="acal" id="ac-grid"></div>
+          <div id="ac-day" hidden><h3 id="ac-dtitle" style="margin:22px 0 10px"></h3><div class="blist" id="ac-dlist"></div></div>
         </div>
       </div>
       <div id="tab-avail" hidden>
@@ -788,7 +808,7 @@ function defaults(){return JSON.parse(JSON.stringify(SEED))}
    3. This browser (localStorage): instant, and the fallback when offline.
    The newest revision (rev) always wins. */
 var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json',imgBase:''};
-var BUILD='2026-09-23-2';;
+var BUILD='2026-09-23-3';;
 /* imgBase: '' = photos load from tattootobias.com. Set to 'img/' once the photos are copied next to this page (see download-photos.ps1). */
 var WP='https://tattootobias.com/wp-content/uploads/';
 function SRC(u){return CMS.imgBase&&u.indexOf(WP)===0?CMS.imgBase+u.slice(u.lastIndexOf('/')+1):u} /* one flat folder: img/<filename> */
@@ -1110,7 +1130,7 @@ $('bform').addEventListener('submit',function(e){e.preventDefault();var v=functi
 $('f-again').onclick=function(){$('bform').reset();files=[];drawFiles();pick={hours:0,date:'',start:''};renderSizes();renderCal();renderSlots();$('f-done').hidden=true;$('f-fields').hidden=false;$('f-send').disabled=false;$('f-send').textContent='Request this slot →'};
 /* ---- admin: tabs ---- */
 var tabs=document.querySelectorAll('.atabs button');
-[].forEach.call(tabs,function(b){b.onclick=function(){[].forEach.call(tabs,function(x){x.classList.toggle('on',x===b)});['photos','bookings','avail'].forEach(function(t){$('tab-'+t).hidden=b.dataset.tab!==t});if(b.dataset.tab==='bookings')bkLoad().then(renderBookings);if(b.dataset.tab==='avail')renderAvail()}});
+[].forEach.call(tabs,function(b){b.onclick=function(){[].forEach.call(tabs,function(x){x.classList.toggle('on',x===b)});['photos','bookings','cal','avail'].forEach(function(t){$('tab-'+t).hidden=b.dataset.tab!==t});if(b.dataset.tab==='bookings')bkLoad().then(renderBookings);if(b.dataset.tab==='cal')bkLoad().then(renderACal);if(b.dataset.tab==='avail')renderAvail()}});
 /* ---- admin: bookings ---- */
 function bCard(b){var st=stateOf(b),c=document.createElement('div');c.className='bcard '+(st==='tentative'?'tent':'')+(b.date<ymd(today0())&&st==='confirmed'?' past':'');
  var end=hm(mins(b.start)+b.hours*60);
@@ -1136,11 +1156,27 @@ function bCard(b){var st=stateOf(b),c=document.createElement('div');c.className=
  }else if(st==='expired')btn('Confirm anyway','chip',function(){done('confirmed','Confirmed')});
  else if(st==='declined')btn('Delete','chip del',function(){if(!confirm('Delete this request?'))return;done('deleted','Deleted')});
  c.appendChild(acts);return c}
-function renderBookings(){if(!$('b-tent'))return;var t0=ymd(today0()),tent=[],conf=[],past=[];
+function renderBookings(){if(!$('b-tent'))return;if(!$('tab-cal').hidden)renderACal();var t0=ymd(today0()),tent=[],conf=[],past=[];
  BK.slice().sort(function(a,b){return(a.date+a.start).localeCompare(b.date+b.start)}).forEach(function(b){var st=stateOf(b);if(st==='deleted')return;if(st==='tentative'&&b.date>=t0)tent.push(b);else if(st==='confirmed'&&b.date>=t0)conf.push(b);else past.push(b)});
  function fill(id,list,empty){var box=$(id);box.innerHTML='';if(!list.length)box.innerHTML='<p style="font-size:14px;color:#5a5448">'+empty+'</p>';list.forEach(function(b){box.appendChild(bCard(b))})}
  fill('b-tent',tent,'No open requests.');fill('b-conf',conf,'Nothing confirmed yet.');fill('b-past',past.reverse(),'Nothing here yet.');
  $('b-tcount').textContent=tent.length?'('+tent.length+')':'';$('t-bcount').textContent=tent.length||'';$('b-pcount').textContent='('+past.length+')';$('b-holdtxt').textContent=AV.holdDays}
+/* ---- admin: calendar view ---- */
+var acM=(function(){var t=today0();return new Date(t.getFullYear(),t.getMonth(),1)})(),acDay='';
+function freeHours(ds){var w=dayWindow(ds);if(!w)return null;var total=(w.t-w.f)/60;if(w.bf!==null&&w.bt!==null&&w.bt>w.bf)total-=(w.bt-w.bf)/60;
+ BK.forEach(function(b){if(b.date===ds&&active(b))total-=b.hours});return Math.max(0,total)}
+function renderACal(){var g=$('ac-grid');if(!g)return;g.innerHTML='';$('ac-title').textContent=MN[acM.getMonth()]+' '+acM.getFullYear();
+ ['Mo','Tu','We','Th','Fr','Sa','Su'].forEach(function(d){var s=document.createElement('span');s.textContent=d;g.appendChild(s)});
+ var first=(acM.getDay()+6)%7;for(var i=0;i<first;i++)g.appendChild(document.createElement('i'));
+ var days=new Date(acM.getFullYear(),acM.getMonth()+1,0).getDate(),t0=ymd(today0());
+ for(var d=1;d<=days;d++){var ds=ymd(new Date(acM.getFullYear(),acM.getMonth(),d)),fh=freeHours(ds),list=BK.filter(function(b){return b.date===ds&&active(b)}).sort(function(a,b){return a.start.localeCompare(b.start)});
+  var c=document.createElement('button');c.type='button';c.className='d'+(fh===null&&!list.length?' closed':'')+(ds<t0?' pastd':'')+(ds===t0?' today':'')+(ds===acDay?' on':'');
+  var lbl=fh===null?(list.length?'closed':''):(fh===0?'full':fh+'h free');
+  c.innerHTML='<span class="n">'+d+'<small class="'+(fh===0?'full':'')+'">'+lbl+'</small></span>';
+  list.forEach(function(b){var s=document.createElement('span');s.className='b '+stateOf(b);s.textContent=b.start+' '+(b.name||'')+' · '+b.hours+'h';s.title=b.start+'–'+hm(mins(b.start)+b.hours*60)+' '+(b.name||'');c.appendChild(s)});
+  if(fh!==null||list.length)c.onclick=(function(ds,list){return function(){acDay=ds;renderACal();var box=$('ac-day');box.hidden=false;$('ac-dtitle').textContent=niceDate(ds)+(freeHours(ds)===null?' · closed':' · '+freeHours(ds)+'h free');var l=$('ac-dlist');l.innerHTML='';if(!list.length)l.innerHTML='<p style="font-size:14px;color:#5a5448">No appointments on this day.</p>';list.forEach(function(b){l.appendChild(bCard(b))})}})(ds,list);
+  g.appendChild(c)}}
+$('ac-prev').onclick=function(){acM=new Date(acM.getFullYear(),acM.getMonth()-1,1);renderACal()};$('ac-next').onclick=function(){acM=new Date(acM.getFullYear(),acM.getMonth()+1,1);renderACal()};
 /* ---- admin: availability ---- */
 function renderAvail(){var tb=$('av-week').querySelector('tbody');tb.innerHTML='';
  [1,2,3,4,5,6,0].forEach(function(d){var w=AV.week[d],tr=document.createElement('tr');tr.className=w.on?'':'off';
@@ -1150,7 +1186,7 @@ function renderAvail(){var tb=$('av-week').querySelector('tbody');tb.innerHTML='
  var ul=$('ex-list');ul.innerHTML='';AV.ex.slice().sort(function(a,b){return a.from.localeCompare(b.from)}).forEach(function(x){var li=document.createElement('li');
   li.innerHTML='<span><b>'+niceDate(x.from)+(x.to&&x.to!==x.from?' – '+niceDate(x.to):'')+'</b> · '+(x.mode==='open'?'open '+x.tf+'–'+x.tt:'closed')+(x.note?' · '+esc(x.note):'')+'</span>';
   var del=document.createElement('button');del.type='button';del.className='chip del';del.textContent='✕';del.setAttribute('aria-label','Remove exception');del.onclick=function(){AV.ex=AV.ex.filter(function(y){return y!==x});persistAv('Exception removed')};li.appendChild(del);ul.appendChild(li)})}
-function persistAv(msg){avSave().then(function(){toast(msg)}).catch(function(){toast('Saved in this browser, but not online')});renderAvail();renderCal();renderSlots()}
+function persistAv(msg){avSave().then(function(){toast(msg)}).catch(function(){toast('Saved in this browser, but not online')});renderAvail();renderCal();renderSlots();renderACal()}
 $('av-save').onclick=function(){AV.minDays=+$('av-min').value||0;AV.maxMonths=+$('av-max').value||3;AV.holdDays=+$('av-hold').value||7;persistAv('Hours & rules saved')};
 $('ex-mode').onchange=function(){$('ex-hours').hidden=this.value!=='open'};
 $('ex-add').onclick=function(){var f=$('ex-from').value,t=$('ex-to').value;if(!f){toast('Choose a start date');return}if(t&&t<f){toast('End date is before start date');return}
