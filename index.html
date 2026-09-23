@@ -11,7 +11,7 @@
 <meta property="og:locale" content="en_BE">
 <meta property="og:image" content="https://tattootobias.com/wp-content/uploads/2020/11/traditional-tattoo-woman.jpg">
 <meta name="referrer" content="no-referrer">
-<meta name="build" content="2026-09-20-5">
+<meta name="build" content="2026-09-23-1">
 <meta name="theme-color" content="#121212">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23121212'/%3E%3Ctext x='32' y='46' font-family='Impact,Arial Black,sans-serif' font-size='40' text-anchor='middle' fill='%23e0342b'%3ET%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -348,6 +348,76 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 @media (max-width:1020px){.acols{grid-template-columns:1fr}}
 @media (max-width:1240px){.arow{grid-template-columns:130px 1fr}.arow img{width:130px;height:173px}}
 @media (max-width:760px){.alist{grid-template-columns:1fr}}
+/* ---------- booking ---------- */
+.sizes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.sizes button{min-height:88px;padding:12px 10px;border:2px solid var(--ink);border-radius:var(--r);background:#fbf6ea;cursor:pointer;text-align:left;font-family:var(--body);color:var(--ink);transition:background .2s,color .2s}
+.sizes button strong{display:block;font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:.04em;text-transform:uppercase;line-height:1}
+.sizes button em{display:block;font-style:normal;font-size:12.5px;color:#5a5448;margin-top:6px;line-height:1.35}
+.sizes button b{display:block;font-size:12px;letter-spacing:.14em;color:var(--red-d);margin-top:6px}
+.sizes button:hover{background:#fbe3dc}
+.sizes button.on{background:var(--ink);color:var(--paper)}.sizes button.on em{color:#d9d0bd}.sizes button.on b{color:var(--red)}
+.cal{border:2px solid var(--ink);border-radius:var(--r);background:#fbf6ea;padding:12px;margin-top:6px}
+.calh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.calh b{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.06em;text-transform:uppercase}
+.calh button{width:40px;height:40px;border:2px solid var(--ink);background:#fff;border-radius:var(--r);cursor:pointer;font-weight:700;color:var(--ink)}
+.calh button:disabled{opacity:.3;cursor:default}
+.calg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.calg span{font-size:10px;font-weight:700;letter-spacing:.12em;text-align:center;color:#8d8677;padding:4px 0}
+.book>*{min-width:0}
+.calg button{aspect-ratio:1;min-height:36px;min-width:0;padding:0;border:1.5px solid transparent;border-radius:var(--r);background:transparent;font:700 14px var(--body);color:var(--ink);cursor:pointer}
+.calg button:disabled{color:#b9b09c;cursor:default;font-weight:400}
+.calg button:not(:disabled){background:#fff;border-color:#cfc6b0}
+.calg button:not(:disabled):hover{border-color:var(--red)}
+.calg button.on{background:var(--red);border-color:var(--red);color:#fff}
+.slots{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.slots button{min-height:44px;padding:0 16px;border:2px solid var(--ink);border-radius:var(--r);background:#fff;font:700 14px var(--body);color:var(--ink);cursor:pointer}
+.slots button.on{background:var(--ink);color:var(--paper)}
+.slots p{font-size:14px;color:#5a5448;margin:0}
+.pick{margin-top:18px;padding:14px 16px;border-left:3px solid var(--red);background:#fbf6ea;font-size:15px}
+.pick strong{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.04em;text-transform:uppercase;display:block}
+.ferr{color:var(--red-d);font-weight:700;font-size:14px;margin-top:10px;min-height:1em}
+/* admin tabs */
+.atabs{display:flex;gap:8px;margin:0 0 20px;flex-wrap:wrap}
+.atabs button{min-height:44px;padding:0 18px;border:2px solid var(--ink);border-radius:var(--r);background:#fff;font:400 16px var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);cursor:pointer}
+.atabs button.on{background:var(--ink);color:var(--paper)}
+.atabs button i{font-style:normal;color:var(--red);margin-left:6px}
+.atabs button.on i{color:var(--red)}
+.bcols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bcard{border:1.5px solid #cfc6b0;border-radius:var(--r);background:#fbf6ea;padding:16px;display:grid;gap:8px}
+.bcard.tent{border-color:var(--red);border-width:2px}
+.bcard.past{opacity:.6}
+.bhead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.bhead strong{font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:.04em;text-transform:uppercase;line-height:1.1}
+.bhead small{display:block;font-size:12px;color:#5a5448;margin-top:3px;font-weight:500}
+.st{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:2px;white-space:nowrap}
+.st.tentative{background:var(--red);color:#fff}.st.confirmed{background:var(--navy);color:#fff}.st.declined,.st.expired{background:#cfc6b0;color:var(--ink)}
+.bwhen{font-family:var(--display);font-size:18px;letter-spacing:.04em;text-transform:uppercase}
+.bwhen s{color:#8d8677;margin-right:6px}
+.bmeta{font-size:14px;color:#3a362e;line-height:1.5}.bmeta b{color:var(--ink)}
+.bmeta a{color:var(--red-d)}
+.brefs{display:flex;gap:6px;flex-wrap:wrap}.brefs img{width:56px;height:56px;object-fit:cover;border:1.5px solid var(--ink);border-radius:2px}
+.bacts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.badj{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px;padding:10px;border:1.5px dashed var(--ink);border-radius:var(--r);background:#fff}
+.badj input,.badj select{min-height:40px;padding:4px 8px;font-size:14px}
+.badj label{margin:0 0 3px;font-size:10px}
+.blist{display:grid;gap:12px}
+.wk{width:100%;border-collapse:collapse;font-size:14px}
+.wk td,.wk th{padding:8px 6px;border-top:1px solid #e4dcc8;text-align:left;vertical-align:middle}
+.wk th{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5a5448}
+.wk input[type=time]{min-height:40px;padding:4px 6px;font-size:13px;width:auto}
+.wk td:nth-child(5){white-space:nowrap}.wk td:nth-child(5) input{width:92px}
+.exrow[hidden],.pick[hidden]{display:none}
+.wk input[type=checkbox]{width:22px;height:22px;min-height:0;padding:0;accent-color:var(--navy)}
+.wk tr.off td:not(:first-child):not(:nth-child(2)){opacity:.35}
+.exrow{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin-top:6px}
+.exrow input,.exrow select{min-height:44px;padding:6px 10px;font-size:14px}
+.exl{list-style:none;margin-top:12px}.exl li{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:8px 0;border-top:1px solid #e4dcc8;font-size:14px}
+.exl li b{font-family:var(--display);font-weight:400;font-size:16px;letter-spacing:.04em;text-transform:uppercase}
+.exl li .chip.del{min-height:30px}
+.bset{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.bset input{min-height:44px}
+@media (max-width:1020px){.bcols{grid-template-columns:1fr}}
+@media (max-width:767px){.sizes{grid-template-columns:1fr}.sizes button{min-height:0}.badj{grid-template-columns:1fr}.exrow{grid-template-columns:1fr}.bset{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -483,19 +553,26 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
     <div class="rv">
       <p class="eyebrow">Booking</p>
       <h2>Book an appointment</h2>
-      <p style="margin-top:24px;color:#d9d0bd;max-width:540px">Thanks a lot for showing interest in my work! Booking goes preferably by email. Give me the info you know in one email — you will receive a personal reply with practical information, pricing and available dates.</p>
+      <p style="margin-top:24px;color:#d9d0bd;max-width:540px">Thanks a lot for showing interest in my work! Pick a free slot right here and tell me what you have in mind — I'll confirm personally. Prefer email? That still works too.</p>
       <ol class="steps">
-        <li><div><strong>Send your idea</strong>Your general idea, placement, approximate size, black or color. If you have reference material, include it. Questions? Ask me. Prefer to talk in person? Let's meet.</div></li>
+        <li><div><strong>Pick a slot &amp; send your idea</strong>Choose small (2h), medium (4h) or a full day (8h), a free day and a time. Add your general idea, placement, black or color and reference pictures. The slot is held for you straight away.</div></li>
         <li><div><strong>We shape the design</strong>I can draw your idea out on your appointment, or sketch in advance and send it the week before for feedback. Mostly we get the details right together and make the final drawing on the appointment. There are a lot of line drawings ready to go as well.</div></li>
-        <li><div><strong>Price &amp; date</strong>I can give you an estimated price if I have enough information. Once we set an appointment, I may ask you to pay a €50 deposit.</div></li>
+        <li><div><strong>I confirm</strong>I check your idea and confirm your slot by email — or suggest a different day or duration if the piece needs it. I can give you an estimated price if I have enough information. Once confirmed, I may ask you to pay a €50 deposit.</div></li>
         <li><div><strong>Tattoo day</strong>One client at a time, in a calm private studio. A piece you can wear with pride.</div></li>
       </ol>
       <p class="note"><strong>Tip:</strong> give me your phone number for any short-notice communication.</p>
     </div>
-    <form id="bform" class="rv" novalidate>
+        <form id="bform" class="rv" novalidate>
       <div id="f-fields">
-      <h3>Tell me your idea</h3>
-      <p>Goes straight to hello@tattootobias.com — add your reference pictures right here.</p>
+      <h3>Book your slot</h3>
+      <p>Pick a size, choose a free day and time, and tell me your idea. Your slot is held straight away; I'll confirm it personally, or suggest another time if your idea needs more (or less) time.</p>
+      <label>1 · How big?</label>
+      <div class="sizes" id="f-sizes" role="group" aria-label="Choose the size of your tattoo"></div>
+      <label>2 · Which day?</label>
+      <div class="cal" id="f-cal"></div>
+      <label>3 · What time?</label>
+      <div class="slots" id="f-slots"><p>Choose a day first.</p></div>
+      <div class="pick" id="f-pick" hidden></div>
       <label for="f-name">Name</label><input id="f-name" autocomplete="name">
       <label for="f-mail">Email</label><input id="f-mail" type="email" autocomplete="email">
       <label for="f-idea">Your general idea</label><textarea id="f-idea"></textarea>
@@ -508,17 +585,18 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
         <div><label for="f-tel">Phone number</label><input id="f-tel" type="tel" autocomplete="tel"></div>
       </div>
       <label for="f-files">Reference material</label>
-      <label class="fdrop" id="f-drop" for="f-files"><input id="f-files" type="file" accept="image/*,.pdf" multiple><strong>Add reference photos</strong><span>drag them here or tap to choose · up to 8 files</span></label>
+      <label class="fdrop" id="f-drop" for="f-files"><input id="f-files" type="file" accept="image/*" multiple><strong>Add reference photos</strong><span>drag them here or tap to choose · up to 8 photos</span></label>
       <div class="fthumbs" id="f-thumbs" aria-live="polite"></div>
-      <button class="btn" type="submit">Send my idea →</button>
-      <p class="alt">or mail directly: <a href="mailto:hello@tattootobias.com?subject=Tattoo%20idea&amp;body=Hi%20Tobias%2C%0A%0AHere%20is%20my%20tattoo%20idea.%0A%0AIdea%3A%20%5Bidea%5D%0APlacement%3A%20%5Bplacement%5D%0AApproximate%20size%3A%20%0ABlack%20or%20color%3A%20%0A%28If%20you%20have%20reference%20material%2C%20include%20it%29%0A%0A%0A%5BName%5D%0A%5BTelephone%20number%5D%0A"><strong>hello@tattootobias.com</strong></a></p>
+      <p class="ferr" id="f-err" role="alert"></p>
+      <button class="btn" type="submit" id="f-send">Request this slot →</button>
+      <p class="alt">Prefer email? <a href="mailto:hello@tattootobias.com?subject=Tattoo%20idea&amp;body=Hi%20Tobias%2C%0A%0AHere%20is%20my%20tattoo%20idea.%0A%0AIdea%3A%20%5Bidea%5D%0APlacement%3A%20%5Bplacement%5D%0AApproximate%20size%3A%20%0ABlack%20or%20color%3A%20%0A%28If%20you%20have%20reference%20material%2C%20include%20it%29%0A%0A%0A%5BName%5D%0A%5BTelephone%20number%5D%0A"><strong>hello@tattootobias.com</strong></a></p>
       </div>
       <div id="f-done" hidden>
-        <h3>Thanks<span id="f-who"></span>!</h3>
+        <h3>Slot requested<span id="f-who"></span>!</h3>
         <p id="f-sum" style="font-size:16px;color:var(--ink)"></p>
-        <p>You will receive a personal reply with practical information, pricing and available dates.</p>
-        <p class="fdemo">Concept demo — on the live website this form is delivered to hello@tattootobias.com with the photos attached.</p>
-        <button class="btn ghost" type="button" id="f-again">Send another idea</button>
+        <p>This time is now held for you. Tobias checks your idea and confirms by email, or suggests another time if the tattoo needs a different slot. You may be asked to pay a €50 deposit to make it final.</p>
+        <p class="fdemo" id="f-demo">Concept demo — this request is stored in this browser only.</p>
+        <button class="btn ghost" type="button" id="f-again">Request another slot</button>
       </div>
     </form>
   </div>
@@ -590,13 +668,13 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com?subject=Tattoo%20idea&amp;body=Hi%20Tobias%2C%0A%0AHere%20is%20my%20tattoo%20idea.%0A%0AIdea%3A%20%5Bidea%5D%0APlacement%3A%20%5Bplacement%5D%0AApproximate%20size%3A%20%0ABlack%20or%20color%3A%20%0A%28If%20you%20have%20reference%20material%2C%20include%20it%29%0A%0A%0A%5BName%5D%0A%5BTelephone%20number%5D%0A">hello@tattootobias.com</a></span>
-  <span>Photography by Jannis Bachard · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-20-5</span></span>
+  <span>Photography by Jannis Bachard · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-23-1</span></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-20-5</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-23-1</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
@@ -610,6 +688,8 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
     </div>
     <div id="a-main" hidden>
       <p class="demo" id="a-note"></p>
+      <div class="atabs" role="tablist"><button type="button" class="on" data-tab="photos">Photos</button><button type="button" data-tab="bookings">Bookings<i id="t-bcount"></i></button><button type="button" data-tab="avail">Availability</button></div>
+      <div id="tab-photos">
       <div class="acols">
         <div>
           <div class="card">
@@ -634,6 +714,56 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
           <div class="more"><button class="abtn dark" id="a-more" type="button">Show more</button></div>
         </div>
       </div>
+      </div>
+      <div id="tab-bookings" hidden>
+        <div class="bcols">
+          <div class="card">
+            <h3>Requests <span id="b-tcount" style="color:var(--red-d)"></span></h3>
+            <p>New requests hold their slot for <span id="b-holdtxt">7</span> days. Confirm as requested, or change the day, time or duration first — then confirm. Declining frees the slot.</p>
+            <div class="blist" id="b-tent"></div>
+          </div>
+          <div>
+            <div class="card">
+              <h3>Confirmed</h3>
+              <p>Upcoming appointments. You can still move or cancel them.</p>
+              <div class="blist" id="b-conf"></div>
+            </div>
+            <details class="adet"><summary>Past, declined &amp; expired <span id="b-pcount"></span></summary><div class="blist" id="b-past" style="margin-top:12px"></div></details>
+          </div>
+        </div>
+      </div>
+      <div id="tab-avail" hidden>
+        <div class="bcols">
+          <div class="card">
+            <h3>Weekly hours</h3>
+            <p>Your standard week. Clients can book inside these hours, minus any break. Untick a day to close it.</p>
+            <table class="wk" id="av-week"><thead><tr><th>Day</th><th>Open</th><th>From</th><th>To</th><th>Break</th><th></th></tr></thead><tbody></tbody></table>
+            <h3 style="margin-top:28px">Rules</h3>
+            <div class="bset">
+              <div><label for="av-min">Book at least (days ahead)</label><input id="av-min" type="number" min="0" max="30"></div>
+              <div><label for="av-max">Book at most (months ahead)</label><input id="av-max" type="number" min="1" max="12"></div>
+              <div><label for="av-hold">Requests expire after (days)</label><input id="av-hold" type="number" min="1" max="60"></div>
+            </div>
+            <button class="abtn dark" id="av-save" type="button" style="margin-top:18px">Save hours &amp; rules</button>
+          </div>
+          <div class="card">
+            <h3>Exceptions</h3>
+            <p>Holidays, conventions, guest spots — or an extra day you do want to work. Exceptions override the weekly hours.</p>
+            <div class="exrow">
+              <div><label for="ex-from">From</label><input id="ex-from" type="date"></div>
+              <div><label for="ex-to">To (optional)</label><input id="ex-to" type="date"></div>
+              <div><label for="ex-mode">&nbsp;</label><select id="ex-mode"><option value="closed">Closed</option><option value="open">Open</option></select></div>
+            </div>
+            <div class="exrow" id="ex-hours" hidden>
+              <div><label for="ex-tf">Open from</label><input id="ex-tf" type="time" value="10:00"></div>
+              <div><label for="ex-tt">Until</label><input id="ex-tt" type="time" value="18:00"></div>
+              <div></div>
+            </div>
+            <div class="exrow"><div><label for="ex-note">Note (optional)</label><input id="ex-note" type="text" placeholder="e.g. Convention Geneva"></div><div></div><button class="abtn dark" id="ex-add" type="button">Add</button></div>
+            <ul class="exl" id="ex-list"></ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -656,7 +786,7 @@ function defaults(){return JSON.parse(JSON.stringify(SEED))}
    3. This browser (localStorage): instant, and the fallback when offline.
    The newest revision (rev) always wins. */
 var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json',imgBase:''};
-var BUILD='2026-09-20-5';;
+var BUILD='2026-09-23-1';;
 /* imgBase: '' = photos load from tattootobias.com. Set to 'img/' once the photos are copied next to this page (see download-photos.ps1). */
 var WP='https://tattootobias.com/wp-content/uploads/';
 function SRC(u){return CMS.imgBase&&u.indexOf(WP)===0?CMS.imgBase+u.slice(u.lastIndexOf('/')+1):u} /* one flat folder: img/<filename> */
@@ -864,7 +994,7 @@ function renderList(){
  $('a-more').parentNode.style.display=list.length>ashown?'flex':'none';
 }
 $('a-search').oninput=function(){ashown=12;renderList()};$('a-more').onclick=function(){ashown+=12;renderList()};
-function renderAdm(){renderTags();renderPending();renderAFilter();renderList()}
+function renderAdm(){renderTags();renderPending();renderAFilter();renderList();bkLoad().then(renderBookings)}
 
 /* ---------- ticker, header, reveal, booking ---------- */
 var words=['Clean lines','Solid colour','Strong contrasts','Designs that follow the body','Long-term readability','Classic & bold','By appointment only'],h='';
@@ -877,21 +1007,151 @@ else rv.forEach(function(e){e.classList.add('in')});
 var TPL='Hi Tobias,\n\nHere is my tattoo idea.\n\nIdea: [idea]\nPlacement: [placement]\nApproximate size: \nBlack or color: \n(If you have reference material, include it)\n\n\n[Name]\n[Telephone number]\n';
 var MAILTO='mailto:hello@tattootobias.com?subject='+encodeURIComponent('Tattoo idea')+'&body='+encodeURIComponent(TPL);
 [].forEach.call(document.querySelectorAll('a[href^="mailto:hello@tattootobias.com"]'),function(a){a.href=MAILTO});
-/* booking form with attachments (demo) */
+/* ================= booking module ================= */
+var SIZES=[{h:2,n:'Small',d:'Palm-size or smaller, one tattoo'},{h:4,n:'Medium',d:'Hand-size, or two or three small ones'},{h:8,n:'Full day',d:'Large piece: back, chest, a full sleeve session'}];
+var AVKEY='tattootobias-avail',BKKEY='tattootobias-bookings';
+function avDefaults(){var w={};for(var d=0;d<7;d++)w[d]={on:d>=1&&d<=5,from:'10:00',to:'18:00',bf:'',bt:''};return{week:w,ex:[],minDays:2,maxMonths:3,holdDays:7}}
+var AV=avDefaults(),BK=[];
+try{var a0=JSON.parse(localStorage.getItem(AVKEY));if(a0&&a0.week)AV=a0}catch(e){}
+try{var b0=JSON.parse(localStorage.getItem(BKKEY));if(b0&&b0.length!==undefined)BK=b0}catch(e){}
+function pad(n){return(n<10?'0':'')+n}
+function ymd(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function mins(t){if(!t)return null;var p=t.split(':');return +p[0]*60+(+p[1]||0)}
+function hm(m){return pad(Math.floor(m/60))+':'+pad(m%60)}
+function today0(){var d=new Date();d.setHours(0,0,0,0);return d}
+function addDays(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x}
+var DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function niceDate(s){var p=s.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);return DN[d.getDay()].slice(0,3)+' '+(+p[2])+' '+MN[d.getMonth()].slice(0,3)+' '+p[0]}
+function active(b){ /* does this booking block its slot? */
+ if(b.status==='confirmed')return true;
+ if(b.status!=='tentative')return false;
+ return(Date.now()-new Date(b.created).getTime())<AV.holdDays*864e5}
+function stateOf(b){return b.status==='tentative'&&!active(b)?'expired':b.status}
+function dayWindow(ds){ /* {from,to,bf,bt} in minutes or null */
+ var ex=null;AV.ex.forEach(function(x){if(ds>=x.from&&ds<=(x.to||x.from))ex=x});
+ if(ex)return ex.mode==='open'?{f:mins(ex.tf||'10:00'),t:mins(ex.tt||'18:00')}:null;
+ var p=ds.split('-'),w=AV.week[new Date(+p[0],+p[1]-1,+p[2]).getDay()];
+ if(!w||!w.on)return null;return{f:mins(w.from),t:mins(w.to),bf:mins(w.bf),bt:mins(w.bt)}}
+function slotsFor(ds,hours,ignoreId){var w=dayWindow(ds);if(!w)return[];
+ var busy=[];if(w.bf!==null&&w.bt!==null&&w.bt>w.bf)busy.push([w.bf,w.bt]);
+ BK.forEach(function(b){if(b.date===ds&&(!ignoreId||b.id!==ignoreId)&&active(b)){var s=mins(b.start);busy.push([s,s+b.hours*60])}});
+ var out=[];for(var s=w.f;s+hours*60<=w.t;s+=60){var e=s+hours*60,ok=busy.every(function(x){return e<=x[0]||s>=x[1]});if(ok)out.push(hm(s))}
+ return out}
+function bookable(ds){var t=today0();var d=new Date(ds+'T00:00:00');if(d<addDays(t,AV.minDays))return false;var mx=new Date(t);mx.setMonth(mx.getMonth()+AV.maxMonths);return d<=mx}
+/* ---- storage ---- */
+function bkSaveLocal(){try{localStorage.setItem(BKKEY,JSON.stringify(BK))}catch(e){}}
+function avSaveLocal(){try{localStorage.setItem(AVKEY,JSON.stringify(AV))}catch(e){}}
+function avLoad(){if(!ONLINE)return Promise.resolve();
+ return api('/rest/v1/availability?site=eq.'+encodeURIComponent(CMS.site)+'&select=data').then(function(r){return r.json()}).then(function(rows){if(rows&&rows[0]&&rows[0].data&&rows[0].data.week){AV=rows[0].data;avSaveLocal()}}).catch(function(){})}
+function avSave(){avSaveLocal();if(!(ONLINE&&session))return Promise.resolve();
+ return fresh().then(function(){return api('/rest/v1/availability?on_conflict=site',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},body:JSON.stringify({site:CMS.site,data:AV})},true)}).then(function(r){if(!r.ok)throw 0})}
+function rowToB(r){return{id:r.id,date:r.date,start:r.start_time.slice(0,5),hours:r.hours,status:r.status,created:r.created_at,name:r.name,email:r.email,phone:r.phone,idea:r.idea,placement:r.placement,size:r.size_text,color:r.color,sizeName:r.size_name,files:r.files||[],note:r.note||''}}
+function bkLoad(){if(!ONLINE)return Promise.resolve();
+ var full=logged&&session;
+ var p=full?fresh().then(function(){return api('/rest/v1/bookings?site=eq.'+encodeURIComponent(CMS.site)+'&order=date.asc,start_time.asc',{},true)}):api('/rest/v1/booked_slots?site=eq.'+encodeURIComponent(CMS.site));
+ return p.then(function(r){return r.json()}).then(function(rows){if(!rows||rows.length===undefined)return;BK=rows.map(rowToB);bkSaveLocal()}).catch(function(){})}
+function bkInsert(b){ /* public: anyone may request a tentative slot */
+ if(!ONLINE){b.id='b'+Date.now().toString(36);BK.push(b);bkSaveLocal();return Promise.resolve(b)}
+ var row={site:CMS.site,date:b.date,start_time:b.start,hours:b.hours,status:'tentative',name:b.name,email:b.email,phone:b.phone,idea:b.idea,placement:b.placement,size_text:b.size,size_name:b.sizeName,color:b.color,files:b.files};
+ return api('/rest/v1/bookings',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify(row)}).then(function(r){if(!r.ok)throw r.status;return r.json()}).then(function(rows){var nb=rowToB(rows[0]);BK.push(nb);bkSaveLocal();return nb})}
+function bkUpdate(b,patch){ /* editor only */
+ Object.keys(patch).forEach(function(k){b[k]=patch[k]});bkSaveLocal();
+ if(!(ONLINE&&session))return Promise.resolve();
+ var row={};if('status'in patch)row.status=patch.status;if('date'in patch)row.date=patch.date;if('start'in patch)row.start_time=patch.start;if('hours'in patch)row.hours=patch.hours;if('note'in patch)row.note=patch.note;row.updated_at=new Date().toISOString();
+ return fresh().then(function(){return api('/rest/v1/bookings?id=eq.'+encodeURIComponent(b.id),{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(row)},true)}).then(function(r){if(!r.ok)throw r.status})}
+function uploadRef(f){ /* reference photo from a client: resized, then to storage (online) or kept inline (demo) */
+ return new Promise(function(res){var rd=new FileReader();rd.onload=function(){var im=new Image();im.onload=function(){var m=1000,k=Math.min(1,m/Math.max(im.width,im.height)),cv=document.createElement('canvas');cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);res(cv.toDataURL('image/jpeg',.8))};im.src=rd.result};rd.readAsDataURL(f)})
+ .then(function(du){if(!ONLINE)return du;return fetch(du).then(function(r){return r.blob()}).then(function(bl){var name=CMS.site+'/refs/'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)+'.jpg';
+  return api('/storage/v1/object/'+CMS.bucket+'/'+name,{method:'POST',headers:{'Content-Type':'image/jpeg'},body:bl}).then(function(r){if(!r.ok)throw r.status;return CMS.supabaseUrl.replace(/\/$/,'')+'/storage/v1/object/public/'+CMS.bucket+'/'+name})})})}
+/* ---- public form ---- */
+var pick={hours:0,date:'',start:''},calM=(function(){var d=addDays(today0(),AV.minDays);return new Date(d.getFullYear(),d.getMonth(),1)})();
+function renderSizes(){var box=$('f-sizes');box.innerHTML='';SIZES.forEach(function(s){var b=document.createElement('button');b.type='button';b.className=pick.hours===s.h?'on':'';b.innerHTML='<strong>'+s.n+'</strong><em>'+s.d+'</em><b>'+s.h+' hours</b>';b.onclick=function(){pick.hours=s.h;pick.date='';pick.start='';renderSizes();renderCal();renderSlots()};box.appendChild(b)})}
+function renderCal(){var box=$('f-cal');box.innerHTML='';
+ var t=today0(),minM=new Date(t.getFullYear(),t.getMonth(),1),maxD=new Date(t);maxD.setMonth(maxD.getMonth()+AV.maxMonths);
+ var h=document.createElement('div');h.className='calh';
+ var pv=document.createElement('button');pv.type='button';pv.textContent='‹';pv.setAttribute('aria-label','Previous month');pv.disabled=calM<=minM;pv.onclick=function(){calM=new Date(calM.getFullYear(),calM.getMonth()-1,1);renderCal()};
+ var nx=document.createElement('button');nx.type='button';nx.textContent='›';nx.setAttribute('aria-label','Next month');nx.disabled=new Date(calM.getFullYear(),calM.getMonth()+1,1)>maxD;nx.onclick=function(){calM=new Date(calM.getFullYear(),calM.getMonth()+1,1);renderCal()};
+ var ttl=document.createElement('b');ttl.textContent=MN[calM.getMonth()]+' '+calM.getFullYear();h.appendChild(pv);h.appendChild(ttl);h.appendChild(nx);box.appendChild(h);
+ var g=document.createElement('div');g.className='calg';['Mo','Tu','We','Th','Fr','Sa','Su'].forEach(function(d){var s=document.createElement('span');s.textContent=d;g.appendChild(s)});
+ var first=(calM.getDay()+6)%7;for(var i=0;i<first;i++)g.appendChild(document.createElement('i'));
+ var days=new Date(calM.getFullYear(),calM.getMonth()+1,0).getDate();
+ for(var d=1;d<=days;d++){var ds=ymd(new Date(calM.getFullYear(),calM.getMonth(),d)),b=document.createElement('button');b.type='button';b.textContent=d;
+  var ok=pick.hours&&bookable(ds)&&slotsFor(ds,pick.hours).length>0;b.disabled=!ok;if(ds===pick.date)b.className='on';
+  if(ok)b.onclick=(function(ds){return function(){pick.date=ds;pick.start='';renderCal();renderSlots()}})(ds);g.appendChild(b)}
+ box.appendChild(g);
+ if(!pick.hours){var p=document.createElement('p');p.style.cssText='font-size:13px;color:#5a5448;margin:8px 0 0';p.textContent='Choose a size first — the free days then light up.';box.appendChild(p)}}
+function renderSlots(){var box=$('f-slots');box.innerHTML='';
+ if(!pick.date){box.innerHTML='<p>Choose a day first.</p>'}else slotsFor(pick.date,pick.hours).forEach(function(s){var b=document.createElement('button');b.type='button';b.textContent=s+' – '+hm(mins(s)+pick.hours*60);b.className=s===pick.start?'on':'';b.onclick=function(){pick.start=s;renderSlots()};box.appendChild(b)});
+ var pk=$('f-pick');if(pick.start){var sz=SIZES.filter(function(s){return s.h===pick.hours})[0];pk.hidden=false;pk.innerHTML='<strong>'+niceDate(pick.date)+' · '+pick.start+' – '+hm(mins(pick.start)+pick.hours*60)+'</strong>'+sz.n+' · '+pick.hours+' hours · held for you as soon as you send'}else pk.hidden=true}
+renderSizes();renderCal();renderSlots();
+$('f-hold-note')&&($('f-hold-note').textContent=AV.holdDays);
 var files=[],fth=$('f-thumbs'),fdrop=$('f-drop');
-function drawFiles(){fth.innerHTML='';files.forEach(function(f,ix){var d=document.createElement('div');
- if(/^image\//.test(f.type)){var im=new Image();im.alt=f.name;im.src=URL.createObjectURL(f);d.appendChild(im)}else d.textContent=f.name;
+function drawFiles(){fth.innerHTML='';files.forEach(function(f,ix){var d=document.createElement('div');var im=new Image();im.alt=f.name;im.src=URL.createObjectURL(f);d.appendChild(im);
  var x=document.createElement('button');x.type='button';x.textContent='✕';x.setAttribute('aria-label','Remove '+f.name);x.onclick=function(){files.splice(ix,1);drawFiles()};d.appendChild(x);fth.appendChild(d)})}
-function addFiles(l){[].forEach.call(l,function(f){if(files.length<8)files.push(f)});drawFiles()}
+function addFiles(l){[].forEach.call(l,function(f){if(/^image\//.test(f.type)&&files.length<8)files.push(f)});drawFiles()}
 $('f-files').onchange=function(){addFiles(this.files);this.value=''};
 ['dragenter','dragover'].forEach(function(ev){fdrop.addEventListener(ev,function(e){e.preventDefault();fdrop.classList.add('over')})});
 ['dragleave','drop'].forEach(function(ev){fdrop.addEventListener(ev,function(e){e.preventDefault();fdrop.classList.remove('over')})});
 fdrop.addEventListener('drop',function(e){addFiles(e.dataTransfer.files)});
-$('bform').addEventListener('submit',function(e){e.preventDefault();
- var n=$('f-name').value.trim();$('f-who').textContent=n?', '+n:'';
- $('f-sum').textContent='Your idea'+(files.length?' and '+files.length+' reference '+(files.length>1?'files':'file'):'')+' are on their way to Tobias.';
- $('f-fields').hidden=true;$('f-done').hidden=false;$('booking').scrollIntoView()});
-$('f-again').onclick=function(){$('bform').reset();files=[];drawFiles();$('f-done').hidden=true;$('f-fields').hidden=false};
+$('bform').addEventListener('submit',function(e){e.preventDefault();var v=function(i){return $(i).value.trim()},err=$('f-err');err.textContent='';
+ if(!pick.start){err.textContent='Please choose a size, a day and a time first.';$('f-sizes').scrollIntoView({block:'center'});return}
+ if(!v('f-name')||!/.+@.+\..+/.test(v('f-mail'))){err.textContent='Please fill in your name and a valid email address.';return}
+ if(!v('f-idea')){err.textContent='Tell me your idea in a few words.';return}
+ var send=$('f-send');send.disabled=true;send.textContent='Sending…';
+ bkLoad().then(function(){if(slotsFor(pick.date,pick.hours).indexOf(pick.start)<0)throw'taken';return Promise.all(files.map(uploadRef))}).then(function(urls){
+  return bkInsert({date:pick.date,start:pick.start,hours:pick.hours,status:'tentative',created:new Date().toISOString(),name:v('f-name'),email:v('f-mail'),phone:v('f-tel'),idea:v('f-idea'),placement:v('f-place'),size:v('f-size'),color:v('f-col'),sizeName:SIZES.filter(function(s){return s.h===pick.hours})[0].n,files:urls})})
+ .then(function(b){$('f-who').textContent=', '+b.name;$('f-sum').textContent=niceDate(b.date)+' from '+b.start+' to '+hm(mins(b.start)+b.hours*60)+' ('+b.sizeName+', '+b.hours+' hours) is held for you.';$('f-demo').hidden=ONLINE;
+  $('f-fields').hidden=true;$('f-done').hidden=false;$('booking').scrollIntoView();if(logged)renderBookings()})
+ .catch(function(x){send.disabled=false;send.textContent='Request this slot →';if(x==='taken'){err.textContent='Sorry, that time was just taken. Please pick another one.';pick.start='';renderCal();renderSlots()}else err.textContent='Something went wrong while sending. Please try again, or email me directly.'})});
+$('f-again').onclick=function(){$('bform').reset();files=[];drawFiles();pick={hours:0,date:'',start:''};renderSizes();renderCal();renderSlots();$('f-done').hidden=true;$('f-fields').hidden=false;$('f-send').disabled=false;$('f-send').textContent='Request this slot →'};
+/* ---- admin: tabs ---- */
+var tabs=document.querySelectorAll('.atabs button');
+[].forEach.call(tabs,function(b){b.onclick=function(){[].forEach.call(tabs,function(x){x.classList.toggle('on',x===b)});['photos','bookings','avail'].forEach(function(t){$('tab-'+t).hidden=b.dataset.tab!==t});if(b.dataset.tab==='bookings')bkLoad().then(renderBookings);if(b.dataset.tab==='avail')renderAvail()}});
+/* ---- admin: bookings ---- */
+function bCard(b){var st=stateOf(b),c=document.createElement('div');c.className='bcard '+(st==='tentative'?'tent':'')+(b.date<ymd(today0())&&st==='confirmed'?' past':'');
+ var end=hm(mins(b.start)+b.hours*60);
+ c.innerHTML='<div class="bhead"><div><strong>'+esc(b.name||'—')+'</strong><small>'+esc(b.sizeName||'')+' · requested '+new Date(b.created).toLocaleDateString('en-GB')+'</small></div><span class="st '+st+'">'+st+'</span></div>'
+ +'<div class="bwhen">'+niceDate(b.date)+' · '+b.start+' – '+end+' · '+b.hours+'h</div>'
+ +'<div class="bmeta"><b>Idea:</b> '+esc(b.idea||'')+'<br><b>Placement:</b> '+esc(b.placement||'—')+' · <b>Size:</b> '+esc(b.size||'—')+' · <b>'+esc(b.color||'')+'</b><br><a href="mailto:'+esc(b.email)+'">'+esc(b.email||'')+'</a>'+(b.phone?' · <a href="tel:'+esc(b.phone)+'">'+esc(b.phone)+'</a>':'')+(b.note?'<br><b>Note:</b> '+esc(b.note):'')+'</div>';
+ if(b.files&&b.files.length){var r=document.createElement('div');r.className='brefs';b.files.forEach(function(u){var a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener';var im=new Image();im.src=u;im.alt='Reference';a.appendChild(im);r.appendChild(a)});c.appendChild(r)}
+ var acts=document.createElement('div');acts.className='bacts';
+ function btn(t,cls,fn){var x=document.createElement('button');x.type='button';x.className=cls;x.textContent=t;x.onclick=fn;acts.appendChild(x);return x}
+ function mailLink(subj,body){return'mailto:'+encodeURIComponent(b.email)+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body)}
+ var adj=null;
+ function done(status,msg){bkUpdate(b,{status:status}).then(function(){renderBookings();toast(msg)}).catch(function(){renderBookings();toast('Saved in this browser, but not online — check the connection')})}
+ if(st==='tentative'||st==='confirmed'){
+  if(st==='tentative')btn('Confirm','abtn solid',function(){done('confirmed','Confirmed');open(mailLink('Your tattoo appointment is confirmed','Hi '+b.name+',\n\nYour appointment is confirmed:\n'+niceDate(b.date)+', '+b.start+' – '+end+'\nGodtsstraat 19, 2140 Borgerhout\n\nSee you then!\nTobias'))});
+  btn(st==='tentative'?'Change & confirm':'Move','chip',function(){if(adj){adj.remove();adj=null;return}adj=document.createElement('div');adj.className='badj';
+   adj.innerHTML='<div><label>Day</label><input type="date" id="j-d" value="'+b.date+'"></div><div><label>Start</label><select id="j-s"></select></div><div><label>Hours</label><select id="j-h"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>8</option></select></div>';
+   c.insertBefore(adj,acts);var jd=adj.querySelector('#j-d'),js=adj.querySelector('#j-s'),jh=adj.querySelector('#j-h');jh.value=b.hours;
+   function fill(){js.innerHTML='';var w=dayWindow(jd.value),list=w?slotsFor(jd.value,+jh.value,b.id):[];if(!list.length){var o=document.createElement('option');o.textContent=w?'No free start time':'Closed that day';o.value='';js.appendChild(o)}list.forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s+' – '+hm(mins(s)+ +jh.value*60);js.appendChild(o)});if(list.indexOf(b.start)>-1&&jd.value===b.date)js.value=b.start}
+   jd.onchange=fill;jh.onchange=fill;fill();
+   var ok=document.createElement('button');ok.type='button';ok.className='abtn solid';ok.textContent='Save & confirm';ok.style.gridColumn='1/-1';ok.onclick=function(){if(!js.value){toast('Pick a free start time');return}
+    var patch={date:jd.value,start:js.value,hours:+jh.value,status:'confirmed'};bkUpdate(b,patch).then(function(){renderBookings();toast('Confirmed for '+niceDate(b.date)+' '+b.start);open(mailLink('Your tattoo appointment','Hi '+b.name+',\n\nI can do your tattoo on:\n'+niceDate(b.date)+', '+b.start+' – '+hm(mins(b.start)+b.hours*60)+'\nGodtsstraat 19, 2140 Borgerhout\n\nLet me know if that works for you.\nTobias'))}).catch(function(){renderBookings();toast('Saved in this browser, but not online')})};adj.appendChild(ok)});
+  btn(st==='tentative'?'Decline':'Cancel','chip del',function(){var why=prompt('Reason (optional, goes into the email):','');if(why===null)return;done('declined',st==='tentative'?'Declined — slot is free again':'Cancelled');open(mailLink('About your tattoo request','Hi '+b.name+',\n\nUnfortunately I can\'t do this one on '+niceDate(b.date)+'.'+(why?' '+why:'')+'\n\nFeel free to request another slot on tattootobias.com.\nTobias'))});
+ }else if(st==='expired')btn('Confirm anyway','chip',function(){done('confirmed','Confirmed')});
+ else if(st==='declined')btn('Delete','chip del',function(){if(!confirm('Delete this request?'))return;done('deleted','Deleted')});
+ c.appendChild(acts);return c}
+function renderBookings(){if(!$('b-tent'))return;var t0=ymd(today0()),tent=[],conf=[],past=[];
+ BK.slice().sort(function(a,b){return(a.date+a.start).localeCompare(b.date+b.start)}).forEach(function(b){var st=stateOf(b);if(st==='deleted')return;if(st==='tentative'&&b.date>=t0)tent.push(b);else if(st==='confirmed'&&b.date>=t0)conf.push(b);else past.push(b)});
+ function fill(id,list,empty){var box=$(id);box.innerHTML='';if(!list.length)box.innerHTML='<p style="font-size:14px;color:#5a5448">'+empty+'</p>';list.forEach(function(b){box.appendChild(bCard(b))})}
+ fill('b-tent',tent,'No open requests.');fill('b-conf',conf,'Nothing confirmed yet.');fill('b-past',past.reverse(),'Nothing here yet.');
+ $('b-tcount').textContent=tent.length?'('+tent.length+')':'';$('t-bcount').textContent=tent.length||'';$('b-pcount').textContent='('+past.length+')';$('b-holdtxt').textContent=AV.holdDays}
+/* ---- admin: availability ---- */
+function renderAvail(){var tb=$('av-week').querySelector('tbody');tb.innerHTML='';
+ [1,2,3,4,5,6,0].forEach(function(d){var w=AV.week[d],tr=document.createElement('tr');tr.className=w.on?'':'off';
+  tr.innerHTML='<td><b>'+DN[d]+'</b></td><td><input type="checkbox" '+(w.on?'checked':'')+' aria-label="Open on '+DN[d]+'"></td><td><input type="time" value="'+w.from+'" aria-label="From"></td><td><input type="time" value="'+w.to+'" aria-label="To"></td><td><input type="time" value="'+(w.bf||'')+'" aria-label="Break from" style="width:auto"> – <input type="time" value="'+(w.bt||'')+'" aria-label="Break to"></td>';
+  var i=tr.querySelectorAll('input');i[0].onchange=function(){w.on=i[0].checked;tr.className=w.on?'':'off'};i[1].onchange=function(){w.from=i[1].value};i[2].onchange=function(){w.to=i[2].value};i[3].onchange=function(){w.bf=i[3].value};i[4].onchange=function(){w.bt=i[4].value};tb.appendChild(tr)});
+ $('av-min').value=AV.minDays;$('av-max').value=AV.maxMonths;$('av-hold').value=AV.holdDays;
+ var ul=$('ex-list');ul.innerHTML='';AV.ex.slice().sort(function(a,b){return a.from.localeCompare(b.from)}).forEach(function(x){var li=document.createElement('li');
+  li.innerHTML='<span><b>'+niceDate(x.from)+(x.to&&x.to!==x.from?' – '+niceDate(x.to):'')+'</b> · '+(x.mode==='open'?'open '+x.tf+'–'+x.tt:'closed')+(x.note?' · '+esc(x.note):'')+'</span>';
+  var del=document.createElement('button');del.type='button';del.className='chip del';del.textContent='✕';del.setAttribute('aria-label','Remove exception');del.onclick=function(){AV.ex=AV.ex.filter(function(y){return y!==x});persistAv('Exception removed')};li.appendChild(del);ul.appendChild(li)})}
+function persistAv(msg){avSave().then(function(){toast(msg)}).catch(function(){toast('Saved in this browser, but not online')});renderAvail();renderCal();renderSlots()}
+$('av-save').onclick=function(){AV.minDays=+$('av-min').value||0;AV.maxMonths=+$('av-max').value||3;AV.holdDays=+$('av-hold').value||7;persistAv('Hours & rules saved')};
+$('ex-mode').onchange=function(){$('ex-hours').hidden=this.value!=='open'};
+$('ex-add').onclick=function(){var f=$('ex-from').value,t=$('ex-to').value;if(!f){toast('Choose a start date');return}if(t&&t<f){toast('End date is before start date');return}
+ AV.ex.push({from:f,to:t||f,mode:$('ex-mode').value,tf:$('ex-tf').value,tt:$('ex-tt').value,note:$('ex-note').value.trim()});$('ex-from').value='';$('ex-to').value='';$('ex-note').value='';persistAv('Exception added')};
+avLoad().then(bkLoad).then(function(){renderCal();renderSlots();if(logged)renderBookings()});
 /* active nav button */
 var navs=[].slice.call(document.querySelectorAll('nav a[href^="#"]'));
 if('IntersectionObserver'in window){var so=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)navs.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+en.target.id)})})},{rootMargin:'-45% 0px -50% 0px'});
