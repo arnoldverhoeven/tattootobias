@@ -11,7 +11,7 @@
 <meta property="og:locale" content="en_BE">
 <meta property="og:image" content="https://tattootobias.com/wp-content/uploads/2020/11/traditional-tattoo-woman.jpg">
 <meta name="referrer" content="no-referrer">
-<meta name="build" content="2026-09-23-1">
+<meta name="build" content="2026-09-23-2">
 <meta name="theme-color" content="#121212">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23121212'/%3E%3Ctext x='32' y='46' font-family='Impact,Arial Black,sans-serif' font-size='40' text-anchor='middle' fill='%23e0342b'%3ET%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -375,6 +375,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 .slots p{font-size:14px;color:#5a5448;margin:0}
 .pick{margin-top:18px;padding:14px 16px;border-left:3px solid var(--red);background:#fbf6ea;font-size:15px}
 .pick strong{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.04em;text-transform:uppercase;display:block}
+.req{font-style:normal;color:var(--red-d);font-weight:700}
 .ferr{color:var(--red-d);font-weight:700;font-size:14px;margin-top:10px;min-height:1em}
 /* admin tabs */
 .atabs{display:flex;gap:8px;margin:0 0 20px;flex-wrap:wrap}
@@ -432,7 +433,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
       <a href="#healing">Healing</a>
       <a href="https://tobiasdebruyn.bigcartel.com/" target="_blank" rel="noopener">Shop</a>
       <a href="#contact">Contact</a>
-      <a class="cta" href="mailto:hello@tattootobias.com?subject=Tattoo%20idea&amp;body=Hi%20Tobias%2C%0A%0AHere%20is%20my%20tattoo%20idea.%0A%0AIdea%3A%20%5Bidea%5D%0APlacement%3A%20%5Bplacement%5D%0AApproximate%20size%3A%20%0ABlack%20or%20color%3A%20%0A%28If%20you%20have%20reference%20material%2C%20include%20it%29%0A%0A%0A%5BName%5D%0A%5BTelephone%20number%5D%0A">Book now</a>
+      <a class="cta" href="#booking">Book now</a>
     </nav>
   </div>
 </header>
@@ -566,6 +567,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
       <div id="f-fields">
       <h3>Book your slot</h3>
       <p>Pick a size, choose a free day and time, and tell me your idea. Your slot is held straight away; I'll confirm it personally, or suggest another time if your idea needs more (or less) time.</p>
+      <p style="font-size:13px;color:#5a5448;margin:0"><i class="req">*</i> All fields are required, including at least one reference photo.</p>
       <label>1 · How big?</label>
       <div class="sizes" id="f-sizes" role="group" aria-label="Choose the size of your tattoo"></div>
       <label>2 · Which day?</label>
@@ -573,18 +575,18 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
       <label>3 · What time?</label>
       <div class="slots" id="f-slots"><p>Choose a day first.</p></div>
       <div class="pick" id="f-pick" hidden></div>
-      <label for="f-name">Name</label><input id="f-name" autocomplete="name">
-      <label for="f-mail">Email</label><input id="f-mail" type="email" autocomplete="email">
-      <label for="f-idea">Your general idea</label><textarea id="f-idea"></textarea>
+      <label for="f-name">Name <i class="req">*</i></label><input id="f-name" autocomplete="name">
+      <label for="f-mail">Email <i class="req">*</i></label><input id="f-mail" type="email" autocomplete="email">
+      <label for="f-idea">Your general idea <i class="req">*</i></label><textarea id="f-idea"></textarea>
       <div class="row">
-        <div><label for="f-place">Placement</label><input id="f-place" placeholder="e.g. upper arm"></div>
-        <div><label for="f-size">Approximate size</label><input id="f-size" placeholder="e.g. 15 cm"></div>
+        <div><label for="f-place">Placement <i class="req">*</i></label><input id="f-place" placeholder="e.g. upper arm"></div>
+        <div><label for="f-size">Approximate size <i class="req">*</i></label><input id="f-size" placeholder="e.g. 15 cm"></div>
       </div>
       <div class="row">
-        <div><label for="f-col">Black or color</label><select id="f-col"><option>Not sure yet</option><option>Black</option><option>Color</option></select></div>
-        <div><label for="f-tel">Phone number</label><input id="f-tel" type="tel" autocomplete="tel"></div>
+        <div><label for="f-col">Black or color <i class="req">*</i></label><select id="f-col"><option value="">Choose…</option><option>Black</option><option>Color</option><option>Not sure yet</option></select></div>
+        <div><label for="f-tel">Phone number <i class="req">*</i></label><input id="f-tel" type="tel" autocomplete="tel"></div>
       </div>
-      <label for="f-files">Reference material</label>
+      <label for="f-files">Reference material <i class="req">*</i></label>
       <label class="fdrop" id="f-drop" for="f-files"><input id="f-files" type="file" accept="image/*" multiple><strong>Add reference photos</strong><span>drag them here or tap to choose · up to 8 photos</span></label>
       <div class="fthumbs" id="f-thumbs" aria-live="polite"></div>
       <p class="ferr" id="f-err" role="alert"></p>
@@ -668,13 +670,13 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com?subject=Tattoo%20idea&amp;body=Hi%20Tobias%2C%0A%0AHere%20is%20my%20tattoo%20idea.%0A%0AIdea%3A%20%5Bidea%5D%0APlacement%3A%20%5Bplacement%5D%0AApproximate%20size%3A%20%0ABlack%20or%20color%3A%20%0A%28If%20you%20have%20reference%20material%2C%20include%20it%29%0A%0A%0A%5BName%5D%0A%5BTelephone%20number%5D%0A">hello@tattootobias.com</a></span>
-  <span>Photography by Jannis Bachard · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-23-1</span></span>
+  <span>Photography by Jannis Bachard · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-23-2</span></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-23-1</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-23-2</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
@@ -786,7 +788,7 @@ function defaults(){return JSON.parse(JSON.stringify(SEED))}
    3. This browser (localStorage): instant, and the fallback when offline.
    The newest revision (rev) always wins. */
 var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json',imgBase:''};
-var BUILD='2026-09-23-1';;
+var BUILD='2026-09-23-2';;
 /* imgBase: '' = photos load from tattootobias.com. Set to 'img/' once the photos are copied next to this page (see download-photos.ps1). */
 var WP='https://tattootobias.com/wp-content/uploads/';
 function SRC(u){return CMS.imgBase&&u.indexOf(WP)===0?CMS.imgBase+u.slice(u.lastIndexOf('/')+1):u} /* one flat folder: img/<filename> */
@@ -1052,8 +1054,9 @@ function bkLoad(){if(!ONLINE)return Promise.resolve();
  return p.then(function(r){return r.json()}).then(function(rows){if(!rows||rows.length===undefined)return;BK=rows.map(rowToB);bkSaveLocal()}).catch(function(){})}
 function bkInsert(b){ /* public: anyone may request a tentative slot */
  if(!ONLINE){b.id='b'+Date.now().toString(36);BK.push(b);bkSaveLocal();return Promise.resolve(b)}
- var row={site:CMS.site,date:b.date,start_time:b.start,hours:b.hours,status:'tentative',name:b.name,email:b.email,phone:b.phone,idea:b.idea,placement:b.placement,size_text:b.size,size_name:b.sizeName,color:b.color,files:b.files};
- return api('/rest/v1/bookings',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify(row)}).then(function(r){if(!r.ok)throw r.status;return r.json()}).then(function(rows){var nb=rowToB(rows[0]);BK.push(nb);bkSaveLocal();return nb})}
+ b.id=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0;return(c==='x'?r:(r&3|8)).toString(16)});
+ var row={id:b.id,site:CMS.site,date:b.date,start_time:b.start,hours:b.hours,status:'tentative',name:b.name,email:b.email,phone:b.phone,idea:b.idea,placement:b.placement,size_text:b.size,size_name:b.sizeName,color:b.color,files:b.files};
+ return api('/rest/v1/bookings',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(row)}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error('HTTP '+r.status+' '+t.slice(0,160))});BK.push(b);bkSaveLocal();return b})}
 function bkUpdate(b,patch){ /* editor only */
  Object.keys(patch).forEach(function(k){b[k]=patch[k]});bkSaveLocal();
  if(!(ONLINE&&session))return Promise.resolve();
@@ -1095,14 +1098,15 @@ $('f-files').onchange=function(){addFiles(this.files);this.value=''};
 fdrop.addEventListener('drop',function(e){addFiles(e.dataTransfer.files)});
 $('bform').addEventListener('submit',function(e){e.preventDefault();var v=function(i){return $(i).value.trim()},err=$('f-err');err.textContent='';
  if(!pick.start){err.textContent='Please choose a size, a day and a time first.';$('f-sizes').scrollIntoView({block:'center'});return}
- if(!v('f-name')||!/.+@.+\..+/.test(v('f-mail'))){err.textContent='Please fill in your name and a valid email address.';return}
- if(!v('f-idea')){err.textContent='Tell me your idea in a few words.';return}
+ var miss=[['f-name','your name'],['f-mail','a valid email address'],['f-idea','your idea'],['f-place','the placement'],['f-size','the approximate size'],['f-col','black or color'],['f-tel','your phone number']].filter(function(x){return!v(x[0])||(x[0]==='f-mail'&&!/.+@.+\..+/.test(v('f-mail')))});
+ if(miss.length){err.textContent='Please fill in '+miss.map(function(x){return x[1]}).join(', ')+'.';$(miss[0][0]).focus();return}
+ if(!files.length){err.textContent='Please add at least one reference photo.';$('f-drop').scrollIntoView({block:'center'});return}
  var send=$('f-send');send.disabled=true;send.textContent='Sending…';
  bkLoad().then(function(){if(slotsFor(pick.date,pick.hours).indexOf(pick.start)<0)throw'taken';return Promise.all(files.map(uploadRef))}).then(function(urls){
   return bkInsert({date:pick.date,start:pick.start,hours:pick.hours,status:'tentative',created:new Date().toISOString(),name:v('f-name'),email:v('f-mail'),phone:v('f-tel'),idea:v('f-idea'),placement:v('f-place'),size:v('f-size'),color:v('f-col'),sizeName:SIZES.filter(function(s){return s.h===pick.hours})[0].n,files:urls})})
  .then(function(b){$('f-who').textContent=', '+b.name;$('f-sum').textContent=niceDate(b.date)+' from '+b.start+' to '+hm(mins(b.start)+b.hours*60)+' ('+b.sizeName+', '+b.hours+' hours) is held for you.';$('f-demo').hidden=ONLINE;
   $('f-fields').hidden=true;$('f-done').hidden=false;$('booking').scrollIntoView();if(logged)renderBookings()})
- .catch(function(x){send.disabled=false;send.textContent='Request this slot →';if(x==='taken'){err.textContent='Sorry, that time was just taken. Please pick another one.';pick.start='';renderCal();renderSlots()}else err.textContent='Something went wrong while sending. Please try again, or email me directly.'})});
+ .catch(function(x){send.disabled=false;send.textContent='Request this slot →';if(x==='taken'){err.textContent='Sorry, that time was just taken. Please pick another one.';pick.start='';renderCal();renderSlots()}else{err.textContent='Something went wrong while sending. Please try again, or email me directly.';console.error('Booking failed:',x);if(x&&x.message)err.textContent+=' ('+x.message+')'}})});
 $('f-again').onclick=function(){$('bform').reset();files=[];drawFiles();pick={hours:0,date:'',start:''};renderSizes();renderCal();renderSlots();$('f-done').hidden=true;$('f-fields').hidden=false;$('f-send').disabled=false;$('f-send').textContent='Request this slot →'};
 /* ---- admin: tabs ---- */
 var tabs=document.querySelectorAll('.atabs button');
