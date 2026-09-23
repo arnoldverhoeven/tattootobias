@@ -11,7 +11,7 @@
 <meta property="og:locale" content="en_BE">
 <meta property="og:image" content="https://tattootobias.com/wp-content/uploads/2020/11/traditional-tattoo-woman.jpg">
 <meta name="referrer" content="no-referrer">
-<meta name="build" content="2026-09-23-3">
+<meta name="build" content="2026-09-23-4">
 <meta name="theme-color" content="#121212">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23121212'/%3E%3Ctext x='32' y='46' font-family='Impact,Arial Black,sans-serif' font-size='40' text-anchor='middle' fill='%23e0342b'%3ET%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +41,7 @@
 }
 </script>
 <style>
-:root{--ink:#121212;--ink2:#1b1b1b;--paper:#efe6d3;--paper2:#e6dbc3;--red:#e0342b;--red-d:#b3241d;--navy:#14213d;--orange:#d9b45b;--muted:#8d8677;--r:4px;
+:root{--ink:#121212;--ink2:#1b1b1b;--paper:#efe6d3;--paper2:#e6dbc3;--red:#e0342b;--red-d:#b3241d;--navy:#14213d;--green:#2e6b3f;--orange:#d9b45b;--muted:#8d8677;--r:4px;
 --display:'Anton',Impact,'Arial Narrow Bold','Haettenschweiler',sans-serif;--body:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:96px}
@@ -376,7 +376,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 .pick{margin-top:18px;padding:14px 16px;border-left:3px solid var(--red);background:#fbf6ea;font-size:15px}
 .pick strong{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.04em;text-transform:uppercase;display:block}
 .aleg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin-bottom:12px}.aleg span{display:flex;align-items:center;gap:6px}
-.lg{width:14px;height:14px;border-radius:2px;display:inline-block}.lg.conf{background:var(--navy)}.lg.tent{background:var(--red)}.lg.free{background:#fff;border:1.5px solid #cfc6b0}.lg.closed{background:#e6dbc3}
+.lg{width:14px;height:14px;border-radius:2px;display:inline-block}.lg.conf{background:var(--green)}.lg.tent{background:var(--red)}.lg.free{background:#fff;border:1.5px solid #cfc6b0}.lg.closed{background:#e6dbc3}
 .acal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .acal>span{font-size:11px;font-weight:700;letter-spacing:.12em;text-align:center;color:#8d8677;padding:4px 0}
 .acal .d{min-height:96px;border:1.5px solid #cfc6b0;border-radius:var(--r);background:#fff;padding:6px;cursor:pointer;text-align:left;font-family:var(--body);color:var(--ink);display:flex;flex-direction:column;gap:3px}
@@ -385,7 +385,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 .acal .d .n{font-weight:700;font-size:14px;display:flex;justify-content:space-between}.acal .d .n small{font-weight:500;color:#5a5448;font-size:11px}
 .acal .d .n small.full{color:var(--red-d);font-weight:700}
 .acal .b{font-size:11px;line-height:1.25;padding:3px 5px;border-radius:2px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.acal .b.confirmed{background:var(--navy)}.acal .b.tentative{background:var(--red)}
+.acal .b.confirmed{background:var(--green)}.acal .b.tentative{background:var(--red)}
 @media (max-width:767px){.acal .d{min-height:64px;padding:4px}.acal .b{font-size:9px;padding:2px 3px}}
 .req{font-style:normal;color:var(--red-d);font-weight:700}
 .ferr{color:var(--red-d);font-weight:700;font-size:14px;margin-top:10px;min-height:1em}
@@ -397,13 +397,15 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 .atabs button.on i{color:var(--red)}
 .bcols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .bcard{border:1.5px solid #cfc6b0;border-radius:var(--r);background:#fbf6ea;padding:16px;display:grid;gap:8px}
-.bcard.tent{border-color:var(--red);border-width:2px}
+.bcard.tent{border-color:var(--red);border-width:2px}.bcard.own{border-color:var(--green)}
+.addf{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px;border:2px dashed var(--green);border-radius:var(--r);background:#fff;margin-top:12px}.addf label{margin:0 0 4px;font-size:10px}.addf input,.addf select{min-height:44px;padding:6px 10px;font-size:15px}.addf .full{grid-column:1/-1}
+.aplus{margin-left:auto}
 .bcard.past{opacity:.6}
 .bhead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 .bhead strong{font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:.04em;text-transform:uppercase;line-height:1.1}
 .bhead small{display:block;font-size:12px;color:#5a5448;margin-top:3px;font-weight:500}
 .st{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:2px;white-space:nowrap}
-.st.tentative{background:var(--red);color:#fff}.st.confirmed{background:var(--navy);color:#fff}.st.declined,.st.expired{background:#cfc6b0;color:var(--ink)}
+.st.tentative{background:var(--red);color:#fff}.st.confirmed{background:var(--green);color:#fff}.st.declined,.st.expired{background:#cfc6b0;color:var(--ink)}
 .bwhen{font-family:var(--display);font-size:18px;letter-spacing:.04em;text-transform:uppercase}
 .bwhen s{color:#8d8677;margin-right:6px}
 .bmeta{font-size:14px;color:#3a362e;line-height:1.5}.bmeta b{color:var(--ink)}
@@ -431,6 +433,44 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 .bset input{min-height:44px}
 @media (max-width:1020px){.bcols{grid-template-columns:1fr}}
 @media (max-width:767px){.sizes{grid-template-columns:1fr}.sizes button{min-height:0}.badj{grid-template-columns:1fr}.exrow{grid-template-columns:1fr}.bset{grid-template-columns:1fr}}
+
+.dots{display:none}
+@media (max-width:767px){
+ .adm{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+ .abar .wrap{min-height:56px;gap:8px}.abar b{font-size:19px}.abar b em{display:none}
+ .abar div{width:100%;gap:6px}.abar .abtn{flex:1 1 auto;min-height:40px;padding:0 8px;font-size:10.5px;letter-spacing:.08em}
+ #a-sync{font-size:11px;width:100%;margin:0}.abar span:not(#a-sync){display:none}
+ .abody{padding:16px 0 32px}.wrap.abody{width:calc(100% - 24px)}
+ .demo{font-size:13px;padding:10px 12px;margin-bottom:14px}
+ .card{padding:16px;margin-bottom:14px}.card h3{font-size:22px}.card>p{font-size:13.5px}
+ .atabs{position:fixed;left:0;right:0;bottom:0;z-index:95;margin:0;gap:0;background:var(--navy);border-top:2px solid var(--orange);padding:0 0 env(safe-area-inset-bottom,0px);display:grid;grid-template-columns:repeat(4,1fr)}
+ .atabs button{position:relative;min-height:60px;border:0;border-radius:0;background:transparent;color:#b9b09c;font-size:10px;padding:0 2px;letter-spacing:.06em;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+ .atabs button::before{font-size:20px;font-family:var(--body)}
+ .atabs button[data-tab=photos]::before{content:"📷"}.atabs button[data-tab=bookings]::before{content:"✉"}.atabs button[data-tab=cal]::before{content:"📅"}.atabs button[data-tab=avail]::before{content:"⏰"}
+ .atabs button.on{background:rgba(255,255,255,.1);color:#fff}.atabs button i:not(:empty){position:absolute;margin:0;top:5px;right:10px;background:var(--red);color:#fff;font-size:10px;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700}
+ .drop{min-height:140px}.drop strong{font-size:20px}
+ .pend{grid-template-columns:72px 1fr}.pend img{width:72px;height:90px}
+ .arow{grid-template-columns:96px 1fr;padding:10px;gap:10px}.arow img{width:96px;height:120px}.arow input[type=text]{font-size:15px;min-height:44px}
+ .afilter{padding:10px;gap:5px}.ahead{gap:8px}.ahead input{max-width:none;width:100%}
+ .bcols{gap:14px}.bhead strong{font-size:19px}.bwhen{font-size:15px}.bmeta{font-size:13.5px}
+ .bacts .abtn,.bacts .chip{min-height:44px}.badj{grid-template-columns:1fr}
+ .calh b{font-size:17px}.aleg{font-size:12px;gap:10px}
+ .acal{gap:3px}.acal .d{min-height:54px;padding:4px 3px;gap:2px;justify-content:flex-start}
+ .acal .d .n{font-size:13px;flex-direction:column;gap:1px}.acal .d .n small{font-size:9px;letter-spacing:0}
+ .acal .b{display:none}
+ .dots{display:flex;flex-wrap:wrap;gap:2px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block}.dot.confirmed{background:var(--green)}.dot.tentative{background:var(--red)}
+ .aplus{margin-left:0;width:100%;justify-content:center;min-height:48px}
+ .addf{grid-template-columns:1fr 1fr;padding:12px;gap:8px}.addf .full{grid-column:1/-1}
+ .wk thead{display:none}.wk,.wk tbody{display:block}.wk tr{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;padding:12px 0;border-top:1px solid #e4dcc8;align-items:center}
+ .wk td{padding:0;border:0;display:flex;align-items:center;gap:6px}.wk td:first-child{grid-column:1;font-size:15px}.wk td:nth-child(2){grid-column:2;justify-content:flex-end}
+ .wk td:nth-child(3)::before{content:"From";font-size:10px;letter-spacing:.1em;color:#5a5448}.wk td:nth-child(4)::before{content:"To";font-size:10px;letter-spacing:.1em;color:#5a5448}
+ .wk td:nth-child(5){grid-column:1/-1;white-space:normal}.wk td:nth-child(5)::before{content:"Break";font-size:10px;letter-spacing:.1em;color:#5a5448}.wk td:nth-child(5) input{width:auto;flex:1}
+ .wk input[type=time]{width:100%;min-height:44px;font-size:15px}.wk input[type=checkbox]{width:26px;height:26px}
+ .bset{grid-template-columns:1fr}.exrow{grid-template-columns:1fr 1fr}.exrow>*:last-child{grid-column:1/-1}.exrow .abtn{width:100%;min-height:46px}
+ .login{margin-top:6vh;padding:24px}.login h3{font-size:30px}
+ .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px));width:calc(100% - 32px);text-align:center}
+ .abar div{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding-bottom:8px}#a-sync{grid-column:1/-1;text-align:center;opacity:.8}.abar div .abtn{font-size:9.5px;padding:0 4px;letter-spacing:.06em}.abar div .abtn:last-child{grid-column:1/-1;font-size:11px;min-height:44px}
+}
 </style>
 </head>
 <body>
@@ -682,13 +722,13 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com?subject=Tattoo%20idea&amp;body=Hi%20Tobias%2C%0A%0AHere%20is%20my%20tattoo%20idea.%0A%0AIdea%3A%20%5Bidea%5D%0APlacement%3A%20%5Bplacement%5D%0AApproximate%20size%3A%20%0ABlack%20or%20color%3A%20%0A%28If%20you%20have%20reference%20material%2C%20include%20it%29%0A%0A%0A%5BName%5D%0A%5BTelephone%20number%5D%0A">hello@tattootobias.com</a></span>
-  <span>Photography by Jannis Bachard · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-23-3</span></span>
+  <span>Photography by Jannis Bachard · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-23-4</span></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-23-3</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-23-4</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
@@ -789,6 +829,9 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
     </div>
   </div>
 </div>
+<form name="new-booking" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="text" name="bot-field"><input type="text" name="name"><input type="text" name="email"><input type="text" name="phone"><input type="text" name="when"><input type="text" name="size"><input type="text" name="idea"><input type="text" name="placement"><input type="text" name="approx_size"><input type="text" name="color"><input type="text" name="photos"><input type="text" name="admin_link">
+</form>
 <div class="toast" id="toast" role="status"></div>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Tattoo enlarged">
@@ -808,7 +851,7 @@ function defaults(){return JSON.parse(JSON.stringify(SEED))}
    3. This browser (localStorage): instant, and the fallback when offline.
    The newest revision (rev) always wins. */
 var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',bucket:'site-media',file:'tags.json',imgBase:''};
-var BUILD='2026-09-23-3';;
+var BUILD='2026-09-23-4';;
 /* imgBase: '' = photos load from tattootobias.com. Set to 'img/' once the photos are copied next to this page (see download-photos.ps1). */
 var WP='https://tattootobias.com/wp-content/uploads/';
 function SRC(u){return CMS.imgBase&&u.indexOf(WP)===0?CMS.imgBase+u.slice(u.lastIndexOf('/')+1):u} /* one flat folder: img/<filename> */
@@ -1067,16 +1110,16 @@ function avLoad(){if(!ONLINE)return Promise.resolve();
  return api('/rest/v1/availability?site=eq.'+encodeURIComponent(CMS.site)+'&select=data').then(function(r){return r.json()}).then(function(rows){if(rows&&rows[0]&&rows[0].data&&rows[0].data.week){AV=rows[0].data;avSaveLocal()}}).catch(function(){})}
 function avSave(){avSaveLocal();if(!(ONLINE&&session))return Promise.resolve();
  return fresh().then(function(){return api('/rest/v1/availability?on_conflict=site',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},body:JSON.stringify({site:CMS.site,data:AV})},true)}).then(function(r){if(!r.ok)throw 0})}
-function rowToB(r){return{id:r.id,date:r.date,start:r.start_time.slice(0,5),hours:r.hours,status:r.status,created:r.created_at,name:r.name,email:r.email,phone:r.phone,idea:r.idea,placement:r.placement,size:r.size_text,color:r.color,sizeName:r.size_name,files:r.files||[],note:r.note||''}}
+function rowToB(r){return{id:r.id,date:r.date,start:r.start_time.slice(0,5),hours:r.hours,status:r.status,created:r.created_at,name:r.name,email:r.email,phone:r.phone,idea:r.idea,placement:r.placement,size:r.size_text,color:r.color,sizeName:r.size_name,files:r.files||[],note:r.note||'',own:!r.size_name}}
 function bkLoad(){if(!ONLINE)return Promise.resolve();
  var full=logged&&session;
  var p=full?fresh().then(function(){return api('/rest/v1/bookings?site=eq.'+encodeURIComponent(CMS.site)+'&order=date.asc,start_time.asc',{},true)}):api('/rest/v1/booked_slots?site=eq.'+encodeURIComponent(CMS.site));
  return p.then(function(r){return r.json()}).then(function(rows){if(!rows||rows.length===undefined)return;BK=rows.map(rowToB);bkSaveLocal()}).catch(function(){})}
-function bkInsert(b){ /* public: anyone may request a tentative slot */
+function bkInsert(b,asEditor){ /* public: anyone may request a tentative slot; asEditor: Tobias adds his own appointment */
  if(!ONLINE){b.id='b'+Date.now().toString(36);BK.push(b);bkSaveLocal();return Promise.resolve(b)}
  b.id=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0;return(c==='x'?r:(r&3|8)).toString(16)});
- var row={id:b.id,site:CMS.site,date:b.date,start_time:b.start,hours:b.hours,status:'tentative',name:b.name,email:b.email,phone:b.phone,idea:b.idea,placement:b.placement,size_text:b.size,size_name:b.sizeName,color:b.color,files:b.files};
- return api('/rest/v1/bookings',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(row)}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error('HTTP '+r.status+' '+t.slice(0,160))});BK.push(b);bkSaveLocal();return b})}
+ var row={id:b.id,site:CMS.site,date:b.date,start_time:b.start,hours:b.hours,status:asEditor?b.status:'tentative',name:b.name,email:b.email,phone:b.phone,idea:b.idea,placement:b.placement,size_text:b.size,size_name:b.sizeName,color:b.color,files:b.files||[],note:b.note||null};
+ return (asEditor?fresh():Promise.resolve()).then(function(){return api('/rest/v1/bookings',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(row)},!!asEditor)}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error('HTTP '+r.status+' '+t.slice(0,160))});BK.push(b);bkSaveLocal();return b})}
 function bkUpdate(b,patch){ /* editor only */
  Object.keys(patch).forEach(function(k){b[k]=patch[k]});bkSaveLocal();
  if(!(ONLINE&&session))return Promise.resolve();
@@ -1124,17 +1167,22 @@ $('bform').addEventListener('submit',function(e){e.preventDefault();var v=functi
  var send=$('f-send');send.disabled=true;send.textContent='Sending…';
  bkLoad().then(function(){if(slotsFor(pick.date,pick.hours).indexOf(pick.start)<0)throw'taken';return Promise.all(files.map(uploadRef))}).then(function(urls){
   return bkInsert({date:pick.date,start:pick.start,hours:pick.hours,status:'tentative',created:new Date().toISOString(),name:v('f-name'),email:v('f-mail'),phone:v('f-tel'),idea:v('f-idea'),placement:v('f-place'),size:v('f-size'),color:v('f-col'),sizeName:SIZES.filter(function(s){return s.h===pick.hours})[0].n,files:urls})})
- .then(function(b){$('f-who').textContent=', '+b.name;$('f-sum').textContent=niceDate(b.date)+' from '+b.start+' to '+hm(mins(b.start)+b.hours*60)+' ('+b.sizeName+', '+b.hours+' hours) is held for you.';$('f-demo').hidden=ONLINE;
+ .then(function(b){notify(b);$('f-who').textContent=', '+b.name;$('f-sum').textContent=niceDate(b.date)+' from '+b.start+' to '+hm(mins(b.start)+b.hours*60)+' ('+b.sizeName+', '+b.hours+' hours) is held for you.';$('f-demo').hidden=ONLINE;
   $('f-fields').hidden=true;$('f-done').hidden=false;$('booking').scrollIntoView();if(logged)renderBookings()})
  .catch(function(x){send.disabled=false;send.textContent='Request this slot →';if(x==='taken'){err.textContent='Sorry, that time was just taken. Please pick another one.';pick.start='';renderCal();renderSlots()}else{err.textContent='Something went wrong while sending. Please try again, or email me directly.';console.error('Booking failed:',x);if(x&&x.message)err.textContent+=' ('+x.message+')'}})});
 $('f-again').onclick=function(){$('bform').reset();files=[];drawFiles();pick={hours:0,date:'',start:''};renderSizes();renderCal();renderSlots();$('f-done').hidden=true;$('f-fields').hidden=false;$('f-send').disabled=false;$('f-send').textContent='Request this slot →'};
+/* new-booking email to Tobias via Netlify Forms (set the recipient under Netlify > Forms > Notifications) */
+var NOTIFY_URL='https://tattootobias.netlify.app/';
+function notify(b){try{var adminUrl=(location.origin+location.pathname).replace(/\/index\.html$/,'/')+'#admin';
+ var body=new URLSearchParams({'form-name':'new-booking',name:b.name,email:b.email,phone:b.phone||'',when:niceDate(b.date)+' '+b.start+' – '+hm(mins(b.start)+b.hours*60)+' ('+b.hours+'h)',size:b.sizeName||'',idea:b.idea||'',placement:b.placement||'',approx_size:b.size||'',color:b.color||'',photos:(b.files||[]).join(' '),admin_link:adminUrl+'  →  log in to confirm, change or decline this request'});
+ fetch(NOTIFY_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()}).catch(function(){})}catch(e){}}
 /* ---- admin: tabs ---- */
 var tabs=document.querySelectorAll('.atabs button');
 [].forEach.call(tabs,function(b){b.onclick=function(){[].forEach.call(tabs,function(x){x.classList.toggle('on',x===b)});['photos','bookings','cal','avail'].forEach(function(t){$('tab-'+t).hidden=b.dataset.tab!==t});if(b.dataset.tab==='bookings')bkLoad().then(renderBookings);if(b.dataset.tab==='cal')bkLoad().then(renderACal);if(b.dataset.tab==='avail')renderAvail()}});
 /* ---- admin: bookings ---- */
-function bCard(b){var st=stateOf(b),c=document.createElement('div');c.className='bcard '+(st==='tentative'?'tent':'')+(b.date<ymd(today0())&&st==='confirmed'?' past':'');
+function bCard(b){var st=stateOf(b),c=document.createElement('div');c.className='bcard '+(st==='tentative'?'tent':'')+(b.own?' own':'')+(b.date<ymd(today0())&&st==='confirmed'?' past':'');
  var end=hm(mins(b.start)+b.hours*60);
- c.innerHTML='<div class="bhead"><div><strong>'+esc(b.name||'—')+'</strong><small>'+esc(b.sizeName||'')+' · requested '+new Date(b.created).toLocaleDateString('en-GB')+'</small></div><span class="st '+st+'">'+st+'</span></div>'
+ c.innerHTML='<div class="bhead"><div><strong>'+esc(b.name||'—')+'</strong><small>'+(b.own?'Added by Tobias':esc(b.sizeName||'')+' · requested '+new Date(b.created).toLocaleDateString('en-GB'))+'</small></div><span class="st '+st+'">'+st+'</span></div>'
  +'<div class="bwhen">'+niceDate(b.date)+' · '+b.start+' – '+end+' · '+b.hours+'h</div>'
  +'<div class="bmeta"><b>Idea:</b> '+esc(b.idea||'')+'<br><b>Placement:</b> '+esc(b.placement||'—')+' · <b>Size:</b> '+esc(b.size||'—')+' · <b>'+esc(b.color||'')+'</b><br><a href="mailto:'+esc(b.email)+'">'+esc(b.email||'')+'</a>'+(b.phone?' · <a href="tel:'+esc(b.phone)+'">'+esc(b.phone)+'</a>':'')+(b.note?'<br><b>Note:</b> '+esc(b.note):'')+'</div>';
  if(b.files&&b.files.length){var r=document.createElement('div');r.className='brefs';b.files.forEach(function(u){var a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener';var im=new Image();im.src=u;im.alt='Reference';a.appendChild(im);r.appendChild(a)});c.appendChild(r)}
@@ -1173,9 +1221,32 @@ function renderACal(){var g=$('ac-grid');if(!g)return;g.innerHTML='';$('ac-title
   var c=document.createElement('button');c.type='button';c.className='d'+(fh===null&&!list.length?' closed':'')+(ds<t0?' pastd':'')+(ds===t0?' today':'')+(ds===acDay?' on':'');
   var lbl=fh===null?(list.length?'closed':''):(fh===0?'full':fh+'h free');
   c.innerHTML='<span class="n">'+d+'<small class="'+(fh===0?'full':'')+'">'+lbl+'</small></span>';
+  var dots=document.createElement('span');dots.className='dots';list.forEach(function(b){var d=document.createElement('i');d.className='dot '+stateOf(b);dots.appendChild(d)});if(list.length)c.appendChild(dots);
   list.forEach(function(b){var s=document.createElement('span');s.className='b '+stateOf(b);s.textContent=b.start+' '+(b.name||'')+' · '+b.hours+'h';s.title=b.start+'–'+hm(mins(b.start)+b.hours*60)+' '+(b.name||'');c.appendChild(s)});
-  if(fh!==null||list.length)c.onclick=(function(ds,list){return function(){acDay=ds;renderACal();var box=$('ac-day');box.hidden=false;$('ac-dtitle').textContent=niceDate(ds)+(freeHours(ds)===null?' · closed':' · '+freeHours(ds)+'h free');var l=$('ac-dlist');l.innerHTML='';if(!list.length)l.innerHTML='<p style="font-size:14px;color:#5a5448">No appointments on this day.</p>';list.forEach(function(b){l.appendChild(bCard(b))})}})(ds,list);
+  if(fh!==null||list.length)c.onclick=(function(ds){return function(){acDay=ds;renderACal();showDay(ds)}})(ds);
   g.appendChild(c)}}
+function showDay(ds){var box=$('ac-day');box.hidden=false;var fh=freeHours(ds),list=BK.filter(function(b){return b.date===ds&&active(b)}).sort(function(a,b){return a.start.localeCompare(b.start)});
+ var tt=$('ac-dtitle');tt.innerHTML='';tt.appendChild(document.createTextNode(niceDate(ds)+(fh===null?' · closed':' · '+fh+'h free')));tt.style.cssText='margin:22px 0 10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap';
+ var l=$('ac-dlist');l.innerHTML='';
+ if(fh&&ds>=ymd(today0())){var plus=document.createElement('button');plus.type='button';plus.className='abtn solid aplus';plus.textContent='+ Add appointment';plus.onclick=function(){addForm(ds,l)};tt.appendChild(plus)}
+ if(!list.length)l.innerHTML='<p style="font-size:14px;color:#5a5448">No appointments on this day.</p>';list.forEach(function(b){l.appendChild(bCard(b))});
+ if(window.innerWidth<768)box.scrollIntoView({behavior:'smooth',block:'start'})}
+function addForm(ds,where){if($('addf'))return;var f=document.createElement('div');f.className='addf';f.id='addf';
+ f.innerHTML='<div><label>Name <i class="req">*</i></label><input id="n-name"></div><div><label>Hours</label><select id="n-h"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option><option>8</option></select></div>'
+ +'<div><label>Start <i class="req">*</i></label><select id="n-s"></select></div><div><label>Status</label><select id="n-st"><option value="confirmed">Confirmed</option><option value="tentative">To confirm</option></select></div>'
+ +'<div><label>Email</label><input id="n-mail" type="email"></div><div><label>Phone</label><input id="n-tel" type="tel"></div>'
+ +'<div class="full"><label>Idea</label><input id="n-idea"></div><div><label>Placement</label><input id="n-place"></div><div><label>Size</label><input id="n-size"></div>'
+ +'<div><label>Black or color</label><select id="n-col"><option value=""></option><option>Black</option><option>Color</option></select></div><div><label>Note (private)</label><input id="n-note"></div>'
+ +'<div class="full" style="display:flex;gap:8px"><button type="button" class="abtn solid" id="n-ok">Save</button><button type="button" class="chip" id="n-x">Cancel</button></div>';
+ where.insertBefore(f,where.firstChild);var ns=f.querySelector('#n-s'),nh=f.querySelector('#n-h');
+ function fill(){ns.innerHTML='';var list=slotsFor(ds,+nh.value);if(!list.length){var o=document.createElement('option');o.value='';o.textContent='No free start time for '+nh.value+'h';ns.appendChild(o)}list.forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s+' – '+hm(mins(s)+ +nh.value*60);ns.appendChild(o)})}
+ nh.onchange=fill;fill();f.querySelector('#n-name').focus();
+ f.querySelector('#n-x').onclick=function(){f.remove()};
+ f.querySelector('#n-ok').onclick=function(){var v=function(i){return f.querySelector('#'+i).value.trim()};if(!v('n-name')){toast('Name is required');f.querySelector('#n-name').focus();return}if(!ns.value){toast('Pick a start time');return}
+  var ok=f.querySelector('#n-ok');ok.disabled=true;
+  bkInsert({date:ds,start:ns.value,hours:+nh.value,status:v('n-st'),created:new Date().toISOString(),name:v('n-name'),email:v('n-mail'),phone:v('n-tel'),idea:v('n-idea'),placement:v('n-place'),size:v('n-size'),color:v('n-col'),sizeName:'',note:v('n-note'),own:true,files:[]},true)
+  .then(function(){f.remove();renderACal();showDay(ds);renderBookings();renderCal();renderSlots();toast('Appointment added — the slot is blocked on the website')})
+  .catch(function(x){ok.disabled=false;toast('Could not save online'+(x&&x.message?' ('+x.message+')':''))})}}
 $('ac-prev').onclick=function(){acM=new Date(acM.getFullYear(),acM.getMonth()-1,1);renderACal()};$('ac-next').onclick=function(){acM=new Date(acM.getFullYear(),acM.getMonth()+1,1);renderACal()};
 /* ---- admin: availability ---- */
 function renderAvail(){var tb=$('av-week').querySelector('tbody');tb.innerHTML='';
