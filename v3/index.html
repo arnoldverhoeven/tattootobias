@@ -162,9 +162,9 @@ label .opt{font-style:normal;font-weight:500;letter-spacing:.04em;text-transform
 .split{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
 .split.rev .ph{order:2}
 .ph{position:relative}
-.ph img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:0}
-.ph::before{content:"";position:absolute;inset:18px -18px -18px 18px;border:2px solid var(--red);border-radius:0;z-index:-1}
-.dark .ph::before{z-index:0;pointer-events:none;inset:18px -18px -18px 18px}
+.ph{overflow:hidden}.ph img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:0;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}.ph:hover img{transform:scale(1.05)}@media (prefers-reduced-motion:reduce){.ph img{transition:none}.ph:hover img{transform:none}}
+
+.dark 
 .dark .ph img{position:relative;z-index:1}
 .txt h2{margin-bottom:28px;font-size:clamp(40px,5.6vw,80px)}
 .txt p{margin-bottom:18px;max-width:560px}
@@ -316,7 +316,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
  .grid{columns:2;column-gap:10px}.tile{margin-bottom:10px}
  .tile .cap{opacity:1;font-size:10px;padding:28px 8px 8px}
  .xp,.heal,.why,.dd,.row,.expect{grid-template-columns:1fr}
- .ph::before{inset:12px -10px -12px 10px}
+ 
  form{padding:24px}
  .lb .p{left:8px}.lb .n{right:8px}
 }
@@ -552,7 +552,7 @@ html[data-theme=dark] .fsel.on{background:var(--paper);color:var(--ink)}
 html[data-theme=dark] .paper .btn.ghost{color:var(--paper);border-color:var(--paper)}
 html[data-theme=dark] .paper .btn.ghost:hover{background:var(--paper);color:var(--ink)}
 html[data-theme=dark] .expect li{border-color:rgba(239,230,211,.25)}
-html[data-theme=dark] .ph::before{border-color:var(--red)}
+
 html[data-theme=dark] .why,html[data-theme=dark] .why li{border-color:rgba(239,230,211,.4)}
 html[data-theme=dark] .why li:hover{background:var(--paper);color:var(--ink)}
 html[data-theme=dark] .revc{background:#1f1f1f;border-color:rgba(239,230,211,.4)}
@@ -852,13 +852,13 @@ html[data-theme=dark] .shop{background:var(--red)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com">hello@tattootobias.com</a> · <a href="https://www.instagram.com/tattootobias" target="_blank" rel="noopener">Instagram</a></span>
-  <span><span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-30-5</span></span>
+  <span><span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-09-30-6</span></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-30-5</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-09-30-6</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
