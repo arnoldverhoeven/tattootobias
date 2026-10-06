@@ -849,13 +849,13 @@ html[data-theme=dark] .shop{background:var(--red)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com">hello@tattootobias.com</a> · <a href="https://www.instagram.com/tattootobias" target="_blank" rel="noopener">Instagram</a></span>
-  <span><span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-10-01-5</span></span>
+  <span><span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-10-06-2</span></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-10-01-5</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-10-06-2</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
@@ -917,6 +917,16 @@ html[data-theme=dark] .shop{background:var(--red)}
         </div>
       </div>
       <div id="tab-cal" hidden>
+        <div class="card gcal" id="gcal-card">
+          <h3>Google Agenda</h3>
+          <p id="gcal-status">Checking the connection…</p>
+          <div class="bacts" style="margin-top:10px">
+            <button type="button" class="abtn dark" id="gcal-connect">Connect Google Agenda</button>
+            <button type="button" class="abtn" id="gcal-sync" hidden>Sync now</button>
+            <button type="button" class="abtn" id="gcal-off" hidden style="color:var(--red-d)">Disconnect</button>
+          </div>
+          <p style="font-size:13px;color:#5a5448;margin-top:10px">Two-way: everything in your Google Agenda blocks the site, every request from the site appears in your agenda (⏳ requested, ✔ confirmed). Move or delete an appointment in Google and the site follows within a few minutes. Events imported from Google are managed in Google, not here.</p>
+        </div>
         <div class="card">
           <div class="calh" style="margin-bottom:14px"><button type="button" id="ac-prev" aria-label="Previous month">‹</button><b id="ac-title"></b><button type="button" id="ac-next" aria-label="Next month">›</button></div>
           <div class="aleg"><span><i class="lg conf"></i>Confirmed</span><span><i class="lg tent"></i>Requested (held)</span><span><i class="lg free"></i>Free hours</span><span><i class="lg closed"></i>Closed</span></div>
@@ -1191,6 +1201,7 @@ try{var rb=sessionStorage.getItem('tt-imgbase');if(rb!==null&&(rb===''||BASES.in
 probe(0);
 console.log('Tattoo Tobias build '+BUILD);
 if(location.hash==='#admin')openAdm();
+(function(){var q=new URLSearchParams(location.search).get('gcal');if(!q)return;history.replaceState(null,'',location.pathname+location.hash);setTimeout(function(){var tb=document.querySelector('.adm button[data-tab="cal"]');if(tb)tb.click();toast(q==='ok'?'Google Agenda connected — first import is running':'Google connection failed ('+q+')')},800)})();
 pull();
 
 function chips(sel,onToggle){
@@ -1296,7 +1307,14 @@ function renderList(){
  $('a-more').parentNode.style.display=list.length>ashown?'flex':'none';
 }
 var DRAG=null;$('a-showtags').onchange=function(){$('a-list').classList.toggle('notags',!this.checked)};$('a-search').oninput=function(){ashown=12;renderList()};$('a-more').onclick=function(){ashown+=12;renderList()};
-function renderAdm(){renderTags();renderPending();renderAFilter();renderList();renderRevAdm();bkLoad().then(renderBookings)}
+function gcalStatus(){var st=$('gcal-status');if(!st)return;if(!ONLINE){st.textContent='Available once the online storage (Supabase) is connected.';return}
+ fresh().then(function(){return api('/rest/v1/rpc/tattootobias_gcal_status',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'},true)}).then(function(r){return r.json()}).then(function(j){
+  var on=j&&j.connected;$('gcal-connect').textContent=on?'Reconnect':'Connect Google Agenda';$('gcal-sync').hidden=!on;$('gcal-off').hidden=!on;
+  st.innerHTML=on?'Connected as <strong>'+esc(j.google_email||'')+'</strong>'+(j.last_sync?' · last sync '+new Date(j.last_sync).toLocaleString(LOC[LANG]||'en-GB'):'')+(j.last_error?'<br><span style="color:var(--red-d)">Last error: '+esc(j.last_error)+'</span>':''):'Not connected yet. Click "Connect Google Agenda", log in with the Google account that holds your agenda and allow access.'}).catch(function(){st.textContent='Could not read the connection status.'})}
+$('gcal-connect').onclick=function(){if(!(ONLINE&&session)){toast('Log in first');return}fresh().then(function(){location.href=CMS.supabaseUrl.replace(/\/$/,'')+'/functions/v1/tattootobias_gcal_auth?site='+CMS.site+'&t='+encodeURIComponent(session.access_token)})};
+$('gcal-sync').onclick=function(){var b=this;b.disabled=true;b.textContent='Syncing…';fresh().then(function(){return fetch(CMS.supabaseUrl.replace(/\/$/,'')+'/functions/v1/tattootobias_gcal_pull?site='+CMS.site,{method:'POST',headers:{Authorization:'Bearer '+session.access_token,apikey:CMS.anonKey,'Content-Type':'application/json'},body:'{}'})}).then(function(r){return r.json()}).then(function(j){toast(j.ok?'Synced: '+(j.bookingsUpdated||0)+' bookings, '+(j.blocksUpserted||0)+' blocks':'Sync failed: '+(j.error||''));return bkLoad()}).then(function(){renderBookings();gcalStatus()}).catch(function(){toast('Sync failed')}).then(function(){b.disabled=false;b.textContent='Sync now'})};
+$('gcal-off').onclick=function(){if(!confirm('Disconnect Google Agenda? Existing events stay in Google; imported blocks are removed from the site.'))return;fresh().then(function(){return fetch(CMS.supabaseUrl.replace(/\/$/,'')+'/functions/v1/tattootobias_gcal_auth/disconnect',{method:'POST',headers:{Authorization:'Bearer '+session.access_token,apikey:CMS.anonKey}})}).then(function(){return api('/rest/v1/'+CMS.prefix+'bookings?site=eq.'+CMS.site+'&source=eq.gcal',{method:'DELETE'},true)}).then(function(){toast('Disconnected');gcalStatus();return bkLoad()}).then(renderBookings)};
+function renderAdm(){renderTags();renderPending();renderAFilter();renderList();renderRevAdm();gcalStatus();bkLoad().then(renderBookings)}
 
 /* ---------- ticker, header, reveal, booking ---------- */
 var hd=$('hdr');function sc(){hd.classList.toggle('scrolled',window.scrollY>40)}sc();window.addEventListener('scroll',sc,{passive:true});
