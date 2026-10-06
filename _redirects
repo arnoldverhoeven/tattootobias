@@ -1,0 +1,19 @@
+# old WordPress structure → sections of the new one-page site (301 keeps the Google value)
+/healing            /#healing   301
+/healing/           /#healing   301
+/aftercare          /#healing   301
+/contact            /#contact   301
+/contact/           /#contact   301
+/about              /#about     301
+/shop               https://tobiasdebruyn.bigcartel.com/  301
+/tattoos            /#work      301
+/portfolio          /#work      301
+/2020/*             /#work      301
+/2021/*             /#work      301
+/2022/*             /#work      301
+/2023/*             /#work      301
+/2024/*             /#work      301
+/2025/*             /#work      301
+/wp-content/*       /#work      301
+/feed               /  301
+/wp-admin/*         /#admin  302
