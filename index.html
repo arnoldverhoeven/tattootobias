@@ -9,10 +9,16 @@
 <meta property="og:description" content="Tattoo Tobias is a tattoo artist from Antwerpen with 10+ years of expertise. Discover our private tattoo shop with traditional & modern designs.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_BE">
-<meta property="og:image" content="https://tattootobias.com/img/traditional-tattoo-woman.jpg">
+<meta property="og:image" content="https://tattootobias.com/img/og.jpg">
+<meta property="og:image:secure_url" content="https://tattootobias.com/img/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tattoo Tobias — traditional tattoo artist in Antwerpen">
 <meta property="og:url" content="https://tattootobias.com/">
 <meta property="og:site_name" content="Tattoo Tobias">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tattootobias.com/img/og.jpg">
 <link rel="canonical" href="https://tattootobias.com/">
 <meta name="referrer" content="no-referrer">
 <meta name="build" content="2026-09-30-1">
@@ -849,26 +855,46 @@ html[data-theme=dark] .shop{background:var(--red)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com">hello@tattootobias.com</a> · <a href="https://www.instagram.com/tattootobias" target="_blank" rel="noopener">Instagram</a></span>
-  <span><span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-10-06-3</span></span>
+  <span><span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-10-07-2</span></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-10-06-3</span><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-10-07-2</span><button class="abtn" id="a-pwd" type="button" hidden>Change password</button><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
       <h3>Studio login</h3>
       <p>Only Tobias gets in here. Upload new work, tag it, done.</p>
-      <label for="a-user">Email</label><input id="a-user" type="text" value="hello@tattootobias.com">
-      <label for="a-pass">Password</label><input id="a-pass" type="password" value="demo-demo">
+      <div id="a-lform">
+      <label for="a-user">Email</label><input id="a-user" type="text" value="hello@tattootobias.com" autocomplete="username">
+      <label for="a-pass">Password</label><input id="a-pass" type="password" value="demo-demo" autocomplete="current-password">
       <button class="btn" id="a-go" type="button">Log in</button>
+      <p style="margin-top:14px;font-size:14px"><a href="#" id="a-forgot" style="color:inherit">Forgot your password?</a></p>
+      <div id="a-fbox" hidden>
+        <p>We e-mail you a link to choose a new password.</p>
+        <label for="a-femail">Email</label><input id="a-femail" type="email" autocomplete="email">
+        <button class="btn" id="a-fsend" type="button">Send reset link</button>
+      </div>
+      </div>
+      <div id="a-npbox" hidden>
+        <p><strong>Choose a new password.</strong> At least 8 characters.</p>
+        <label for="a-np1">New password</label><input id="a-np1" type="password" autocomplete="new-password">
+        <label for="a-np2">Repeat new password</label><input id="a-np2" type="password" autocomplete="new-password">
+        <button class="btn" id="a-npgo" type="button">Save password</button>
+      </div>
       <p id="a-msg" style="margin-top:12px;font-size:14px;color:var(--red-d);font-weight:700" role="alert"></p>
       <p id="a-demo" style="font-size:13px">Demo: any password works.</p>
     </div>
     <div id="a-main" hidden>
       <p class="demo" id="a-note"></p>
+      <div class="note" id="a-pwbox" hidden style="margin-top:12px"><strong>Change your password</strong> — at least 8 characters.
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-top:10px">
+          <label style="flex:1 1 180px;font-size:13px">New password<input id="a-cp1" type="password" autocomplete="new-password" style="display:block;width:100%;margin-top:4px;padding:10px;border:2px solid var(--ink);border-radius:var(--r);font:inherit"></label>
+          <label style="flex:1 1 180px;font-size:13px">Repeat<input id="a-cp2" type="password" autocomplete="new-password" style="display:block;width:100%;margin-top:4px;padding:10px;border:2px solid var(--ink);border-radius:var(--r);font:inherit"></label>
+          <button class="abtn dark" id="a-cpgo" type="button">Save</button><button class="abtn" id="a-cpx" type="button">Cancel</button>
+        </div><p id="a-cpmsg" style="margin:8px 0 0;font-size:14px;font-weight:700;color:var(--red-d)"></p></div>
       <div class="atabs" role="tablist"><button type="button" class="on" data-tab="photos">Photos</button><button type="button" data-tab="bookings">Bookings<i id="t-bcount"></i></button><button type="button" data-tab="cal">Calendar</button><button type="button" data-tab="reviews">Reviews</button><button type="button" data-tab="texts">Texts</button><button type="button" data-tab="avail">Availability</button></div>
       <div id="tab-photos">
       <div class="acols">
@@ -1180,13 +1206,28 @@ function openAdm(e){if(e)e.preventDefault();adm.classList.add('open');document.b
 function closeAdm(){adm.classList.remove('open');document.body.style.overflow='';refresh();if(location.hash==='#admin')history.replaceState(null,'',location.pathname+location.search)}
 [].forEach.call(document.querySelectorAll('[data-admin]'),function(a){a.onclick=openAdm});
 $('a-close').onclick=closeAdm;
-function enter(){logged=true;$('a-login').hidden=true;$('a-main').hidden=false;
+function enter(){logged=true;$('a-login').hidden=true;$('a-main').hidden=false;$('a-pwd').hidden=!ONLINE;
  $('a-note').innerHTML=ONLINE?'<strong>Connected.</strong> Every change is saved online straight away and is visible on every computer and phone.':'<strong>Online storage not connected yet.</strong> Changes are saved in this browser. To show them on every device: click Export backup and publish the file as tags.json next to the website.';
  renderAdm();setSync()}
 $('a-go').onclick=function(){if(!ONLINE)return enter();
- var m=$('a-msg');m.textContent='Logging in…';
+ var m=$('a-msg');m.style.color='';m.textContent='Logging in…';
  api('/auth/v1/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('a-user').value.trim(),password:$('a-pass').value})}).then(function(r){return r.json()}).then(function(j){setSession(j);if(!session)throw 0;m.textContent='';pull().then(enter)}).catch(function(){m.textContent='Wrong email or password.'})};
-if(ONLINE){$('a-pass').value='';$('a-demo').hidden=true;if(session)fresh().then(enter).catch(function(){})}
+/* password reset: landing from the e-mail link (Supabase appends #access_token=…&type=recovery), forgot-link, new password, change password */
+var recovering=false;
+(function(){var h=location.hash||'';if(h.indexOf('access_token=')<0&&h.indexOf('error_description=')<0)return;var p=new URLSearchParams(h.slice(1));history.replaceState(null,'',location.pathname+'#admin');
+ if(p.get('error_description')){setTimeout(function(){openAdm();$('a-msg').textContent='This link is no longer valid ('+p.get('error_description')+'). Request a new one.'},0);return}
+ if(p.get('type')!=='recovery')return;recovering=true;setSession({access_token:p.get('access_token'),refresh_token:p.get('refresh_token'),expires_in:+p.get('expires_in')||3600});
+ setTimeout(function(){openAdm();$('a-lform').hidden=true;$('a-npbox').hidden=false;$('a-np1').focus()},0)})();
+function setPassword(a,b,m,done){if(a.length<8)return m.textContent='Use at least 8 characters.';if(a!==b)return m.textContent='The two passwords are not the same.';m.textContent='Saving…';
+ fresh().then(function(){return api('/auth/v1/user',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:a})},true)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.msg||j.message||j.error_description||'unknown error');return j})}).then(function(){m.textContent='';toast('Password saved');done()}).catch(function(e){m.textContent='Could not save the password: '+(e&&e.message||'try again')})}
+$('a-forgot').onclick=function(e){e.preventDefault();var b=$('a-fbox');b.hidden=!b.hidden;if(!b.hidden){$('a-femail').value=$('a-user').value.trim();$('a-femail').focus()}};
+$('a-fsend').onclick=function(){var em=$('a-femail').value.trim(),m=$('a-msg');if(!ONLINE)return m.textContent='Not available in demo mode.';if(!/.+@.+\..+/.test(em))return m.textContent='Enter your e-mail address.';m.style.color='';m.textContent='Sending…';
+ api('/auth/v1/recover?redirect_to='+encodeURIComponent(location.origin+location.pathname+'?reset=1'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(function(r){if(!r.ok)throw 0;$('a-fbox').hidden=true;m.style.color='var(--green)';m.textContent='If that address has an account, a link to choose a new password is on its way (check spam too).'}).catch(function(){m.textContent='Could not send the e-mail right now. Try again in a few minutes.'})};
+$('a-npgo').onclick=function(){setPassword($('a-np1').value,$('a-np2').value,$('a-msg'),function(){$('a-np1').value=$('a-np2').value='';$('a-npbox').hidden=true;$('a-lform').hidden=false;recovering=false;pull().then(enter)})};
+$('a-pwd').onclick=function(){var b=$('a-pwbox');b.hidden=!b.hidden;if(!b.hidden)$('a-cp1').focus()};
+$('a-cpx').onclick=function(){$('a-pwbox').hidden=true;$('a-cpmsg').textContent='';$('a-cp1').value=$('a-cp2').value=''};
+$('a-cpgo').onclick=function(){setPassword($('a-cp1').value,$('a-cp2').value,$('a-cpmsg'),function(){$('a-cpx').onclick()})};
+if(ONLINE){$('a-pass').value='';$('a-demo').hidden=true;if(session&&!recovering)fresh().then(enter).catch(function(){})}
 $('a-reset').onclick=function(){if(confirm('Discard the changes in this browser and go back to the published tags?')){localStorage.removeItem(KEY);S=normalize(defaults());pending=[];renderAdm();refresh();pull();toast('Back to the published tags')}};
 $('a-export').onclick=function(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));a.download='tattoo-tobias-tags-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();toast('Backup downloaded')};
 $('a-import').onchange=function(){var fl=this.files[0];if(!fl)return;var rd=new FileReader();rd.onload=function(){try{var o=JSON.parse(rd.result);if(!o.items||!o.tags)throw 0;S=normalize(o);save();renderAdm();refresh();toast('Backup restored — '+S.items.length+' photos')}catch(e){toast('This is not a valid backup file')}};rd.readAsText(fl);this.value=''};
