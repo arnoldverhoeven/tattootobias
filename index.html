@@ -52,7 +52,7 @@
 }
 </script>
 <style>
-:root{--ink:#121212;--ink2:#1b1b1b;--paper:#efe6d3;--paper2:#e6dbc3;--red:#BB3431;--red-d:#962A28;--navy:#507C76;--navy-d:#3f645f;--green:#507C76;--orange:#e6dbc3;--muted:#8d8677;--r:6px;--rp:14px;
+:root{--ink:#121212;--ink2:#1b1b1b;--paper:#efe6d3;--paper2:#e6dbc3;--red:#BB3431;--red-d:#962A28;--navy:#507C76;--navy-d:#3f645f;--green:#507C76;--orange:#e6dbc3;--muted:#8d8677;--r:6px;--rp:3px;
 --display:'Anton',Impact,'Arial Narrow Bold','Haettenschweiler',sans-serif;--body:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:96px}
@@ -857,13 +857,13 @@ html[data-theme=dark] .shop{background:var(--red)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com">hello@tattootobias.com</a> · <a href="https://www.instagram.com/tattootobias" target="_blank" rel="noopener">Instagram</a><span id="legal-line"></span></span>
-  <span><a href="privacy.html" data-i18n>Privacy</a> · <a href="terms.html" data-i18n>Terms</a> · <span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-10-07-9</span></span>
+  <span><a href="privacy.html" data-i18n>Privacy</a> · <a href="terms.html" data-i18n>Terms</a> · <span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-10-07-11</span></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-10-07-9</span><button class="abtn" id="a-pwd" type="button" hidden>Change password</button><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-10-07-11</span><button class="abtn" id="a-pwd" type="button" hidden>Change password</button><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
@@ -1370,6 +1370,9 @@ function renderAdm(){renderTags();renderPending();renderAFilter();renderList();r
 
 /* ---------- ticker, header, reveal, booking ---------- */
 var hd=$('hdr');function sc(){hd.classList.toggle('scrolled',window.scrollY>40)}sc();window.addEventListener('scroll',sc,{passive:true});
+/* anchors land exactly under the fixed header: scroll-padding = height of the (shrunken) header, measured live */
+function setScrollPad(){var r=hd.getBoundingClientRect().height,pad=parseFloat(getComputedStyle(hd).paddingTop)||0,small=hd.classList.contains('scrolled')?pad:Math.min(pad,10);var h=Math.round(r-2*pad+2*small);document.documentElement.style.scrollPaddingTop=h+'px'}
+setScrollPad();window.addEventListener('resize',setScrollPad);window.addEventListener('load',setScrollPad);document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(a)setScrollPad()},true);
 var rv=document.querySelectorAll('.rv');
 if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.08});rv.forEach(function(e){io.observe(e)})}
 else rv.forEach(function(e){e.classList.add('in')});
