@@ -69,10 +69,8 @@ h3{font-size:clamp(24px,2.6vw,32px);letter-spacing:.03em}
 section{padding:112px 0;position:relative}
 .dark{background:var(--ink);color:var(--paper)}.green{background:var(--green);color:var(--paper)}.green .eyebrow{color:var(--paper)}.green .txt p{color:#e6ece9}.green .expect li{border-color:rgba(239,230,211,.35)}.green .expect li::before{color:var(--red)}.green .ph::before{background:var(--red)}.green .txt a{color:var(--paper)}
 .btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 28px;border-radius:var(--r);font-weight:700;font-size:15px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:2px solid var(--red);background:var(--red);color:#fff;cursor:pointer;transition:background .2s,color .2s,border-color .2s;font-family:var(--body)}
-.btn:hover{background:var(--red-d);border-color:var(--red-d)}
 .btn.ghost{background:transparent;color:inherit;border-color:currentColor}
-.btn.ghost:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
-.paper .btn.ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+@media (hover:hover){.btn:hover{background:var(--red-d);border-color:var(--red-d)}.btn.ghost:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}.paper .btn.ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}}
 
 /* header */
 header{position:fixed;inset:0 0 auto 0;z-index:50;padding:16px 0;background:rgba(18,18,18,.96);transition:background .25s,box-shadow .25s,padding .25s}
@@ -96,9 +94,9 @@ nav{gap:8px}
 .tools select{color-scheme:dark}.tools select option{color:var(--paper);background:#1c1c1c}
 .tools button{min-width:44px;display:inline-flex;align-items:center;justify-content:center}.tools button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .tools select:hover,.tools button:hover{opacity:1}
-.hright{display:flex;flex-direction:column;align-items:flex-end;gap:16px;width:100%;max-width:560px;margin-left:auto}.hright .collage{margin-left:0;max-width:none}.insta{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 12px 0 10px;border:2px solid var(--green);border-radius:var(--r);color:var(--green);text-decoration:none;font:700 12.5px var(--body);letter-spacing:.03em;transition:background .2s,color .2s}.insta b{font-weight:700}.insta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+.hright{display:flex;flex-direction:column;align-items:center;gap:18px;width:100%;max-width:560px;margin-left:auto}.hright .collage{margin-left:0;max-width:none}.insta{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px 0 12px;border:2px solid var(--green);border-radius:var(--r);background:var(--green);color:#fff;text-decoration:none;font:700 12.5px var(--body);letter-spacing:.03em;transition:background .2s,border-color .2s}.insta b{font-weight:700}.insta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
 
-.insta:hover{background:var(--green);color:#fff}
+.insta:hover{background:#436862;border-color:#436862}
 .hero p.lead.flash{color:var(--ink);font-weight:500;margin-top:-18px}
 .durh{font-size:clamp(22px,2.2vw,30px);margin-top:40px}.durs{display:grid;border-radius:var(--r);overflow:hidden;grid-template-columns:1fr 1fr;gap:0;margin-top:18px;border-top:2px solid var(--ink);border-left:2px solid var(--ink)}
 .durs div{border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:22px 20px;font-size:14.5px;line-height:1.45;color:#4a453c}
@@ -226,7 +224,7 @@ form .alt{text-align:center;font-size:14px;margin-top:14px;color:#5a5448}
 .fthumbs button:hover{background:var(--red)}
 #f-done p{margin-bottom:14px}
 .fdemo{font-size:13.5px!important;padding:12px 14px;border-left:3px solid var(--red);background:#fbf6ea}
-#f-done .btn.ghost{color:var(--ink)}#f-done .btn.ghost:hover{background:var(--ink);color:var(--paper)}
+#f-done .btn.ghost{color:var(--ink)}@media (hover:hover){#f-done .btn.ghost:hover{background:var(--ink);color:var(--paper)}}
 
 /* healing */
 .heal{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
@@ -527,7 +525,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 .dark .whead p{color:#d9d0bd}
 .dark .filters button{border-color:var(--paper);color:var(--paper)}.dark .filters button:hover{background:#2a2a2a}.dark .filters button.on{background:var(--paper);color:var(--ink)}.dark .filters button.on i{color:var(--red-d)}
 .dark .fsel{border-color:var(--paper);color:var(--paper)}.dark .fsel option{color:var(--ink)}.dark .fsel.on{background:var(--paper);color:var(--ink)}
-.dark .btn.ghost{color:var(--paper);border-color:var(--paper)}.dark .btn.ghost:hover{background:var(--paper);color:var(--ink)}
+.dark .btn.ghost{color:var(--paper);border-color:var(--paper)}@media (hover:hover){.dark .btn.ghost:hover{background:var(--paper);color:var(--ink)}}
 .dark .expect li{border-color:rgba(239,230,211,.25)}
 .dark .why,.dark .why li{border-color:rgba(239,230,211,.4)}.dark .why li:hover{background:var(--paper);color:var(--ink)}
 .dark .revs,.dark .revc{border-color:rgba(239,230,211,.4)}.dark .revc b span{color:#b9b09c}
@@ -543,7 +541,7 @@ html[data-theme=dark] .hero{background:var(--ink);color:var(--paper)}
 html[data-theme=dark] .hero::after{background:radial-gradient(900px 600px at 78% 40%,rgba(187,52,49,.18),transparent 65%)}
 html[data-theme=dark] .hero p.lead{color:#d9d0bd}html[data-theme=dark] .hero p.lead.flash{color:var(--paper)}
 html[data-theme=dark] .hmeta{border-color:rgba(239,230,211,.18);color:#b9b09c}html[data-theme=dark] .hmeta strong{color:var(--paper)}
-html[data-theme=dark] .insta{color:#8fb3ad;border-color:#8fb3ad}html[data-theme=dark] .insta:hover{background:var(--green);color:#fff;border-color:var(--green)}
+html[data-theme=dark] .insta{background:var(--green);border-color:var(--green);color:#fff}html[data-theme=dark] .insta:hover{background:#5f8f88;border-color:#5f8f88}
 html[data-theme=dark] .collage figure{background:var(--paper)}
 html[data-theme=dark] .paper,html[data-theme=dark] section.paper{color:var(--paper)}
 html[data-theme=dark] .paper .eyebrow{color:var(--red)}
@@ -556,7 +554,7 @@ html[data-theme=dark] .fsel{border-color:var(--paper);color:var(--paper)}
 html[data-theme=dark] .fsel option{color:var(--ink)}
 html[data-theme=dark] .fsel.on{background:var(--paper);color:var(--ink)}
 html[data-theme=dark] .paper .btn.ghost{color:var(--paper);border-color:var(--paper)}
-html[data-theme=dark] .paper .btn.ghost:hover{background:var(--paper);color:var(--ink)}
+@media (hover:hover){html[data-theme=dark] .paper .btn.ghost:hover{background:var(--paper);color:var(--ink)}}
 html[data-theme=dark] .expect li{border-color:rgba(239,230,211,.25)}
 
 html[data-theme=dark] .why,html[data-theme=dark] .why li{border-color:rgba(239,230,211,.4)}
@@ -859,13 +857,13 @@ html[data-theme=dark] .shop{background:var(--red)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com">hello@tattootobias.com</a> · <a href="https://www.instagram.com/tattootobias" target="_blank" rel="noopener">Instagram</a><span id="legal-line"></span></span>
-  <span><a href="privacy.html" data-i18n>Privacy</a> · <a href="terms.html" data-i18n>Terms</a> · <span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-10-07-5</span></span>
+  <span><a href="privacy.html" data-i18n>Privacy</a> · <a href="terms.html" data-i18n>Terms</a> · <span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span style="opacity:.6">build 2026-10-07-8</span></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-10-07-5</span><button class="abtn" id="a-pwd" type="button" hidden>Change password</button><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-10-07-8</span><button class="abtn" id="a-pwd" type="button" hidden>Change password</button><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
@@ -1006,7 +1004,7 @@ html[data-theme=dark] .shop{background:var(--red)}
               <div><label for="av-hold">Requests expire after (days)</label><input id="av-hold" type="number" min="1" max="60"></div>
             </div>
             <h3 style="margin-top:28px">Start times per duration</h3>
-            <p>Which start times clients can pick, per duration and weekday. Leave a cell <b>empty</b> for "any free hour within the opening hours". Several times: separate with a comma, e.g. <code>09:00, 10:00</code>. Times outside that day's opening hours are ignored. When you plan or move an appointment yourself, you can always use any free hour.</p>
+            <p>Which start times clients can pick, per duration and weekday. Leave a cell <b>empty</b> for "any free hour within the opening hours". Several times: separate with a comma, e.g. <code>09:00, 10:00</code>. A fixed start time is offered on every day that is open (also when it is earlier than your usual opening hour), as long as nothing else is booked then. When you plan or move an appointment yourself, you can always use any free hour.</p>
             <div style="overflow-x:auto;margin:0 -4px"><table class="wk st" id="av-starts"><thead><tr><th>Duration</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead><tbody></tbody></table></div>
             <button class="abtn dark" id="av-save" type="button" style="margin-top:18px">Save hours &amp; rules</button>
           </div>
@@ -1167,10 +1165,10 @@ function ptitle(it){if(it.st!=null&&ALT[it.st])return t(ALT[it.st]);var yt=(it.t
 function tagOf(id){for(var i=0;i<S.tags.length;i++)if(S.tags[i].id===id)return S.tags[i];return null}
 function tagButtons(it,cls,onpick){var box=document.createElement('span');
  it.tags.map(tagOf).filter(Boolean).forEach(function(tg){var b=document.createElement('button');b.type='button';b.className=cls;b.textContent=tlabel(tg);b.onclick=function(e){e.stopPropagation();onpick(tg.id)};box.appendChild(b)});return box}
-function render(){
+function render(from){ /* from: index to append from (Show more); otherwise the grid is rebuilt */
  view=S.items.filter(function(i){return!i.hidden&&(cur==='all'||i.tags.indexOf(cur)>-1)});
- grid.innerHTML='';
- view.slice(0,shown).forEach(function(it,ix){
+ if(!from)grid.innerHTML='';
+ view.slice(from||0,shown).forEach(function(it,k){var ix=(from||0)+k;
   var d=document.createElement('div');d.className='tile';
   var b=document.createElement('button');b.className='open';b.type='button';b.setAttribute('aria-label',t('Enlarge')+': '+ptitle(it));
   var im=new Image();im.loading='lazy';im.alt=ptitle(it)+' — Tattoo Tobias, Antwerp';im.referrerPolicy='no-referrer';im.onerror=function(){if(im.src!==it.s&&SRC(it.s)!==it.s&&!im.dataset.f){im.dataset.f=1;im.src=it.s}else d.remove()};im.src=SRC(it.s);
@@ -1194,7 +1192,7 @@ function renderReviews(){var box=$('revs'),sec=$('reviews');if(!box)return;var l
   var pp=d.querySelector('p'),mb=document.createElement('button');mb.type='button';mb.className='more';mb.textContent=t('more');
   mb.onclick=function(){var open=pp.classList.toggle('clip');mb.textContent=open?t('more'):t('less')};d.appendChild(mb);box.appendChild(d);
   requestAnimationFrame(function(){if(pp.scrollHeight<=pp.clientHeight+2)mb.hidden=true})})}
-more.onclick=function(){shown+=36;render()};
+more.onclick=function(){var was=shown;shown+=36;render(was);more.blur()};
 function refresh(){if(cur!=='all'&&!tagLabel(cur))cur='all';renderFilters();render();renderHero();renderReviews();applyLang()}
 refresh();
 
@@ -1415,7 +1413,7 @@ function slotsFor(ds,hours,ignoreId,anyHour){var w=dayWindow(ds);if(!w)return[];
  var busy=[];if(w.bf!==null&&w.bt!==null&&w.bt>w.bf)busy.push([w.bf,w.bt]);
  BK.forEach(function(b){if(b.date===ds&&(!ignoreId||b.id!==ignoreId)&&active(b)){var s=mins(b.start);busy.push([s,s+b.hours*60])}});
  var fixed=anyHour?null:startsFor(ds,hours),cands=[];
- if(fixed){fixed.forEach(function(t){var s=mins(t);if(s!==null&&s>=w.f&&s+hours*60<=w.t)cands.push(s)});cands.sort(function(a,b){return a-b})}
+ if(fixed){fixed.forEach(function(t){var s=mins(t);if(s!==null)cands.push(s)});cands.sort(function(a,b){return a-b})} /* fixed start times count on every open day, even before the usual opening hour */
  else{for(var s0=w.f;s0+hours*60<=w.t;s0+=60)cands.push(s0)}
  var out=[];cands.forEach(function(s){var e=s+hours*60,ok=busy.every(function(x){return e<=x[0]||s>=x[1]});if(ok)out.push(hm(s))});
  return out}
