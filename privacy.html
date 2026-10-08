@@ -161,20 +161,6 @@ footer{background:#0b0b0b;color:#8d8677;padding:30px 0;font-size:14px}footer a{c
   <span>© 2026 Tattoo Tobias · <span data-legal="address"></span> · <a data-legal-href="mailto" href="mailto:hello@tattootobias.com" data-legal="email"></a></span>
   <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="/#booking">Booking</a></span>
 </div></footer>
-<script>
-(function(){
-  var L=window.LEGAL||{};
-  /* fill every [data-legal] from legal.js; hide lines whose value is empty */
-  document.querySelectorAll('[data-legal]').forEach(function(el){var k=el.getAttribute('data-legal'),v=L[k];if(v===undefined||v===''||v===null){var row=el.closest('[data-legal-row]')||el;row.classList.add('hide')}else{el.textContent=String(v);if(el.getAttribute('data-legal-href')==='mailto')el.href='mailto:'+v}});
-  /* theme follows the website's choice */
-  try{var t=localStorage.getItem('tt-theme');if(t===null)t=(matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'';if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}
-  /* language: nl when the website was used in Dutch, otherwise English */
-  var lang='en';try{var l=localStorage.getItem('tt-lang');if(l==='nl')lang='nl'}catch(e){}
-  if(location.hash==='#nl')lang='nl';if(location.hash==='#en')lang='en';
-  function set(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-lang]').forEach(function(d){d.classList.toggle('on',d.getAttribute('data-lang')===l)});document.querySelectorAll('[data-set]').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-set')===l))})}
-  document.querySelectorAll('[data-set]').forEach(function(b){b.onclick=function(){set(b.getAttribute('data-set'))}});
-  set(lang);
-})();
-</script>
+<script src="legal-page.js"></script>
 </body>
 </html>
