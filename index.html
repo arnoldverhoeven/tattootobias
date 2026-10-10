@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- Google Tag Manager (loaded from gtm-init.js: same GTM-WGS6XVCV snippet + consent mode; external file keeps the CSP free of unsafe-inline) -->
+<script src="gtm-init.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tattoo Tobias | Traditional Tattoo Artist &amp; Shop in Antwerpen</title>
 <meta name="description" content="Tattoo Tobias is a tattoo artist from Antwerpen with 10+ years of expertise. Discover our private tattoo shop with traditional & modern designs.">
@@ -21,7 +23,7 @@
 <meta name="twitter:image" content="https://tattootobias.com/img/og.jpg">
 <link rel="canonical" href="https://tattootobias.com/">
 <meta name="referrer" content="no-referrer">
-<meta name="build" content="2026-10-10-1">
+<meta name="build" content="2026-10-10-3">
 <meta name="theme-color" content="#121212">
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsSAAALEgHS3X78AAABZklEQVQ4jbXSMUsCcRjH8e9dUVKBEgduKS1BBjYVGF1CBLVUL6GhlqZ7B+k7OKgtyChag6BAUNKpIpqKbpLS0RDxorguTRu6A7v+Yg39xud5fp/pkVqtFqIYKXWtXpZ2zLxcADQ1ncuL7iQvYKTUOKAD0fqThJmT3dWJAxWFgJFSw05xxV16ADdJQFfTuRqAdL83GwA0YMt72QEAKAEJNZ3bl4FJUblLQkAKQMj/Jf8LWPR1BXo7Lc7t8bez/kkG4vbL6u2lEqqWfwcUGkEOrZlKrTmoADz7BnwHU/OEquXK8t2VErBexUC1OcSRFasUGkEFULxwaTiobM+tEHswzJlHw++rv38BpQ9l6LY+YmbtiF9U9OZidNx/HR6zF42bpgrIS+vHp1k7ogNmt7KbhtzzdjoxvQltr7yg74bxvHKHJAE9o23UvgFuFvTduANFPcUTQMtoG8X24Q+gDdKABFB0innR3SeW/Y4oeKvKfgAAAABJRU5ErkJggg==">
 <script src="legal.js" defer></script>
@@ -421,15 +423,24 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 .pick strong{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.04em;text-transform:uppercase;display:block}
 .aleg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin-bottom:12px}.aleg span{display:flex;align-items:center;gap:6px}
 .lg{width:14px;height:14px;border-radius:var(--r);display:inline-block}.lg.conf{background:var(--green)}.lg.tent{background:var(--red)}.lg.free{background:#fff;border:1.5px solid #cfc6b0}.lg.closed{background:#e6dbc3}
-.acal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.acal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;width:100%;max-width:100%}
 .acal>span{font-size:11px;font-weight:700;letter-spacing:.12em;text-align:center;color:#8d8677;padding:4px 0}
-.acal .d{min-height:96px;border:1.5px solid #cfc6b0;border-radius:var(--r);background:#fff;padding:6px;cursor:pointer;text-align:left;font-family:var(--body);color:var(--ink);display:flex;flex-direction:column;gap:3px}
+.acal .d{min-height:96px;border:1.5px solid #cfc6b0;border-radius:var(--r);background:#fff;padding:6px;cursor:pointer;text-align:left;font-family:var(--body);color:var(--ink);display:flex;flex-direction:column;gap:3px;min-width:0;overflow:hidden}
 .acal .d:hover{border-color:var(--red)}.acal .d.on{outline:3px solid var(--red);outline-offset:-1px}
 .acal .d.closed{background:#e6dbc3;cursor:default;color:#8d8677}.acal .d.pastd{opacity:.5}.acal .d.today .n{color:var(--red-d)}
 .acal .d .n{font-weight:700;font-size:14px;display:flex;justify-content:space-between}.acal .d .n small{font-weight:500;color:#5a5448;font-size:11px}
 .acal .d .n small.full{color:var(--red-d);font-weight:700}
 .acal .b{font-size:11px;line-height:1.25;padding:3px 5px;border-radius:var(--r);color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.acal .b.confirmed{background:var(--green)}.acal .b.tentative{background:var(--red)}
+.acal .b{min-width:0;max-width:100%;display:block}.acal .b.confirmed{background:var(--green)}.acal .b.tentative{background:var(--red)}.acal .b.g{background:#5c6b73}.acal .b.more{background:transparent;color:#5a5448;font-weight:700;padding-left:0}
+/* e-mail dialog (Studio) */
+.mdlg{position:fixed;inset:0;z-index:9999;background:rgba(20,18,14,.62);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+.mbox{background:#fbf6ea;color:#1c1a16;border-radius:var(--r);padding:22px;width:min(560px,100%);display:grid;gap:8px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.mbox h3{margin:0 0 4px;font:400 26px/1.1 var(--display,inherit);letter-spacing:.02em}
+.mbox label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5a5448}
+.mbox input,.mbox textarea{width:100%;font:16px var(--body);padding:10px 12px;border:1.5px solid #cfc6b0;border-radius:var(--r);background:#fff;color:#1c1a16;box-sizing:border-box}
+.mbox textarea{resize:vertical;min-height:160px}
+.macts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px}.macts a.abtn{display:inline-flex;align-items:center;text-decoration:none}
+.mhint{margin:2px 0 0;font-size:12.5px;color:#5a5448}
 @media (max-width:767px){.acal .d{min-height:64px;padding:4px}.acal .b{font-size:9px;padding:2px 3px}}
 .req{font-style:normal;color:var(--red-d);font-weight:700}
 .ferr{color:var(--red-d);font-weight:700;font-size:14px;margin-top:10px;min-height:1em}
@@ -449,7 +460,7 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 .bhead strong{font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:.04em;text-transform:uppercase;line-height:1.1}
 .bhead small{display:block;font-size:12px;color:#5a5448;margin-top:3px;font-weight:500}
 .st{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:var(--r);white-space:nowrap}
-.st.tentative{background:var(--red);color:#fff}.st.confirmed{background:var(--green);color:#fff}.st.declined,.st.expired{background:#cfc6b0;color:var(--ink)}
+.st.tentative{background:var(--red);color:#fff}.st.confirmed{background:var(--green);color:#fff}.st.declined,.st.expired{background:#cfc6b0;color:var(--ink)}.st.google{background:#5c6b73;color:#fff}
 .bwhen{font-family:var(--display);font-size:18px;letter-spacing:.04em;text-transform:uppercase}
 .bwhen s{color:#8d8677;margin-right:6px}
 .bmeta{font-size:14px;color:#3a362e;line-height:1.5}.bmeta b{color:var(--ink)}
@@ -600,6 +611,7 @@ html[data-theme=dark] .shop{background:var(--red)}
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WGS6XVCV" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->
 
 <header id="hdr">
   <div class="wrap hbar">
@@ -857,13 +869,13 @@ html[data-theme=dark] .shop{background:var(--red)}
 
 <footer><div class="wrap">
   <span>© 2026 Tattoo Tobias · Godtsstraat 19, 2140 Borgerhout · <a href="mailto:hello@tattootobias.com">hello@tattootobias.com</a> · <a href="https://www.instagram.com/tattootobias" target="_blank" rel="noopener">Instagram</a><span id="legal-line"></span></span>
-  <span><a href="privacy.html" data-i18n>Privacy</a> · <a href="terms.html" data-i18n>Terms</a> · <span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span data-i18n>Website by</span> <a href="https://www.agv-it.be" target="_blank" rel="noopener">AGV IT Consulting BV</a></span>
+  <span><a href="privacy.html" data-i18n>Privacy</a> · <a href="terms.html" data-i18n>Terms</a> · <a href="#" data-cookie-settings>Cookie settings</a> · <span data-i18n>Photography by Jannis Bachard</span> · <a href="#admin" data-admin>Studio login</a> · <span data-i18n>Website by</span> <a href="https://www.agv-it.be" target="_blank" rel="noopener">AGV IT Consulting BV</a></span>
 </div></footer>
 
 <div class="adm" id="adm" role="dialog" aria-modal="true" aria-label="Studio admin">
   <div class="abar"><div class="wrap">
     <b>Tattoo Tobias <em>· Studio admin</em></b>
-    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-10-10-1</span><button class="abtn" id="a-pwd" type="button" hidden>Change password</button><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
+    <div><span id="a-sync" style="align-self:center;font-size:12px;letter-spacing:.06em;opacity:.85;margin-right:6px"></span><span style="align-self:center;font-size:11px;opacity:.6;margin-right:6px">build 2026-10-10-3</span><button class="abtn" id="a-pwd" type="button" hidden>Change password</button><button class="abtn" id="a-export" type="button">Export backup</button><label class="abtn" style="display:inline-flex;align-items:center;margin:0">Import backup<input id="a-import" type="file" accept=".json,application/json" style="position:absolute;opacity:0;width:1px;height:1px;min-height:0"></label><button class="abtn" id="a-reset" type="button">Discard local changes</button><button class="abtn solid" id="a-close" type="button">← Back to website</button></div>
   </div></div>
   <div class="wrap abody">
     <div class="login" id="a-login">
@@ -951,7 +963,13 @@ html[data-theme=dark] .shop{background:var(--red)}
           <div class="bacts" style="margin-top:10px">
             <button type="button" class="abtn dark" id="gcal-connect">Connect Google Agenda</button>
             <button type="button" class="abtn" id="gcal-sync" hidden>Sync now</button>
+            <button type="button" class="abtn" id="gcal-full" hidden>Re-import</button>
             <button type="button" class="abtn" id="gcal-off" hidden style="color:var(--red-d)">Disconnect</button>
+          </div>
+          <div id="gcal-chk" hidden style="margin-top:14px;display:none">
+            <label for="gcal-chk-d" style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5a5448">Not showing up on the site? Check a day</label>
+            <div class="bacts" style="margin-top:6px"><input type="date" id="gcal-chk-d" style="min-height:40px;padding:0 10px;border:1.5px solid #cfc6b0;border-radius:var(--r);font:16px var(--body)"><button type="button" class="chip" id="gcal-chk-go">Check</button></div>
+            <pre id="gcal-chk-out" style="white-space:pre-wrap;font:13px/1.5 var(--body);margin:10px 0 0;color:#1c1a16"></pre>
           </div>
           <p style="font-size:13px;color:#5a5448;margin-top:10px">Two-way: everything in your Google Agenda blocks the site, every request from the site appears in your agenda (⏳ requested, ✔ confirmed). Move or delete an appointment in Google and the site follows within a few minutes. Events imported from Google are managed in Google, not here.</p>
         </div>

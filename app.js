@@ -66,7 +66,7 @@ function uploadPhoto(dataUrl){ /* online: photo goes to storage, the gallery onl
   return api('/storage/v1/object/'+CMS.bucket+'/'+name,{method:'POST',headers:{'Content-Type':'image/jpeg'},body:b},true).then(function(r){if(!r.ok){return r.text().then(function(t){throw new Error('HTTP '+r.status+' '+t.slice(0,160))})}return CMS.supabaseUrl.replace(/\/$/,'')+'/storage/v1/object/public/'+CMS.bucket+'/'+name})})}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function tagLabel(id){for(var i=0;i<S.tags.length;i++)if(S.tags[i].id===id)return S.tags[i].label;return''}
-var tt;function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('on')},2600)}
+var tt;function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('on')},Math.min(10000,Math.max(2600,String(m).length*55)))}
 
 /* ---------- languages: EN built in, NL/FR/DE below; every text can be overridden in the admin (Texts tab) ---------- */
 var LANG=(function(){try{var l=localStorage.getItem('tt-lang');if(l&&/^(en|nl|fr|de)$/.test(l))return l}catch(e){}var n=(navigator.language||'en').slice(0,2).toLowerCase();return /^(nl|fr|de)$/.test(n)?n:'en'})();
@@ -317,13 +317,24 @@ function renderList(){
 var DRAG=null;$('a-showtags').onchange=function(){$('a-list').classList.toggle('notags',!this.checked)};$('a-search').oninput=function(){ashown=12;renderList()};$('a-more').onclick=function(){ashown+=12;renderList()};
 function gcalStatus(){var st=$('gcal-status');if(!st)return;if(!ONLINE){st.textContent='Available once the online storage (Supabase) is connected.';return}
  fresh().then(function(){return api('/rest/v1/rpc/tattootobias_gcal_status',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'},true)}).then(function(r){return r.json()}).then(function(j){
-  var on=j&&j.connected;$('gcal-connect').textContent=on?'Reconnect':'Connect Google Agenda';$('gcal-sync').hidden=!on;$('gcal-off').hidden=!on;
+  var on=j&&j.connected;$('gcal-connect').textContent=on?'Reconnect':'Connect Google Agenda';$('gcal-sync').hidden=!on;if($('gcal-full'))$('gcal-full').hidden=!on;$('gcal-off').hidden=!on;var ck=$('gcal-chk');if(ck){ck.hidden=!on;ck.style.display=on?'block':'none'}
   st.innerHTML=on?'Connected as <strong>'+esc(j.google_email||'')+'</strong>'+(j.last_sync?' · last sync '+new Date(j.last_sync).toLocaleString(LOC[LANG]||'en-GB'):'')+(j.last_error?'<br><span style="color:var(--red-d)">Last error: '+esc(j.last_error)+'</span>':''):'Not connected yet. Click "Connect Google Agenda", log in with the Google account that holds your agenda and allow access.'}).catch(function(){st.textContent='Could not read the connection status.'})}
+$('gcal-chk-go').onclick=function(){var d=$('gcal-chk-d').value,out=$('gcal-chk-out'),b=this;if(!d){toast('Pick a day first');return}b.disabled=true;out.textContent='Checking…';
+ fnCall('tattootobias_gcal_pull','?site='+CMS.site+'&explain='+d).then(function(j){b.disabled=false;if(!j.ok){out.textContent='Could not check: '+(j.error||j._status);return}
+  var L=[];L.push('Google calendar has '+j.events.length+' event(s) around '+d+'.');
+  j.events.forEach(function(e){L.push('• '+e.name+' — '+e.when+(e.free?' — marked Free':'')+'\n   '+(e.status==='cancelled'?'cancelled in Google':e.skipped?'NOT blocking: '+e.skipped:e.rowsOnSite?'blocking the site ✔':'should block, but not on the site yet (next sync, or press Sync now)'))});
+  L.push('Last sync: '+(j.lastSync?new Date(j.lastSync).toLocaleString('en-GB'):'never')+(j.lastError?' · error: '+j.lastError:'')+(j.hasSyncToken?'':' · no sync token yet'));out.textContent=L.join('\n')}).catch(function(){b.disabled=false;out.textContent='Could not check (connection).'})};
 $('gcal-connect').onclick=function(){if(!(ONLINE&&session)){toast('Log in first');return}fresh().then(function(){location.href=CMS.supabaseUrl.replace(/\/$/,'')+'/functions/v1/tattootobias_gcal_auth?site='+CMS.site+'&t='+encodeURIComponent(session.access_token)})};
-$('gcal-sync').onclick=function(){var b=this;b.disabled=true;b.textContent='Syncing…';var H={Authorization:'Bearer '+(session||{}).access_token,apikey:CMS.anonKey,'Content-Type':'application/json'},F=CMS.supabaseUrl.replace(/\/$/,'')+'/functions/v1/';
- fresh().then(function(){H.Authorization='Bearer '+session.access_token;return fetch(F+'tattootobias_gcal_pull?site='+CMS.site,{method:'POST',headers:H,body:'{}'})}).then(function(r){return r.json()}).then(function(j){
-  return fetch(F+'tattootobias_gcal_push?site='+CMS.site+'&full=1',{method:'POST',headers:H,body:'{}'}).then(function(r){return r.json()}).then(function(k){var n=k.result?Object.keys(k.result).length:0,err=k.result?Object.values(k.result).filter(function(v){return String(v).indexOf('error')===0}):[];
-   toast((j.ok?'Google → site: '+(j.bookingsUpdated||0)+' bookings, '+(j.blocksUpserted||0)+' blocks. ':'Pull failed: '+(j.error||'')+'. ')+(k.ok?'Site → Google: '+n+' bookings'+(err.length?', '+err.length+' errors':''):'Push failed: '+(k.error||'')))})}).then(function(){return bkLoad()}).then(function(){renderBookings();gcalStatus()}).catch(function(){toast('Sync failed')}).then(function(){b.disabled=false;b.textContent='Sync now'})};
+function gcalRun(btn,full){var label=btn.textContent;btn.disabled=true;btn.textContent=full?'Re-importing…':'Syncing…';var other=$(full?'gcal-sync':'gcal-full');if(other)other.disabled=true;
+ var H={Authorization:'Bearer '+(session||{}).access_token,apikey:CMS.anonKey,'Content-Type':'application/json'},F=CMS.supabaseUrl.replace(/\/$/,'')+'/functions/v1/';
+ fresh().then(function(){H.Authorization='Bearer '+session.access_token;return fetch(F+'tattootobias_gcal_pull?site='+CMS.site+(full?'&full=1':''),{method:'POST',headers:H,body:'{}'})}).then(function(r){return r.json()}).then(function(j){
+  return fetch(F+'tattootobias_gcal_push?site='+CMS.site+'&full=1',{method:'POST',headers:H,body:'{}'}).then(function(r){return r.json()}).then(function(k){
+   var t={sent:0,same:0,gone:0,google:0,err:0};if(k.result)Object.keys(k.result).forEach(function(id){var v=String(k.result[id]);if(v.indexOf('error')===0)t.err++;else if(v==='pushed')t.sent++;else if(v==='unchanged')t.same++;else if(v==='removed')t.gone++;else t.google++});
+   var pull=j.ok?('Google → site: '+(full?'full re-import, ':'')+(j.blocksUpserted||0)+' agenda items added/updated, '+(j.blocksRemoved||0)+' removed, '+(j.bookingsUpdated||0)+' bookings changed'+((!full&&!j.blocksUpserted&&!j.blocksRemoved&&!j.bookingsUpdated)?' (nothing new in Google)':'')):'Pull failed: '+(j.error||j.resync&&'sync token expired, press Re-import'||'unknown');
+   var push=k.ok?('Site → Google: '+(t.sent+t.same+t.gone+t.google+t.err)+' checked — '+t.sent+' sent'+(t.gone?', '+t.gone+' removed':'')+(t.google?', '+t.google+' deleted in Google → removed here':'')+(t.err?', '+t.err+' errors':'')+(t.sent||t.gone||t.google||t.err?'':' (all up to date)')):'Push failed: '+(k.error||'unknown');
+   toast(pull+'. '+push+'.')})}).then(function(){return bkLoad()}).then(function(){renderBookings();gcalStatus()}).catch(function(){toast('Sync failed')}).then(function(){btn.disabled=false;btn.textContent=label;if(other)other.disabled=false})}
+$('gcal-sync').onclick=function(){gcalRun(this,false)};
+if($('gcal-full'))$('gcal-full').onclick=function(){if(!confirm('Re-import everything from Google Agenda? Takes a few seconds; the imported blocks are rebuilt, your own requests are not touched.'))return;gcalRun(this,true)};
 $('gcal-off').onclick=function(){if(!confirm('Disconnect Google Agenda? Existing events stay in Google; imported blocks are removed from the site.'))return;fresh().then(function(){return fetch(CMS.supabaseUrl.replace(/\/$/,'')+'/functions/v1/tattootobias_gcal_auth/disconnect',{method:'POST',headers:{Authorization:'Bearer '+session.access_token,apikey:CMS.anonKey}})}).then(function(){return api('/rest/v1/'+CMS.prefix+'bookings?site=eq.'+CMS.site+'&source=eq.gcal',{method:'DELETE'},true)}).then(function(){toast('Disconnected');gcalStatus();return bkLoad()}).then(renderBookings)};
 function renderAdm(){renderTags();renderPending();renderAFilter();renderList();renderRevAdm();gcalStatus();bkLoad().then(renderBookings)}
 
@@ -387,7 +398,7 @@ function avLoad(){if(!ONLINE)return Promise.resolve();
  return api('/rest/v1/'+CMS.prefix+'availability?site=eq.'+encodeURIComponent(CMS.site)+'&select=data').then(function(r){return r.json()}).then(function(rows){if(rows&&rows[0]&&rows[0].data&&rows[0].data.week){AV=normalizeAV(rows[0].data);avSaveLocal()}}).catch(function(){})}
 function avSave(){avSaveLocal();if(!(ONLINE&&session))return Promise.resolve();
  return fresh().then(function(){return api('/rest/v1/'+CMS.prefix+'availability?on_conflict=site',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},body:JSON.stringify({site:CMS.site,data:AV})},true)}).then(function(r){if(!r.ok)throw 0})}
-function rowToB(r){return{id:r.id,date:r.date||'',start:r.start_time?r.start_time.slice(0,5):'',hours:r.hours||0,status:r.status,created:r.created_at,name:r.name,email:r.email,phone:r.phone,idea:r.idea,placement:r.placement,size:r.size_text,color:r.color,sizeName:r.size_name,files:r.files||[],note:r.note||'',own:!r.size_name}}
+function rowToB(r){return{id:r.id,date:r.date||'',start:r.start_time?r.start_time.slice(0,5):'',hours:r.hours||0,status:r.status,created:r.created_at,name:r.name,email:r.email,phone:r.phone,idea:r.idea,placement:r.placement,size:r.size_text,color:r.color,sizeName:r.size_name,files:r.files||[],note:r.note||'',own:!r.size_name,src:r.source||'site',gid:r.gcal_event_id||''}}
 function bkLoad(){if(!ONLINE)return Promise.resolve();
  var full=logged&&session;
  var p=full?fresh().then(function(){return api('/rest/v1/'+CMS.prefix+'bookings?site=eq.'+encodeURIComponent(CMS.site)+'&order=date.asc,start_time.asc',{},true)}):api('/rest/v1/'+CMS.prefix+'booked_slots?site=eq.'+encodeURIComponent(CMS.site));
@@ -460,7 +471,36 @@ setInterval(keepFresh,60000);document.addEventListener('visibilitychange',functi
 var tabs=document.querySelectorAll('.atabs button');
 [].forEach.call(tabs,function(b){b.onclick=function(){[].forEach.call(tabs,function(x){x.classList.toggle('on',x===b)});['photos','bookings','cal','avail','reviews','texts'].forEach(function(t){$('tab-'+t).hidden=b.dataset.tab!==t});if(b.dataset.tab==='reviews')renderRevAdm();if(b.dataset.tab==='texts')renderTexts();if(b.dataset.tab==='bookings')bkLoad().then(renderBookings);if(b.dataset.tab==='cal')bkLoad().then(renderACal);if(b.dataset.tab==='avail')renderAvail()}});
 /* ---- admin: bookings ---- */
-function bCard(b){var st=stateOf(b),c=document.createElement('div');c.className='bcard '+(st==='tentative'?'tent':'')+(b.own?' own':'')+(b.date&&b.date<ymd(today0())&&st==='confirmed'?' past':'');
+/* ---- Studio helpers: edge functions + e-mail dialog ---- */
+function fnCall(name,qs,body){return fresh().then(function(){return fetch(CMS.supabaseUrl.replace(/\/$/,'')+'/functions/v1/'+name+(qs||''),{method:'POST',headers:{Authorization:'Bearer '+session.access_token,apikey:CMS.anonKey,'Content-Type':'application/json'},body:JSON.stringify(body||{})})}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){j=j||{};j._status=r.status;return j})})}
+var MAILOK=null; /* does the server send e-mail itself (Resend configured)? null = not asked yet */
+function mailCheck(){if(MAILOK!==null||!(ONLINE&&session))return Promise.resolve(!!MAILOK);return fnCall('tattootobias_mail','',{check:true}).then(function(j){MAILOK=!!j.configured;return MAILOK}).catch(function(){return false})}
+/* One dialog instead of window.open('mailto:'): Safari asks permission for every scripted mailto: and blocks pop-ups that open after an async step.
+   Here "Send now" goes through the server (no mail app needed), and "Open in mail app" is a real link the person taps themselves — which Safari allows without a prompt. */
+function mailDialog(b,subj,body){
+ if(!b.email){toast('No email address on this request');return}
+ var old=document.querySelector('.mdlg');if(old)old.remove();
+ var o=document.createElement('div');o.className='mdlg';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Email to client');
+ o.innerHTML='<div class="mbox"><h3>Email to '+esc(b.name||'client')+'</h3><label for="m-to">To</label><input id="m-to" readonly value="'+esc(b.email)+'"><label for="m-s">Subject</label><input id="m-s"><label for="m-b">Message</label><textarea id="m-b" rows="10"></textarea>'
+  +'<div class="macts"><button type="button" class="abtn solid" id="m-send" hidden>Send now</button><a class="abtn dark" id="m-open" href="#">Open in mail app</a><button type="button" class="chip" id="m-copy">Copy text</button><button type="button" class="chip" id="m-x">Close</button></div><p class="mhint" id="m-h"></p></div>';
+ document.body.appendChild(o);
+ var S=o.querySelector('#m-s'),B=o.querySelector('#m-b'),A=o.querySelector('#m-open'),H=o.querySelector('#m-h'),SN=o.querySelector('#m-send');S.value=subj;B.value=body;
+ function upd(){A.href='mailto:'+encodeURIComponent(b.email)+'?subject='+encodeURIComponent(S.value)+'&body='+encodeURIComponent(B.value)}
+ S.oninput=upd;B.oninput=upd;upd();
+ function close(){o.remove();document.removeEventListener('keydown',esck)}function esck(e){if(e.key==='Escape')close()}document.addEventListener('keydown',esck);
+ o.onclick=function(e){if(e.target===o)close()};o.querySelector('#m-x').onclick=close;
+ o.querySelector('#m-copy').onclick=function(){var t=S.value+'\n\n'+B.value;(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('Copied')}).catch(function(){B.focus();B.select();try{document.execCommand('copy');toast('Copied')}catch(e){toast('Select the text and copy it')}})};
+ mailCheck().then(function(ok){if(!document.body.contains(o))return;if(ok){SN.hidden=false;H.textContent='"Send now" sends it from hello@tattootobias.com, with you in copy.'}else H.textContent='Tip: "Open in mail app" opens your own mail program with this text filled in.'});
+ SN.onclick=function(){SN.disabled=true;SN.textContent='Sending…';fnCall('tattootobias_mail','',{to:b.email,subject:S.value,text:B.value,booking_id:b.id}).then(function(j){if(j.ok){toast('Email sent');close()}else{SN.disabled=false;SN.textContent='Send now';H.textContent='Could not send ('+(j.error||j._status)+'). Use "Open in mail app" instead.'}}).catch(function(){SN.disabled=false;SN.textContent='Send now';H.textContent='Could not send — use "Open in mail app" instead.'})};
+ setTimeout(function(){B.focus()},30)}
+/* an appointment that lives in Google Calendar: read-only card, with Delete that also removes it in Google */
+function gCard(b){var c=document.createElement('div');c.className='bcard own gsrc';var end=b.start?hm(mins(b.start)+b.hours*60):'';
+ c.innerHTML='<div class="bhead"><div><strong>'+esc(b.name||'—')+'</strong><small>From Google Calendar</small></div><span class="st google">Google</span></div><div class="bwhen">'+(b.date?niceDate(b.date)+(b.hours>=24?' · all day':' · '+b.start+' – '+end+' · '+b.hours+'h'):'')+'</div>';
+ var acts=document.createElement('div');acts.className='bacts';var x=document.createElement('button');x.type='button';x.className='chip del';x.textContent='Delete';
+ x.onclick=function(){if(!confirm('Delete "'+(b.name||'this appointment')+'" from Google Calendar as well?\n\n(For a repeating event only this day is removed.)'))return;x.disabled=true;x.textContent='Deleting…';
+  fnCall('tattootobias_gcal_push','?site='+CMS.site+'&delete_event='+encodeURIComponent(b.id)).then(function(j){if(!j.ok)throw new Error(j.error||j._status);BK=BK.filter(function(z){return !(z.src==='gcal'&&z.gid===b.gid)});bkSaveLocal();renderBookings();if(acDay)showDay(acDay,true);toast('Deleted')}).catch(function(e){x.disabled=false;x.textContent='Delete';toast('Could not delete: '+(e&&e.message||e))})};
+ acts.appendChild(x);c.appendChild(acts);return c}
+function bCard(b){if(b.src==='gcal')return gCard(b);var st=stateOf(b),c=document.createElement('div');c.className='bcard '+(st==='tentative'?'tent':'')+(b.own?' own':'')+(b.date&&b.date<ymd(today0())&&st==='confirmed'?' past':'');
  var end=b.start?hm(mins(b.start)+b.hours*60):'';
  c.innerHTML='<div class="bhead"><div><strong>'+esc(b.name||'—')+'</strong><small>'+(b.own?'Added by Tobias':esc(b.sizeName||'')+' · requested '+new Date(b.created).toLocaleDateString('en-GB'))+'</small></div><span class="st '+st+'">'+st+'</span></div>'
  +'<div class="bwhen">'+(b.date?niceDate(b.date)+' · '+b.start+' – '+end+' · '+b.hours+'h':'No slot chosen'+(b.hours?' · wants '+b.hours+'h':'')+' — use Change & confirm to plan it')+'</div>'
@@ -468,24 +508,26 @@ function bCard(b){var st=stateOf(b),c=document.createElement('div');c.className=
  if(b.files&&b.files.length){var r=document.createElement('div');r.className='brefs';b.files.forEach(function(u){var a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener';var im=new Image();im.src=u;im.alt='Reference';a.appendChild(im);r.appendChild(a)});c.appendChild(r)}
  var acts=document.createElement('div');acts.className='bacts';
  function btn(t,cls,fn){var x=document.createElement('button');x.type='button';x.className=cls;x.textContent=t;x.onclick=fn;acts.appendChild(x);return x}
- function mailLink(subj,body){return'mailto:'+encodeURIComponent(b.email)+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body)}
+ function mailLink(subj,body){return[subj,body]}
+ function mailTo(a){mailDialog(b,a[0],a[1])}
  var adj=null;
- function done(status,msg){bkUpdate(b,{status:status}).then(function(){renderBookings();toast(msg)}).catch(function(){renderBookings();toast('Saved in this browser, but not online — check the connection')})}
+ function done(status,msg){bkUpdate(b,{status:status}).then(function(){renderBookings();if(acDay&&$('ac-day')&&!$('ac-day').hidden)showDay(acDay,true);toast(msg)}).catch(function(){renderBookings();if(acDay&&$('ac-day')&&!$('ac-day').hidden)showDay(acDay,true);toast('Saved in this browser, but not online — check the connection')})}
  if(st==='tentative'||st==='confirmed'){
-  if(st==='tentative'&&b.date)btn('Confirm','abtn solid',function(){done('confirmed','Confirmed');open(mailLink('Your tattoo appointment is confirmed','Hi '+b.name+',\n\nYour appointment is confirmed:\n'+niceDate(b.date)+', '+b.start+' – '+end+'\nGodtsstraat 19, 2140 Borgerhout\n\nSee you then!\nTobias'))});
+  if(st==='tentative'&&b.date)btn('Confirm','abtn solid',function(){done('confirmed','Confirmed');mailTo(mailLink('Your tattoo appointment is confirmed','Hi '+b.name+',\n\nYour appointment is confirmed:\n'+niceDate(b.date)+', '+b.start+' – '+end+'\nGodtsstraat 19, 2140 Borgerhout\n\nSee you then!\nTobias'))});
   btn(st==='tentative'?(b.date?'Change & confirm':'Plan & confirm'):'Move',b.date?'chip':'abtn solid',function(){if(adj){adj.remove();adj=null;return}adj=document.createElement('div');adj.className='badj';
    adj.innerHTML='<div><label>Day</label><input type="date" id="j-d" value="'+(b.date||ymd(addDays(today0(),AV.minDays)))+'"></div><div><label>Start</label><select id="j-s"></select></div><div><label>Hours</label><select id="j-h"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>8</option></select></div>';
    c.insertBefore(adj,acts);var jd=adj.querySelector('#j-d'),js=adj.querySelector('#j-s'),jh=adj.querySelector('#j-h');jh.value=b.hours||4;
    function fill(){js.innerHTML='';var w=dayWindow(jd.value),list=w?slotsFor(jd.value,+jh.value,b.id,true):[];if(!list.length){var o=document.createElement('option');o.textContent=w?'No free start time':'Closed that day';o.value='';js.appendChild(o)}list.forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s+' – '+hm(mins(s)+ +jh.value*60);js.appendChild(o)});if(list.indexOf(b.start)>-1&&jd.value===b.date)js.value=b.start}
    jd.onchange=fill;jh.onchange=fill;fill();
    var ok=document.createElement('button');ok.type='button';ok.className='abtn solid';ok.textContent='Save & confirm';ok.style.gridColumn='1/-1';ok.onclick=function(){if(!js.value){toast('Pick a free start time');return}
-    var patch={date:jd.value,start:js.value,hours:+jh.value,status:'confirmed'};bkUpdate(b,patch).then(function(){renderBookings();toast('Confirmed for '+niceDate(b.date)+' '+b.start);open(mailLink('Your tattoo appointment','Hi '+b.name+',\n\nI can do your tattoo on:\n'+niceDate(b.date)+', '+b.start+' – '+hm(mins(b.start)+b.hours*60)+'\nGodtsstraat 19, 2140 Borgerhout\n\nLet me know if that works for you.\nTobias'))}).catch(function(){renderBookings();toast('Saved in this browser, but not online')})};adj.appendChild(ok)});
-  btn(st==='tentative'?'Decline':'Cancel','chip del',function(){var why=prompt('Reason (optional, goes into the email):','');if(why===null)return;done('declined',st==='tentative'?'Declined — slot is free again':'Cancelled');open(mailLink('About your tattoo request','Hi '+b.name+',\n\nUnfortunately I can\'t do this one on '+niceDate(b.date)+'.'+(why?' '+why:'')+'\n\nFeel free to request another slot on tattootobias.com.\nTobias'))});
+    var patch={date:jd.value,start:js.value,hours:+jh.value,status:'confirmed'};bkUpdate(b,patch).then(function(){renderBookings();toast('Confirmed for '+niceDate(b.date)+' '+b.start);mailTo(mailLink('Your tattoo appointment','Hi '+b.name+',\n\nI can do your tattoo on:\n'+niceDate(b.date)+', '+b.start+' – '+hm(mins(b.start)+b.hours*60)+'\nGodtsstraat 19, 2140 Borgerhout\n\nLet me know if that works for you.\nTobias'))}).catch(function(){renderBookings();toast('Saved in this browser, but not online')})};adj.appendChild(ok)});
+  btn(st==='tentative'?'Decline':'Cancel','chip del',function(){var why=prompt('Reason (optional, goes into the email):','');if(why===null)return;done('declined',st==='tentative'?'Declined — slot is free again':'Cancelled');mailTo(mailLink('About your tattoo request','Hi '+b.name+',\n\nUnfortunately I can\'t do this one on '+niceDate(b.date)+'.'+(why?' '+why:'')+'\n\nFeel free to request another slot on tattootobias.com.\nTobias'))});
  }else if(st==='expired')btn('Confirm anyway','chip',function(){done('confirmed','Confirmed')});
  else if(st==='declined')btn('Delete','chip del',function(){if(!confirm('Delete this request?'))return;done('deleted','Deleted')});
+ if(st!=='declined')btn('Delete','chip del',function(){if(!confirm('Delete this appointment? It is removed from the calendar (and from Google Calendar).'))return;done('deleted','Deleted')});
  c.appendChild(acts);return c}
 function renderBookings(){if(!$('b-tent'))return;if(!$('tab-cal').hidden)renderACal();var t0=ymd(today0()),tent=[],conf=[],past=[];
- BK.slice().sort(function(a,b){return((a.date||'0000')+a.start).localeCompare((b.date||'0000')+b.start)}).forEach(function(b){var st=stateOf(b);if(st==='deleted')return;if(st==='tentative'&&(!b.date||b.date>=t0))tent.push(b);else if(st==='confirmed'&&b.date>=t0)conf.push(b);else past.push(b)});
+ BK.slice().sort(function(a,b){return((a.date||'0000')+a.start).localeCompare((b.date||'0000')+b.start)}).forEach(function(b){var st=stateOf(b);if(st==='deleted'||b.src==='gcal')return;if(st==='tentative'&&(!b.date||b.date>=t0))tent.push(b);else if(st==='confirmed'&&b.date>=t0)conf.push(b);else past.push(b)});
  function fill(id,list,empty){var box=$(id);box.innerHTML='';if(!list.length)box.innerHTML='<p style="font-size:14px;color:#5a5448">'+empty+'</p>';list.forEach(function(b){box.appendChild(bCard(b))})}
  fill('b-tent',tent,'No open requests.');fill('b-conf',conf,'Nothing confirmed yet.');fill('b-past',past.reverse(),'Nothing here yet.');
  $('b-tcount').textContent=tent.length?'('+tent.length+')':'';$('t-bcount').textContent=tent.length||'';$('b-pcount').textContent='('+past.length+')';$('b-holdtxt').textContent=AV.holdDays}
@@ -502,15 +544,16 @@ function renderACal(){var g=$('ac-grid');if(!g)return;g.innerHTML='';$('ac-title
   var lbl=fh===null?(list.length?'closed':''):(fh===0?'full':fh+'h free');
   c.innerHTML='<span class="n">'+d+'<small class="'+(fh===0?'full':'')+'">'+lbl+'</small></span>';
   var dots=document.createElement('span');dots.className='dots';list.forEach(function(b){var d=document.createElement('i');d.className='dot '+stateOf(b);dots.appendChild(d)});if(list.length)c.appendChild(dots);
-  list.forEach(function(b){var s=document.createElement('span');s.className='b '+stateOf(b);s.textContent=b.start+' '+(b.name||'')+' · '+b.hours+'h';s.title=b.start+'–'+hm(mins(b.start)+b.hours*60)+' '+(b.name||'');c.appendChild(s)});
+  list.slice(0,2).forEach(function(b){var s=document.createElement('span');s.className='b '+stateOf(b)+(b.src==='gcal'?' g':'');s.textContent=b.hours>=24?(b.name||'All day'):b.start+' '+(b.name||'')+' · '+b.hours+'h';s.title=(b.hours>=24?'All day':b.start+'–'+hm(mins(b.start)+b.hours*60))+' '+(b.name||'');c.appendChild(s)});
+  if(list.length>2){var mo=document.createElement('span');mo.className='b more';mo.textContent='+'+(list.length-2)+' more';c.appendChild(mo)}
   if(fh!==null||list.length)c.onclick=(function(ds){return function(){acDay=ds;renderACal();showDay(ds)}})(ds);
   g.appendChild(c)}}
-function showDay(ds){var box=$('ac-day');box.hidden=false;var fh=freeHours(ds),list=BK.filter(function(b){return b.date===ds&&active(b)}).sort(function(a,b){return a.start.localeCompare(b.start)});
+function showDay(ds,noscroll){var box=$('ac-day');box.hidden=false;var fh=freeHours(ds),list=BK.filter(function(b){return b.date===ds&&active(b)}).sort(function(a,b){return a.start.localeCompare(b.start)});
  var tt=$('ac-dtitle');tt.innerHTML='';tt.appendChild(document.createTextNode(niceDate(ds)+(fh===null?' · closed':' · '+fh+'h free')));tt.style.cssText='margin:22px 0 10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap';
  var l=$('ac-dlist');l.innerHTML='';
  if(fh&&ds>=ymd(today0())){var plus=document.createElement('button');plus.type='button';plus.className='abtn solid aplus';plus.textContent='+ Add appointment';plus.onclick=function(){addForm(ds,l)};tt.appendChild(plus)}
  if(!list.length)l.innerHTML='<p style="font-size:14px;color:#5a5448">No appointments on this day.</p>';list.forEach(function(b){l.appendChild(bCard(b))});
- if(window.innerWidth<768)box.scrollIntoView({behavior:'smooth',block:'start'})}
+ if(window.innerWidth<768&&!noscroll)box.scrollIntoView({behavior:'smooth',block:'start'})}
 function addForm(ds,where){if($('addf'))return;var f=document.createElement('div');f.className='addf';f.id='addf';
  f.innerHTML='<div><label>Name <i class="req">*</i></label><input id="n-name"></div><div><label>Hours</label><select id="n-h"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option><option>8</option></select></div>'
  +'<div><label>Start <i class="req">*</i></label><select id="n-s"></select></div><div><label>Status</label><select id="n-st"><option value="confirmed">Confirmed</option><option value="tentative">To confirm</option></select></div>'
