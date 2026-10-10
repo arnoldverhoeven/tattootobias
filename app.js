@@ -420,7 +420,7 @@ function renderCal(){var box=$('f-cal');box.innerHTML='';
  var days=new Date(calM.getFullYear(),calM.getMonth()+1,0).getDate();
  for(var d=1;d<=days;d++){var ds=ymd(new Date(calM.getFullYear(),calM.getMonth(),d)),b=document.createElement('button');b.type='button';b.textContent=d;
   var ok=pick.hours&&bookable(ds)&&slotsFor(ds,pick.hours).length>0;b.disabled=!ok;if(ds===pick.date)b.className='on';
-  if(ok)b.onclick=(function(ds){return function(){pick.date=pick.date===ds?'':ds;pick.start='';renderCal();renderSlots()}})(ds);g.appendChild(b)}
+  if(ok)b.onclick=(function(ds){return function(){pick.date=pick.date===ds?'':ds;pick.start='';renderCal();renderSlots();bkLoad().then(function(){renderCal();renderSlots()})}})(ds);g.appendChild(b)} /* day click: refresh the taken slots from the server */
  box.appendChild(g);
  if(!pick.hours){var p=document.createElement('p');p.style.cssText='font-size:13px;color:#5a5448;margin:8px 0 0';p.textContent=t('Choose how much time you need first — the free days then light up.');box.appendChild(p)}}
 function renderSlots(){var box=$('f-slots');box.innerHTML='';
@@ -453,6 +453,9 @@ var NOTIFY_URL='/'; /* same site on every domain (tattootobias.com, netlify.app)
 function notify(b){try{var adminUrl=(location.origin+location.pathname).replace(/\/index\.html$/,'/')+'#admin';
  var body=new URLSearchParams({'form-name':'new-booking',name:b.name,email:b.email,phone:b.phone||'',when:b.date?niceDate(b.date)+' '+b.start+' – '+hm(mins(b.start)+b.hours*60)+' ('+b.hours+'h)':'No slot chosen'+(b.hours?' ('+b.hours+'h wanted)':''),size:b.sizeName||'',idea:b.idea||'',placement:b.placement||'',approx_size:b.size||'',color:b.color||'',photos:(b.files||[]).join(' '),admin_link:adminUrl+'  →  log in to confirm, change or decline this request'});
  fetch(NOTIFY_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()}).catch(function(){})}catch(e){}}
+/* keep bookings fresh without a manual reload: every 60 s while the Bookings/Calendar tab is open, and whenever the page regains focus (also for visitors: the free slots) */
+function keepFresh(){if(!ONLINE||document.hidden)return;if(logged){var on=document.querySelector('.atabs button.on'),tb=on?on.dataset.tab:'';if(tb==='bookings')bkLoad().then(renderBookings);else if(tb==='cal')bkLoad().then(function(){renderACal();if(typeof gcalStatus==='function')gcalStatus()})}else bkLoad().then(function(){renderCal();renderSlots()})}
+setInterval(keepFresh,60000);document.addEventListener('visibilitychange',function(){if(!document.hidden)keepFresh()});
 /* ---- admin: tabs ---- */
 var tabs=document.querySelectorAll('.atabs button');
 [].forEach.call(tabs,function(b){b.onclick=function(){[].forEach.call(tabs,function(x){x.classList.toggle('on',x===b)});['photos','bookings','cal','avail','reviews','texts'].forEach(function(t){$('tab-'+t).hidden=b.dataset.tab!==t});if(b.dataset.tab==='reviews')renderRevAdm();if(b.dataset.tab==='texts')renderTexts();if(b.dataset.tab==='bookings')bkLoad().then(renderBookings);if(b.dataset.tab==='cal')bkLoad().then(renderACal);if(b.dataset.tab==='avail')renderAvail()}});
