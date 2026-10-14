@@ -201,8 +201,9 @@ $('a-import').onchange=function(){var fl=this.files[0];if(!fl)return;var rd=new 
 /* where do the photos live? try each place once, use the first that answers, remember it for this visit */
 var STATIC=[].slice.call(document.querySelectorAll('img[src^="'+WP+'"]'));STATIC.forEach(function(im){im.dataset.o=im.getAttribute('src')});
 function applyStatic(){STATIC.forEach(function(im){var o=im.dataset.o;im.onerror=function(){im.onerror=null;im.src=o};im.src=SRC(o)})}
-var BASES=[];if(ONLINE)BASES.push(CMS.supabaseUrl.replace(/\/$/,'')+'/storage/v1/object/public/'+CMS.bucket+'/'+CMS.site+'/img/');
-BASES.push('img/','https://tattootobias.netlify.app/img/');
+/* the photos are in the repo (img/) → try that first: fastest, and no pointless 400 in the Supabase logs; the storage bucket stays a fallback */
+var BASES=['img/'];if(ONLINE)BASES.push(CMS.supabaseUrl.replace(/\/$/,'')+'/storage/v1/object/public/'+CMS.bucket+'/'+CMS.site+'/img/');
+BASES.push('https://tattootobias.netlify.app/img/');
 function setBase(b){try{sessionStorage.setItem('tt-imgbase',b)}catch(e){}if(b===CMS.imgBase)return;CMS.imgBase=b;applyStatic();refresh();if(logged)renderList()}
 function probe(i){if(i>=BASES.length)return setBase('');var t=new Image();t.onload=function(){t.naturalWidth>1?setBase(BASES[i]):probe(i+1)};t.onerror=function(){probe(i+1)};t.src=BASES[i]+'traditional-tattoo-woman.jpg'}
 try{var rb=sessionStorage.getItem('tt-imgbase');if(rb!==null&&(rb===''||BASES.indexOf(rb)>-1)){CMS.imgBase=rb;applyStatic();refresh()}}catch(e){}
@@ -465,7 +466,10 @@ function notify(b){try{var adminUrl=(location.origin+location.pathname).replace(
  var body=new URLSearchParams({'form-name':'new-booking',name:b.name,email:b.email,phone:b.phone||'',when:b.date?niceDate(b.date)+' '+b.start+' – '+hm(mins(b.start)+b.hours*60)+' ('+b.hours+'h)':'No slot chosen'+(b.hours?' ('+b.hours+'h wanted)':''),size:b.sizeName||'',idea:b.idea||'',placement:b.placement||'',approx_size:b.size||'',color:b.color||'',photos:(b.files||[]).join(' '),admin_link:adminUrl+'  →  log in to confirm, change or decline this request'});
  fetch(NOTIFY_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()}).catch(function(){})}catch(e){}}
 /* keep bookings fresh without a manual reload: every 60 s while the Bookings/Calendar tab is open, and whenever the page regains focus (also for visitors: the free slots) */
-function keepFresh(){if(!ONLINE||document.hidden)return;if(logged){var on=document.querySelector('.atabs button.on'),tb=on?on.dataset.tab:'';if(tb==='bookings')bkLoad().then(renderBookings);else if(tb==='cal')bkLoad().then(function(){renderACal();if(typeof gcalStatus==='function')gcalStatus()})}else bkLoad().then(function(){renderCal();renderSlots()})}
+function healthBanner(){if(!ONLINE||!logged)return;fresh().then(function(){return api('/rest/v1/rpc/tattootobias_health_status',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'},true)}).then(function(r){return r.json()}).then(function(j){
+ var el=$('hbanner');if(!el){el=document.createElement('div');el.id='hbanner';var st=el.style;st.position='sticky';st.top='0';st.zIndex='9999';st.background='#b3261e';st.color='#fff';st.padding='10px 16px';st.font='600 14px/1.4 system-ui,sans-serif';st.textAlign='center';document.body.insertBefore(el,document.body.firstChild)}
+ var bad=j&&j.ok===false&&j.issues&&j.issues.length;el.hidden=!bad;if(bad)el.textContent='Agenda sync needs attention: '+j.issues.join(' · ')}).catch(function(){})}
+function keepFresh(){if(!ONLINE||document.hidden)return;healthBanner();if(logged){var on=document.querySelector('.atabs button.on'),tb=on?on.dataset.tab:'';if(tb==='bookings')bkLoad().then(renderBookings);else if(tb==='cal')bkLoad().then(function(){renderACal();if(typeof gcalStatus==='function')gcalStatus()})}else bkLoad().then(function(){renderCal();renderSlots()})}
 setInterval(keepFresh,60000);document.addEventListener('visibilitychange',function(){if(!document.hidden)keepFresh()});
 /* ---- admin: tabs ---- */
 var tabs=document.querySelectorAll('.atabs button');
