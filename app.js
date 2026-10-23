@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded',function(){var L=window.LEGAL||{},p
 var DYN=['Switch to light','Switch to dark','more','less','All work','Animals','Placement','Colour','Show more','Enlarge','Consultation','Small','Medium','Full day','Discuss your project or browse flash','Touch-up or a small tattoo','Palm- and hand-size tattoos','Fronts, backs, multiple tattoos, back pieces, day sessions','hour','hours','Previous month','Next month','Mo,Tu,We,Th,Fr,Sa,Su','Choose how much time you need first — the free days then light up.','Choose a day first — or skip this and just send your request.','held for you as soon as you send','Pick a start time, or unselect the day.','your name','a valid email address','your phone number','your idea','Please fill in','Sending…','is held for you.',"No slot chosen — I'll get back to you by email with a proposal for a date.",'Sorry, that time was just taken. Please pick another one.','Something went wrong while sending. Please try again, or email me directly.','Send my request','No slot chosen','Modern traditional tattoo','American traditional tattoo','Western traditional tattoo','Neo traditional tattoo'];
 
 /* ---------- public gallery ---------- */
-var grid=$('grid'),fl=$('filters'),more=$('more'),cur='all',shown=36,view=[];
+var grid=$('grid'),fl=$('filters'),more=$('more'),cur='all',STEP=(window.matchMedia&&matchMedia('(max-width:767px)').matches)?12:36,shown=STEP,view=[];
 function count(id,list){return list.filter(function(i){return i.tags.indexOf(id)>-1}).length}
 function groupSelect(g,list,all,first){
  var s=document.createElement('select');s.className='fsel';s.setAttribute('aria-label',t(first));
@@ -110,20 +110,27 @@ function renderFilters(){
   var n=c.id==='all'?vis.length:count(c.id,vis);
   if(!n&&c.id!=='all')return;
   var b=document.createElement('button');b.type='button';b.innerHTML=esc(c.id==='all'?c.label:tlabel(c))+'<i>'+n+'</i>';if(c.id===cur)b.className='on';
-  b.onclick=function(){cur=c.id;shown=36;renderFilters();render()};fl.appendChild(b);
+  b.onclick=function(){cur=c.id;shown=STEP;renderFilters();render()};fl.appendChild(b);
  });
  DROPS.forEach(function(dp){var s=groupSelect(dp[0],vis,false,t(dp[1]));
   if(s.options.length>1){if((tagOf(cur)||{}).g===dp[0]){s.value=cur;s.className+=' on'}
-   s.onchange=function(){cur=s.value||'all';shown=36;renderFilters();render()};fl.appendChild(s)}});
+   s.onchange=function(){cur=s.value||'all';shown=STEP;renderFilters();render()};fl.appendChild(s)}});
 }
-function setFilter(id){cur=id;shown=36;renderFilters();render();var w=$('work');if(w)w.scrollIntoView({behavior:'smooth',block:'start'})}
+function hdrH(){var h=document.querySelector('header');return h?h.getBoundingClientRect().height:0}
+function goTo(id,smooth){var el=document.getElementById(id);if(!el)return;function want(){return el.getBoundingClientRect().top+(window.pageYOffset||document.documentElement.scrollTop)-hdrH()}
+ try{window.scrollTo({top:want(),behavior:smooth?'smooth':'auto'})}catch(x){window.scrollTo(0,want())}
+ [500,1100].forEach(function(ms){setTimeout(function(){if(Math.abs(el.getBoundingClientRect().top-hdrH())>4){try{window.scrollTo({top:want(),behavior:'auto'})}catch(x){window.scrollTo(0,want())}}},ms)})}
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented||e.metaKey||e.ctrlKey)return;var id=a.getAttribute('href').slice(1);if(!id||id==='admin'||a.hasAttribute('data-admin')||a.hasAttribute('data-cookie-settings'))return;if(!document.getElementById(id))return;e.preventDefault();goTo(id,true);try{history.replaceState(null,'','#'+id)}catch(x){}});
+function setFilter(id){cur=id;shown=STEP;renderFilters();render();goTo('work',true)}
 var ALT=['Modern traditional tattoo','American traditional tattoo','Western traditional tattoo','Neo traditional tattoo'];
 function ptitle(it){if(it.st!=null&&ALT[it.st])return t(ALT[it.st]);var yt=(it.tags||[]).map(tagOf).filter(function(x){return x&&x.g==='y'})[0];if(yt)return tlabel(yt); /* untitled photos get one of the style names instead of the old placeholder */
  if(/^Traditional tattoo · 20\d\d$/.test(it.t)||it.t==='Early work'||it.t==='Series · large work'||it.t==='Traditional tattoos'||it.t==='Traditional tattoo'){var k=0;for(var i=0;i<it.s.length;i++)k=(k+it.s.charCodeAt(i))%4;return t(ALT[k])}
  return it.t}
+function styleTitle(it){if(it.st!=null&&ALT[it.st])return true;if((it.tags||[]).map(tagOf).filter(function(x){return x&&x.g==='y'})[0])return true;return /^Traditional tattoo · 20\d\d$/.test(it.t)||it.t==='Early work'||it.t==='Series · large work'||it.t==='Traditional tattoos'||it.t==='Traditional tattoo'}
+function titleNode(it){if(styleTitle(it)){var sp=document.createElement('span');sp.className='seo';sp.textContent=ptitle(it);return sp}return document.createTextNode(ptitle(it))}
 function tagOf(id){for(var i=0;i<S.tags.length;i++)if(S.tags[i].id===id)return S.tags[i];return null}
 function tagButtons(it,cls,onpick){var box=document.createElement('span');
- it.tags.map(tagOf).filter(Boolean).forEach(function(tg){var b=document.createElement('button');b.type='button';b.className=cls;b.textContent=tlabel(tg);b.onclick=function(e){e.stopPropagation();onpick(tg.id)};box.appendChild(b)});return box}
+ it.tags.map(tagOf).filter(Boolean).forEach(function(tg){var b=document.createElement('button');b.type='button';b.className=cls;b.textContent=tlabel(tg);if(tg.g==='y'){b.className=(cls?cls+' ':'')+'seo';b.tabIndex=-1;b.setAttribute('aria-hidden','true')}b.onclick=function(e){e.stopPropagation();onpick(tg.id)};box.appendChild(b)});return box}
 function render(from){ /* from: index to append from (Show more); otherwise the grid is rebuilt */
  view=S.items.filter(function(i){return!i.hidden&&(cur==='all'||i.tags.indexOf(cur)>-1)});
  if(!from)grid.innerHTML='';
@@ -131,7 +138,7 @@ function render(from){ /* from: index to append from (Show more); otherwise the 
   var d=document.createElement('div');d.className='tile';
   var b=document.createElement('button');b.className='open';b.type='button';b.setAttribute('aria-label',t('Enlarge')+': '+ptitle(it));
   var im=new Image();im.loading='lazy';im.alt=ptitle(it)+' — Tattoo Tobias, Antwerp';im.referrerPolicy='no-referrer';im.onerror=function(){if(im.src!==it.s&&SRC(it.s)!==it.s&&!im.dataset.f){im.dataset.f=1;im.src=it.s}else d.remove()};im.src=SRC(it.s);
-  var c=document.createElement('span');c.className='cap';var sm=document.createElement('small');sm.appendChild(tagButtons(it,'tg',setFilter));c.appendChild(sm);c.appendChild(document.createTextNode(ptitle(it)));
+  var c=document.createElement('span');c.className='cap';var sm=document.createElement('small');sm.appendChild(tagButtons(it,'tg',setFilter));c.appendChild(sm);c.appendChild(titleNode(it));
   b.appendChild(im);b.onclick=function(){openLb(ix)};c.onclick=function(e){if(e.target===c||e.target===sm)openLb(ix)};d.appendChild(b);d.appendChild(c);grid.appendChild(d);
  });
  more.parentNode.style.display=view.length>shown?'flex':'none';
@@ -151,25 +158,26 @@ function renderReviews(){var box=$('revs'),sec=$('reviews');if(!box)return;var l
   var pp=d.querySelector('p'),mb=document.createElement('button');mb.type='button';mb.className='more';mb.textContent=t('more');
   mb.onclick=function(){var open=pp.classList.toggle('clip');mb.textContent=open?t('more'):t('less')};d.appendChild(mb);box.appendChild(d);
   requestAnimationFrame(function(){if(pp.scrollHeight<=pp.clientHeight+2)mb.hidden=true})})}
-more.onclick=function(){var was=shown;shown+=36;render(was);more.blur()};
+more.onclick=function(){var was=shown;shown+=STEP;render(was);more.blur()};
 function refresh(){if(cur!=='all'&&!tagLabel(cur))cur='all';renderFilters();render();renderHero();renderReviews();applyLang()}
 refresh();
 
 /* ---------- lightbox ---------- */
 var lb=$('lb'),li=$('lbimg'),lc=$('lbc'),pos=0,last;
 function show(){var it=view[pos];li.onerror=function(){li.onerror=null;li.src=it.s};li.referrerPolicy='no-referrer';li.src=(it.s.indexOf('data:')===0||CMS.imgBase)?SRC(it.s):it.s.replace(/-\d+x\d+(\.jpg)$/,'$1');li.alt=ptitle(it);
- lc.innerHTML='';lc.appendChild(document.createTextNode(ptitle(it)));var sm=document.createElement('small');sm.textContent=(pos+1)+' / '+view.length;lc.appendChild(sm);
+ lc.innerHTML='';lc.appendChild(titleNode(it));var sm=document.createElement('small');sm.textContent=(pos+1)+' / '+view.length;lc.appendChild(sm);
  var tg=tagButtons(it,'',function(id){closeLb();setFilter(id)});tg.className='tags';lc.appendChild(tg)}
-function openLb(i){last=document.activeElement;pos=i;show();lb.classList.add('open');lb.querySelector('.x').focus()}
+function openLb(i){last=document.activeElement;pos=i;show();lb.classList.add('open');lb.setAttribute('tabindex','-1');lb.focus()}
 function closeLb(){lb.classList.remove('open');li.removeAttribute('src');if(last)last.focus()}
 function step(d){pos=(pos+d+view.length)%view.length;show()}
 lb.querySelector('.x').onclick=closeLb;lb.querySelector('.p').onclick=function(){step(-1)};lb.querySelector('.n').onclick=function(){step(1)};
-lb.onclick=function(e){if(e.target===lb)closeLb()};
-document.addEventListener('keydown',function(e){if(lb.classList.contains('open')){if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1)}else if(e.key==='Escape'&&adm.classList.contains('open'))closeAdm()});
+lb.onclick=function(e){if(!(e.target.closest&&e.target.closest('button')))closeLb()};
+(function(){var x0=null,y0=0;lb.addEventListener('touchstart',function(e){var t=e.touches[0];x0=t.clientX;y0=t.clientY},{passive:true});lb.addEventListener('touchend',function(e){if(x0===null)return;var t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;x0=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){step(dx<0?1:-1);lb._sw=Date.now()}},{passive:true});var oc=lb.onclick;lb.onclick=function(e){if(lb._sw&&Date.now()-lb._sw<400)return;oc(e)}})();
+document.addEventListener('keydown',function(e){if(lb.classList.contains('open')){if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1)}else if(e.key==='Escape'&&adm.classList.contains('open')&&!logged&&!document.querySelector('.mdlg'))closeAdm()});
 
 /* ---------- admin / mini cms ---------- */
 var adm=$('adm'),pending=[],ashown=12,logged=false,afilter='all';
-function openAdm(e){if(e)e.preventDefault();adm.classList.add('open');document.body.style.overflow='hidden';if(logged)renderAdm()}
+function openAdm(e){if(e)e.preventDefault();if(!adm.classList.contains('open')){try{history.pushState({adm:1},'',location.pathname+location.search+'#admin')}catch(x){}}adm.classList.add('open');document.body.style.overflow='hidden';if(logged)renderAdm()}
 function closeAdm(){adm.classList.remove('open');document.body.style.overflow='';refresh();if(location.hash==='#admin')history.replaceState(null,'',location.pathname+location.search)}
 [].forEach.call(document.querySelectorAll('[data-admin]'),function(a){a.onclick=openAdm});
 $('a-close').onclick=closeAdm;
@@ -474,6 +482,13 @@ setInterval(keepFresh,60000);document.addEventListener('visibilitychange',functi
 /* ---- admin: tabs ---- */
 var tabs=document.querySelectorAll('.atabs button');
 [].forEach.call(tabs,function(b){b.onclick=function(){[].forEach.call(tabs,function(x){x.classList.toggle('on',x===b)});['photos','bookings','cal','avail','reviews','texts'].forEach(function(t){$('tab-'+t).hidden=b.dataset.tab!==t});if(b.dataset.tab==='reviews')renderRevAdm();if(b.dataset.tab==='texts')renderTexts();if(b.dataset.tab==='bookings')bkLoad().then(renderBookings);if(b.dataset.tab==='cal')bkLoad().then(renderACal);if(b.dataset.tab==='avail')renderAvail()}});
+/* back button / swipe-back inside the admin: previous tab or close dialog, never out of the admin */
+var popping=false;
+[].forEach.call(tabs,function(b){var f=b.onclick;b.onclick=function(){f.call(b);if(!popping){try{history.pushState({adm:1,tab:b.dataset.tab},'',location.pathname+location.search+'#admin')}catch(x){}}}});
+window.addEventListener('popstate',function(e){if(!adm.classList.contains('open'))return;var d=document.querySelector('.mdlg'),st=e.state;
+ if(d){d.remove();try{history.pushState({adm:1},'',location.pathname+location.search+'#admin')}catch(x){}return}
+ var tb=st&&st.tab?document.querySelector('.atabs button[data-tab="'+st.tab+'"]'):(st&&st.adm?tabs[0]:null);
+ if(tb){popping=true;tb.click();popping=false}else{try{history.pushState({adm:1},'',location.pathname+location.search+'#admin')}catch(x){}}});
 /* ---- admin: bookings ---- */
 /* ---- Studio helpers: edge functions + e-mail dialog ---- */
 function fnCall(name,qs,body){return fresh().then(function(){return fetch(CMS.supabaseUrl.replace(/\/$/,'')+'/functions/v1/'+name+(qs||''),{method:'POST',headers:{Authorization:'Bearer '+session.access_token,apikey:CMS.anonKey,'Content-Type':'application/json'},body:JSON.stringify(body||{})})}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){j=j||{};j._status=r.status;return j})})}
@@ -518,6 +533,7 @@ function bCard(b){if(b.src==='gcal')return gCard(b);var st=stateOf(b),c=document
  function done(status,msg){bkUpdate(b,{status:status}).then(function(){renderBookings();if(acDay&&$('ac-day')&&!$('ac-day').hidden)showDay(acDay,true);toast(msg)}).catch(function(){renderBookings();if(acDay&&$('ac-day')&&!$('ac-day').hidden)showDay(acDay,true);toast('Saved in this browser, but not online — check the connection')})}
  if(st==='tentative'||st==='confirmed'){
   if(st==='tentative'&&b.date)btn('Confirm','abtn solid',function(){done('confirmed','Confirmed');mailTo(mailLink('Your tattoo appointment is confirmed','Hi '+b.name+',\n\nYour appointment is confirmed:\n'+niceDate(b.date)+', '+b.start+' – '+end+'\nGodtsstraat 19, 2140 Borgerhout\n\nSee you then!\nTobias'))});
+  if(st==='tentative'&&b.date)btn('Confirm, no e-mail','chip',function(){done('confirmed','Confirmed (no e-mail sent)')});
   btn(st==='tentative'?(b.date?'Change & confirm':'Plan & confirm'):'Move',b.date?'chip':'abtn solid',function(){if(adj){adj.remove();adj=null;return}adj=document.createElement('div');adj.className='badj';
    adj.innerHTML='<div><label>Day</label><input type="date" id="j-d" value="'+(b.date||ymd(addDays(today0(),AV.minDays)))+'"></div><div><label>Start</label><select id="j-s"></select></div><div><label>Hours</label><select id="j-h"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>8</option></select></div>';
    c.insertBefore(adj,acts);var jd=adj.querySelector('#j-d'),js=adj.querySelector('#j-s'),jh=adj.querySelector('#j-h');jh.value=b.hours||4;

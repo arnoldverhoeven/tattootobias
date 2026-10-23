@@ -23,7 +23,7 @@
 <meta name="twitter:image" content="https://tattootobias.com/img/og.jpg">
 <link rel="canonical" href="https://tattootobias.com/">
 <meta name="referrer" content="no-referrer">
-<meta name="build" content="2026-10-14-1">
+<meta name="build" content="2026-10-23-1">
 <meta name="theme-color" content="#121212">
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsSAAALEgHS3X78AAABZklEQVQ4jbXSMUsCcRjH8e9dUVKBEgduKS1BBjYVGF1CBLVUL6GhlqZ7B+k7OKgtyChag6BAUNKpIpqKbpLS0RDxorguTRu6A7v+Yg39xud5fp/pkVqtFqIYKXWtXpZ2zLxcADQ1ncuL7iQvYKTUOKAD0fqThJmT3dWJAxWFgJFSw05xxV16ADdJQFfTuRqAdL83GwA0YMt72QEAKAEJNZ3bl4FJUblLQkAKQMj/Jf8LWPR1BXo7Lc7t8bez/kkG4vbL6u2lEqqWfwcUGkEOrZlKrTmoADz7BnwHU/OEquXK8t2VErBexUC1OcSRFasUGkEFULxwaTiobM+tEHswzJlHw++rv38BpQ9l6LY+YmbtiF9U9OZidNx/HR6zF42bpgrIS+vHp1k7ogNmt7KbhtzzdjoxvQltr7yg74bxvHKHJAE9o23UvgFuFvTduANFPcUTQMtoG8X24Q+gDdKABFB0innR3SeW/Y4oeKvKfgAAAABJRU5ErkJggg==">
 <script src="legal.js" defer></script>
@@ -54,7 +54,7 @@
 }
 </script>
 <style>
-:root{--ink:#121212;--ink2:#1b1b1b;--paper:#efe6d3;--paper2:#e6dbc3;--red:#BB3431;--red-d:#962A28;--navy:#507C76;--navy-d:#3f645f;--green:#507C76;--orange:#e6dbc3;--muted:#8d8677;--r:6px;--rp:3px;
+:root{--ink:#121212;--ink2:#1b1b1b;--paper:#efe6d3;--paper2:#e6dbc3;--red:#BB3431;--red-d:#962A28;--navy:#507C76;--navy-d:#3f645f;--green:#507C76;--orange:#e6dbc3;--muted:#8d8677;--r:2px;--rp:3px;
 --display:'Anton',Impact,'Arial Narrow Bold','Haettenschweiler',sans-serif;--body:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:96px}
@@ -270,7 +270,10 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:100;background:rgba(10,10,10,.96);display:none;align-items:center;justify-content:center;padding:24px}
 .lb.open{display:flex}
-.lb img{border-radius:var(--rp);max-height:80vh;max-width:min(92vw,1000px);border:2px solid var(--paper)}
+.lb img{border-radius:var(--rp);max-height:80vh;max-width:min(94vw,1000px);border:0}
+.lb .x,.lb .p,.lb .n{display:none}
+.seo{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.lb{cursor:zoom-out}.lb .tags button{cursor:pointer}
 .lb button{position:absolute;width:52px;height:52px;border-radius:var(--r);border:2px solid var(--paper);background:var(--navy);color:#fff;font-size:22px;cursor:pointer}
 .lb button:hover{background:var(--navy-d)}
 .lb .x{top:20px;right:20px}.lb .p{left:20px;top:50%}.lb .n{right:20px;top:50%}
@@ -319,11 +322,16 @@ footer a{color:#d9d0bd;text-decoration:none}footer a:hover{color:var(--orange)}
  html{scroll-padding-top:160px}
  .collage figure{padding:5px 5px 0}.collage figure:hover,.collage figure:focus{transform:rotate(0) scale(1.3)}
  .ph::before{inset:12px -10px -12px 10px}.grid{columns:2;column-gap:10px}.tile{margin-bottom:10px}
- .tile .cap{opacity:1;font-size:10px;padding:28px 8px 8px}
+ .tile .cap{opacity:1;font-size:9px;letter-spacing:.1em;padding:22px 7px 6px}.tile .cap small{font-size:9px}
+ .filters{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -18px 16px;padding:0 18px 6px;gap:6px;scrollbar-width:none}.filters::-webkit-scrollbar{display:none}
+ .filters button,.filters .fsel{flex:0 0 auto;min-height:36px;padding:0 12px;font-size:11px;letter-spacing:.1em}
+ .durh,.durs,#booking .note{display:none}
+ .steps li div{font-size:0;line-height:0}.steps li div strong{display:block;font-size:16px;line-height:1.35}
+ #booking .intro{font-size:15px}
  .xp,.heal,.why,.dd,.row,.expect{grid-template-columns:1fr}
  
  form{padding:24px}
- .lb .p{left:8px}.lb .n{right:8px}
+ .lb img{max-height:74vh}
 }
 /* admin / mini cms */
 .adm{position:fixed;inset:0;z-index:90;background:#f4efe3;color:var(--ink);display:none;overflow-y:auto}
