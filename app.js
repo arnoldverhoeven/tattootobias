@@ -10,7 +10,7 @@ function defaults(){return JSON.parse(JSON.stringify(SEED))}
    3. This browser (localStorage): instant, and the fallback when offline.
    The newest revision (rev) always wins. */
 var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',prefix:'tattootobias_',bucket:'tattootobias_media',file:'tags.json',imgBase:''} /* General Supabase project: fill in its URL + anon key; every table/bucket of this site starts with tattootobias_ */;
-var BUILD='2026-10-28-1';;
+var BUILD='2026-10-28-2';;
 /* imgBase: '' = photos load from tattootobias.com. Set to 'img/' once the photos are copied next to this page (see download-photos.ps1). */
 var WP='https://tattootobias.com/wp-content/uploads/';
 function SRC(u){return CMS.imgBase&&u.indexOf(WP)===0?CMS.imgBase+u.slice(u.lastIndexOf('/')+1):u} /* one flat folder: img/<filename> */
@@ -48,15 +48,20 @@ function setDirty(v){dirty=v;try{v?localStorage.setItem(DKEY,'1'):localStorage.r
 function setSyncBase(d){BASE=JSON.parse(JSON.stringify(d));try{localStorage.setItem(BKEY,JSON.stringify(BASE))}catch(e){}}
 function save(){S.rev=Date.now();saveSeq++;var ok=true;
  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){ok=ONLINE&&!!session;if(!ok)toast('Browser storage is full. Connect online storage to keep adding photos.')}
- if(ONLINE&&session){setDirty(true);clearTimeout(pushT);setSync('Saving…');pushT=setTimeout(push,700)}else setSync();
+ if(ONLINE){setDirty(true);clearTimeout(pushT);setSync('Saving…');pushT=setTimeout(push,700)}else setSync();
  return ok}
 function setSync(t,bad){var el=$('a-sync');if(!el)return;el.textContent=t||(ONLINE?(session?'Saved online ✓':'Log in to save online'):'Saved in this browser · export to publish');el.style.color=bad?'#b3261e':'';el.style.fontWeight=bad?'700':''}
 function api(path,opt,auth){opt=opt||{};opt.headers=opt.headers||{};opt.headers.apikey=CMS.anonKey;if(auth&&session)opt.headers.Authorization='Bearer '+session.access_token;else if(CMS.anonKey.indexOf('eyJ')===0)opt.headers.Authorization='Bearer '+CMS.anonKey; /* new sb_publishable_ keys go in apikey only */
  return fetch(CMS.supabaseUrl.replace(/\/$/,'')+path,opt)}
 function setSession(j){session=j&&j.access_token?{access_token:j.access_token,refresh_token:j.refresh_token,exp:Date.now()+(j.expires_in||3600)*1000-60000}:null;
  try{session?localStorage.setItem(SKEY,JSON.stringify(session)):localStorage.removeItem(SKEY)}catch(e){}}
-function fresh(){if(!session)return Promise.reject();if(Date.now()<session.exp)return Promise.resolve();
- return api('/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refresh_token:session.refresh_token})}).then(function(r){return r.json()}).then(function(j){setSession(j);if(!session)throw 0})}
+function stored(){try{var l=JSON.parse(localStorage.getItem(SKEY));return l&&l.access_token?l:null}catch(e){return null}}
+function fresh(){var l=stored();if(l&&(!session||l.exp>session.exp||l.refresh_token!==session.refresh_token&&l.exp>Date.now()))session=l; /* another tab may already have logged in or refreshed */
+ if(!session)return Promise.reject(new Error('NOLOGIN'));if(Date.now()<session.exp)return Promise.resolve();
+ return api('/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refresh_token:session.refresh_token})}).then(function(r){return r.json()}).then(function(j){
+  if(j&&j.access_token){setSession(j);return}
+  var l2=stored();if(l2&&l2.exp>Date.now()){session=l2;return} /* a refresh in another tab won the race */
+  session=null;throw new Error('NOLOGIN')})}
 /* ---- saving without overwriting other people's work ----
    The gallery is one JSON document. Writing the whole document blindly lets a stale tab or device wipe newer edits.
    So every save: (1) reads the online copy, (2) merges only what THIS device changed since it last synced (BASE) into it,
@@ -83,7 +88,9 @@ function mergeDocs(b,m,t){b=b||{items:[],tags:[]};var bi={},mi={},ti={};b.items.
  out.rev=Math.max(Date.now(),(t.rev||0)+1);return out}
 function push(){pushT=0;if(pushing){again=true;return Promise.resolve()}pushing=true;
  return attempt(0).then(function(){if(saveSeq===sent.seq)setDirty(false);setSync('Saved online ✓')})
- .catch(function(e){setSync('NOT saved online ('+(e&&e.message||e||'no connection')+') — your change is kept in this browser and will be retried. Do not close this page.',true);clearTimeout(pushT);pushT=setTimeout(push,15000)})
+ .catch(function(e){clearTimeout(pushT);
+  if(e&&e.message==='NOLOGIN'){setSync('Session expired — log in again (open the login on this page or in another tab). Your changes are kept and will be saved right after you log in. Do not close this page.',true);return}
+  setSync('NOT saved online ('+(e&&e.message||e||'no connection')+') — your change is kept in this browser and will be retried. Do not close this page.',true);pushT=setTimeout(push,15000)})
  .then(function(){pushing=false;if(again){again=false;push()}})}
 var sent={seq:0};
 function attempt(n){var snap=clone(S);sent={seq:saveSeq,doc:snap};
@@ -240,7 +247,8 @@ function closeAdm(){adm.classList.remove('open');document.body.style.overflow=''
 $('a-close').onclick=closeAdm;
 function enter(){logged=true;$('a-login').hidden=true;$('a-main').hidden=false;$('a-pwd').hidden=!ONLINE;
  $('a-note').innerHTML=ONLINE?'<strong>Connected.</strong> Every change is saved online straight away and is visible on every computer and phone.':'<strong>Online storage not connected yet.</strong> Changes are saved in this browser. To show them on every device: click Export backup and publish the file as tags.json next to the website.';
- renderAdm();setSync()}
+ renderAdm();setSync();if(ONLINE&&session&&dirty)push()} /* changes that were waiting for a login are saved now */
+window.addEventListener('storage',function(e){if(e.key!==SKEY)return;var l=stored();if(l){session=l;if(dirty&&logged)push()}})
 $('a-go').onclick=function(){if(!ONLINE)return enter();
  var m=$('a-msg');m.style.color='';m.textContent='Logging in…';
  api('/auth/v1/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('a-user').value.trim(),password:$('a-pass').value})}).then(function(r){return r.json()}).then(function(j){setSession(j);if(!session)throw 0;m.textContent='';pull().then(enter)}).catch(function(){m.textContent='Wrong email or password.'})};
