@@ -10,7 +10,7 @@ function defaults(){return JSON.parse(JSON.stringify(SEED))}
    3. This browser (localStorage): instant, and the fallback when offline.
    The newest revision (rev) always wins. */
 var CMS={supabaseUrl:'https://mlfqwuzdqpfbykkjoequ.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sZnF3dXpkcXBmYnlra2pvZXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDgyODMsImV4cCI6MjEwNTIyNDI4M30.yN1LpuyxhBysUyPSg9VaUE4javJ6ueBPFM1j4fD15W8',site:'tattootobias',prefix:'tattootobias_',bucket:'tattootobias_media',file:'tags.json',imgBase:''} /* General Supabase project: fill in its URL + anon key; every table/bucket of this site starts with tattootobias_ */;
-var BUILD='2026-09-30-1';;
+var BUILD='2026-10-28-1';;
 /* imgBase: '' = photos load from tattootobias.com. Set to 'img/' once the photos are copied next to this page (see download-photos.ps1). */
 var WP='https://tattootobias.com/wp-content/uploads/';
 function SRC(u){return CMS.imgBase&&u.indexOf(WP)===0?CMS.imgBase+u.slice(u.lastIndexOf('/')+1):u} /* one flat folder: img/<filename> */
@@ -41,23 +41,76 @@ function normalize(st){st.deleted=st.deleted||[];st.rev=st.rev||0;st.reviews=st.
 var S=readKey(KEY);
 if(S&&(S.rev||0)<SEED.rev){try{localStorage.setItem(KEY+'-backup',JSON.stringify(S))}catch(e){}S=null} /* older than the published tags: keep a safety copy, use the published ones */
 S=normalize(S||defaults());
-var pushT;
-function save(){S.rev=Date.now();var ok=true;
+var pushT,saveSeq=0,pushing=false,again=false,dirty=false,BASE=null;
+var BKEY=KEY+'-base',DKEY=KEY+'-dirty';
+try{dirty=localStorage.getItem(DKEY)==='1';BASE=JSON.parse(localStorage.getItem(BKEY))}catch(e){}
+function setDirty(v){dirty=v;try{v?localStorage.setItem(DKEY,'1'):localStorage.removeItem(DKEY)}catch(e){}}
+function setSyncBase(d){BASE=JSON.parse(JSON.stringify(d));try{localStorage.setItem(BKEY,JSON.stringify(BASE))}catch(e){}}
+function save(){S.rev=Date.now();saveSeq++;var ok=true;
  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){ok=ONLINE&&!!session;if(!ok)toast('Browser storage is full. Connect online storage to keep adding photos.')}
- if(ONLINE&&session){clearTimeout(pushT);setSync('Saving…');pushT=setTimeout(push,700)}else setSync();
+ if(ONLINE&&session){setDirty(true);clearTimeout(pushT);setSync('Saving…');pushT=setTimeout(push,700)}else setSync();
  return ok}
-function setSync(t){var el=$('a-sync');if(!el)return;el.textContent=t||(ONLINE?(session?'Saved online ✓':'Log in to save online'):'Saved in this browser · export to publish')}
+function setSync(t,bad){var el=$('a-sync');if(!el)return;el.textContent=t||(ONLINE?(session?'Saved online ✓':'Log in to save online'):'Saved in this browser · export to publish');el.style.color=bad?'#b3261e':'';el.style.fontWeight=bad?'700':''}
 function api(path,opt,auth){opt=opt||{};opt.headers=opt.headers||{};opt.headers.apikey=CMS.anonKey;if(auth&&session)opt.headers.Authorization='Bearer '+session.access_token;else if(CMS.anonKey.indexOf('eyJ')===0)opt.headers.Authorization='Bearer '+CMS.anonKey; /* new sb_publishable_ keys go in apikey only */
  return fetch(CMS.supabaseUrl.replace(/\/$/,'')+path,opt)}
 function setSession(j){session=j&&j.access_token?{access_token:j.access_token,refresh_token:j.refresh_token,exp:Date.now()+(j.expires_in||3600)*1000-60000}:null;
  try{session?localStorage.setItem(SKEY,JSON.stringify(session)):localStorage.removeItem(SKEY)}catch(e){}}
 function fresh(){if(!session)return Promise.reject();if(Date.now()<session.exp)return Promise.resolve();
  return api('/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refresh_token:session.refresh_token})}).then(function(r){return r.json()}).then(function(j){setSession(j);if(!session)throw 0})}
-function push(){return fresh().then(function(){return api('/rest/v1/'+CMS.prefix+'site_content?on_conflict=site',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},body:JSON.stringify({site:CMS.site,data:S,updated_at:new Date().toISOString()})},true)})
- .then(function(r){if(!r.ok)throw r.status;setSync('Saved online ✓')}).catch(function(){setSync('Could not save online — still saved in this browser')})}
-function pull(){var p=ONLINE?api('/rest/v1/'+CMS.prefix+'site_content?site=eq.'+encodeURIComponent(CMS.site)+'&select=data').then(function(r){return r.json()}).then(function(rows){return rows&&rows[0]&&rows[0].data})
+/* ---- saving without overwriting other people's work ----
+   The gallery is one JSON document. Writing the whole document blindly lets a stale tab or device wipe newer edits.
+   So every save: (1) reads the online copy, (2) merges only what THIS device changed since it last synced (BASE) into it,
+   (3) writes it back only if nobody else wrote in the meantime (rev check), otherwise repeats. */
+function jeq(a,b){return JSON.stringify(a)===JSON.stringify(b)}
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function mergeItem(b,m,t){if(!b)return m;if(jeq(b,m))return t;if(jeq(b,t))return m;var o={},keys={},k;[b,m,t].forEach(function(x){for(k in x)keys[k]=1});
+ for(k in keys){if(k==='tags'){var bs=b.tags||[],ms=m.tags||[],ts=t.tags||[];var r=ts.filter(function(x){return!(bs.indexOf(x)>-1&&ms.indexOf(x)<0)});ms.forEach(function(x){if(bs.indexOf(x)<0&&r.indexOf(x)<0)r.push(x)});o.tags=r;continue}
+  if(!jeq(m[k],b[k])){if(m[k]!==undefined)o[k]=m[k]}else if(t[k]!==undefined)o[k]=t[k]}
+ return o}
+function mergeDocs(b,m,t){b=b||{items:[],tags:[]};var bi={},mi={},ti={};b.items.forEach(function(i){bi[i.id]=i});m.items.forEach(function(i){mi[i.id]=i});t.items.forEach(function(i){ti[i.id]=i});
+ var out=clone(t),both=function(x,y){return x.filter(function(i){return y[i.id]})};
+ var bm=both(b.items,mi).map(function(i){return i.id}).join(),bm0=m.items.filter(function(i){return bi[i.id]}).map(function(i){return i.id}).join();
+ var orderMine=bm!==bm0, ids=[];
+ var mineAdded=m.items.filter(function(i){return!bi[i.id]&&!ti[i.id]}),theirAdded=t.items.filter(function(i){return!bi[i.id]&&!mi[i.id]});
+ if(orderMine){var main=m.items.filter(function(i){return ti[i.id]}).map(function(i){return i.id});ids=theirAdded.map(function(i){return i.id}).concat(main);mineAdded.forEach(function(i){if(ids.indexOf(i.id)<0)ids.unshift(i.id)})}
+ else{var main2=t.items.filter(function(i){return!(bi[i.id]&&!mi[i.id])}).map(function(i){return i.id});ids=mineAdded.map(function(i){return i.id}).concat(main2)}
+ var seen={};ids=ids.filter(function(id){if(seen[id])return false;return seen[id]=1});
+ out.items=ids.map(function(id){return mi[id]&&ti[id]?mergeItem(bi[id],mi[id],ti[id]):(mi[id]||ti[id])});
+ var bt={},mt={},tt={};b.tags.forEach(function(x){bt[x.id]=x});m.tags.forEach(function(x){mt[x.id]=x});t.tags.forEach(function(x){tt[x.id]=x});
+ out.tags=t.tags.filter(function(x){return!(bt[x.id]&&!mt[x.id])}).map(function(x){return bt[x.id]&&mt[x.id]&&!jeq(bt[x.id],mt[x.id])?mt[x.id]:x});
+ m.tags.forEach(function(x){if(!bt[x.id]&&!tt[x.id])out.tags.push(x)});
+ Object.keys(m).forEach(function(k){if(k==='items'||k==='tags'||k==='rev')return;if(k==='deleted'){var u=(t.deleted||[]).slice();(m.deleted||[]).forEach(function(x){if(u.indexOf(x)<0)u.push(x)});out.deleted=u;return}if(!jeq(m[k],(b||{})[k]))out[k]=m[k]});
+ out.rev=Math.max(Date.now(),(t.rev||0)+1);return out}
+function push(){pushT=0;if(pushing){again=true;return Promise.resolve()}pushing=true;
+ return attempt(0).then(function(){if(saveSeq===sent.seq)setDirty(false);setSync('Saved online ✓')})
+ .catch(function(e){setSync('NOT saved online ('+(e&&e.message||e||'no connection')+') — your change is kept in this browser and will be retried. Do not close this page.',true);clearTimeout(pushT);pushT=setTimeout(push,15000)})
+ .then(function(){pushing=false;if(again){again=false;push()}})}
+var sent={seq:0};
+function attempt(n){var snap=clone(S);sent={seq:saveSeq,doc:snap};
+ return fresh().then(function(){return api('/rest/v1/'+CMS.prefix+'site_content?site=eq.'+encodeURIComponent(CMS.site)+'&select=data',{cache:'no-store'},true)})
+ .then(function(r){if(!r.ok)throw new Error('read '+r.status);return r.json()}).then(function(rows){
+  var theirs=rows&&rows[0]&&rows[0].data;
+  if(!theirs||!theirs.items){return api('/rest/v1/'+CMS.prefix+'site_content?on_conflict=site',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},body:JSON.stringify({site:CMS.site,data:snap,updated_at:new Date().toISOString()})},true).then(function(r){if(!r.ok)throw new Error('write '+r.status);setSyncBase(snap)})}
+  theirs=normalize(theirs);
+  var merged=(BASE&&BASE.rev===theirs.rev)?snap:mergeDocs(BASE||theirs,snap,theirs);
+  merged.rev=Math.max(Date.now(),(theirs.rev||0)+1);
+  return api('/rest/v1/'+CMS.prefix+'site_content?site=eq.'+encodeURIComponent(CMS.site)+'&data->>rev=eq.'+theirs.rev,{method:'PATCH',headers:{'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify({data:merged,updated_at:new Date().toISOString()})},true)
+  .then(function(r){if(!r.ok)throw new Error('write '+r.status);return r.json()}).then(function(w){
+   if(!w.length){if(n<4)return attempt(n+1);throw new Error('too many simultaneous edits')}
+   setSyncBase(merged);
+   var ns=mergeDocs(snap,S,merged),r0=S.rev;S.rev=ns.rev=0;
+   if(jeq(ns,S)){S.rev=Math.max(r0,merged.rev)} /* nothing new from elsewhere: keep the objects the admin list is bound to */
+   else{ns.rev=Math.max(r0,merged.rev);S=ns;refresh();if(logged)renderAdm()}
+   try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}})})}
+function pull(){var p=ONLINE?api('/rest/v1/'+CMS.prefix+'site_content?site=eq.'+encodeURIComponent(CMS.site)+'&select=data',{cache:'no-store'}).then(function(r){return r.json()}).then(function(rows){return rows&&rows[0]&&rows[0].data})
   :fetch(CMS.file+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null});
- return p.then(function(d){if(d&&d.items&&d.tags&&(d.rev||0)>(S.rev||0)){S=normalize(d);try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}refresh();if(logged)renderAdm()}}).catch(function(){})}
+ return p.then(function(d){if(!d||!d.items||!d.tags)return;
+  if(!ONLINE){if((d.rev||0)>(S.rev||0)){S=normalize(d);try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}refresh();if(logged)renderAdm()}return}
+  if(dirty||pushing||pushT)return; /* unsaved local changes: the next save merges them into the online copy instead of replacing it */
+  if(session&&!BASE&&(S.rev||0)>(d.rev||0)){ /* first run of this version: this browser holds edits that never reached the server — keep them and merge them in */
+   try{localStorage.setItem(KEY+'-prev',JSON.stringify(S))}catch(e){}setSyncBase(d);setDirty(true);push();return}
+  if(BASE&&BASE.rev===d.rev&&S.rev===d.rev)return;
+  S=normalize(d);setSyncBase(d);try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}refresh();if(logged)renderAdm()}).catch(function(){})}
 /* data-URL → Blob without fetch(): fetch('data:…') is blocked by the site's Content-Security-Policy (connect-src) */
 function dataToBlob(du){var i=du.indexOf(','),meta=du.slice(0,i),bin=atob(du.slice(i+1)),arr=new Uint8Array(bin.length);for(var j=0;j<bin.length;j++)arr[j]=bin.charCodeAt(j);return new Blob([arr],{type:(meta.match(/^data:([^;]+)/)||[])[1]||'image/jpeg'})}
 function uploadPhoto(dataUrl){ /* online: photo goes to storage, the gallery only keeps its link */
@@ -92,6 +145,8 @@ document.addEventListener('DOMContentLoaded',function(){var L=window.LEGAL||{},p
 var DYN=['Switch to light','Switch to dark','more','less','All work','Animals','Placement','Colour','Show more','Enlarge','Consultation','Small','Medium','Full day','Discuss your project or browse flash','Touch-up or a small tattoo','Palm- and hand-size tattoos','Fronts, backs, multiple tattoos, back pieces, day sessions','hour','hours','Previous month','Next month','Mo,Tu,We,Th,Fr,Sa,Su','Choose how much time you need first — the free days then light up.','Choose a day first — or skip this and just send your request.','held for you as soon as you send','Pick a start time, or unselect the day.','your name','a valid email address','your phone number','your idea','Please fill in','Sending…','is held for you.',"No slot chosen — I'll get back to you by email with a proposal for a date.",'Sorry, that time was just taken. Please pick another one.','Something went wrong while sending. Please try again, or email me directly.','Send my request','No slot chosen','Modern traditional tattoo','American traditional tattoo','Western traditional tattoo','Neo traditional tattoo'];
 
 /* ---------- public gallery ---------- */
+function adOf(it){if(it.ad)return it.ad;var tb=/^t26-(\d+)$/.exec(it.id||'');if(tb)return Date.UTC(2026,9,23)+ +tb[1];var y=/·\s*(20\d\d)\s*$/.exec(it.t||'');if(y)return Date.UTC(+y[1],6,1);if(it.id&&it.id[0]==='u'){var v=parseInt(it.id.slice(1,9),36);if(v>1.6e12&&v<4e12)return v}return 0}
+function ordered(list){if(S.order!=='new')return list;return list.map(function(i,k){return[i,k]}).sort(function(a,b){return adOf(b[0])-adOf(a[0])||a[1]-b[1]}).map(function(x){return x[0]})}
 var grid=$('grid'),fl=$('filters'),more=$('more'),cur='all',STEP=(window.matchMedia&&matchMedia('(max-width:767px)').matches)?12:36,shown=STEP,view=[];
 function count(id,list){return list.filter(function(i){return i.tags.indexOf(id)>-1}).length}
 function groupSelect(g,list,all,first){
@@ -123,16 +178,18 @@ function goTo(id,smooth){var el=document.getElementById(id);if(!el)return;functi
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented||e.metaKey||e.ctrlKey)return;var id=a.getAttribute('href').slice(1);if(!id||id==='admin'||a.hasAttribute('data-admin')||a.hasAttribute('data-cookie-settings'))return;if(!document.getElementById(id))return;e.preventDefault();goTo(id,true);try{history.replaceState(null,'','#'+id)}catch(x){}});
 function setFilter(id){cur=id;shown=STEP;renderFilters();render();goTo('work',true)}
 var ALT=['Modern traditional tattoo','American traditional tattoo','Western traditional tattoo','Neo traditional tattoo'];
-function ptitle(it){if(it.st!=null&&ALT[it.st])return t(ALT[it.st]);var yt=(it.tags||[]).map(tagOf).filter(function(x){return x&&x.g==='y'})[0];if(yt)return tlabel(yt); /* untitled photos get one of the style names instead of the old placeholder */
- if(/^Traditional tattoo · 20\d\d$/.test(it.t)||it.t==='Early work'||it.t==='Series · large work'||it.t==='Traditional tattoos'||it.t==='Traditional tattoo'){var k=0;for(var i=0;i<it.s.length;i++)k=(k+it.s.charCodeAt(i))%4;return t(ALT[k])}
- return it.t}
-function styleTitle(it){if(it.st!=null&&ALT[it.st])return true;if((it.tags||[]).map(tagOf).filter(function(x){return x&&x.g==='y'})[0])return true;return /^Traditional tattoo · 20\d\d$/.test(it.t)||it.t==='Early work'||it.t==='Series · large work'||it.t==='Traditional tattoos'||it.t==='Traditional tattoo'}
+/* A photo with a title of its own always shows that title. Only untitled photos (empty, "Traditional tattoo · 2020", "Early work"…) get a style name, which is visually hidden for Google. */
+function genericT(it){var x=(it.t||'').trim();return!x||/^[·\s]*(20\d\d)?$/.test(x)||/^Traditional tattoo · 20\d\d$/.test(x)||x==='Early work'||x==='Series · large work'||x==='Traditional tattoos'||x==='Traditional tattoo'}
+function ptitle(it){if(it.st!=null&&ALT[it.st])return t(ALT[it.st]);if(!genericT(it))return it.t;
+ var yt=(it.tags||[]).map(tagOf).filter(function(x){return x&&x.g==='y'})[0];if(yt)return tlabel(yt); /* untitled photos get one of the style names instead of the old placeholder */
+ var k=0;for(var i=0;i<it.s.length;i++)k=(k+it.s.charCodeAt(i))%4;return t(ALT[k])}
+function styleTitle(it){return(it.st!=null&&!!ALT[it.st])||genericT(it)}
 function titleNode(it){if(styleTitle(it)){var sp=document.createElement('span');sp.className='seo';sp.textContent=ptitle(it);return sp}return document.createTextNode(ptitle(it))}
 function tagOf(id){for(var i=0;i<S.tags.length;i++)if(S.tags[i].id===id)return S.tags[i];return null}
 function tagButtons(it,cls,onpick){var box=document.createElement('span');
  it.tags.map(tagOf).filter(Boolean).forEach(function(tg){var b=document.createElement('button');b.type='button';b.className=cls;b.textContent=tlabel(tg);if(tg.g==='y'){b.className=(cls?cls+' ':'')+'seo';b.tabIndex=-1;b.setAttribute('aria-hidden','true')}b.onclick=function(e){e.stopPropagation();onpick(tg.id)};box.appendChild(b)});return box}
 function render(from){ /* from: index to append from (Show more); otherwise the grid is rebuilt */
- view=S.items.filter(function(i){return!i.hidden&&(cur==='all'||i.tags.indexOf(cur)>-1)});
+ view=ordered(S.items.filter(function(i){return!i.hidden&&(cur==='all'||i.tags.indexOf(cur)>-1)}));
  if(!from)grid.innerHTML='';
  view.slice(from||0,shown).forEach(function(it,k){var ix=(from||0)+k;
   var d=document.createElement('div');d.className='tile';
@@ -261,7 +318,7 @@ function renderPending(){
   var acts=document.createElement('div');acts.className='chips';
   var pub=document.createElement('button');pub.type='button';pub.className='abtn solid';pub.textContent='Publish';
   pub.onclick=function(){pub.disabled=true;pub.textContent='Uploading…';
-   uploadPhoto(p.s).then(function(src){S.items.unshift({id:'u'+Date.now().toString(36)+ix,s:src,t:p.t.trim()||'New work',tags:p.tags.slice(),up:1});
+   uploadPhoto(p.s).then(function(src){S.items.unshift({id:'u'+Date.now().toString(36)+ix,s:src,t:p.t.trim()||'New work',tags:p.tags.slice(),up:1,ad:Date.now()});
     if(!save()){S.items.shift();pub.disabled=false;pub.textContent='Publish';return}pending.splice(ix,1);renderAdm();refresh();toast(ONLINE?'Published — live on every device':'Published in this browser')})
    .catch(function(e){pub.disabled=false;pub.textContent='Publish';toast('Upload failed — '+((e&&e.message)||'check the connection and try again'));console.error('upload',e)})};
   var can=document.createElement('button');can.type='button';can.className='chip del';can.textContent='Cancel';can.onclick=function(){pending.splice(ix,1);renderPending()};
@@ -292,7 +349,7 @@ function renderAFilter(){
   s.onchange=function(){afilter=s.value||'all';ashown=12;renderAFilter();renderList()};box.appendChild(s)});
 }
 function renderList(){
- var q=$('a-search').value.trim().toLowerCase(),box=$('a-list');box.innerHTML='';
+ var q=$('a-search').value.trim().toLowerCase(),box=$('a-list');box.innerHTML='';var oe=$('a-order');if(oe)oe.value=S.order==='new'?'new':'manual';
  var list=S.items.filter(function(i){
   if(afilter==='none'){if(hasSubject(i))return false}else if(afilter==='feat'){if(!i.feat)return false}else if(afilter!=='all'&&i.tags.indexOf(afilter)<0)return false;
   return!q||i.t.toLowerCase().indexOf(q)>-1||i.tags.map(tagLabel).join(' ').toLowerCase().indexOf(q)>-1});
@@ -323,7 +380,7 @@ function renderList(){
  });
  $('a-more').parentNode.style.display=list.length>ashown?'flex':'none';
 }
-var DRAG=null;$('a-showtags').onchange=function(){$('a-list').classList.toggle('notags',!this.checked)};$('a-search').oninput=function(){ashown=12;renderList()};$('a-more').onclick=function(){ashown+=12;renderList()};
+var DRAG=null;$('a-order').onchange=function(){S.order=this.value==='new'?'new':'manual';save();refresh();toast(S.order==='new'?'Gallery now shows the newest photos first':'Gallery now follows your own order')};$('a-showtags').onchange=function(){$('a-list').classList.toggle('notags',!this.checked)};$('a-search').oninput=function(){ashown=12;renderList()};$('a-more').onclick=function(){ashown+=12;renderList()};
 function gcalStatus(){var st=$('gcal-status');if(!st)return;if(!ONLINE){st.textContent='Available once the online storage (Supabase) is connected.';return}
  fresh().then(function(){return api('/rest/v1/rpc/tattootobias_gcal_status',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'},true)}).then(function(r){return r.json()}).then(function(j){
   var on=j&&j.connected;$('gcal-connect').textContent=on?'Reconnect':'Connect Google Agenda';$('gcal-sync').hidden=!on;if($('gcal-full'))$('gcal-full').hidden=!on;$('gcal-off').hidden=!on;var ck=$('gcal-chk');if(ck){ck.hidden=!on;ck.style.display=on?'block':'none'}
@@ -477,7 +534,7 @@ function notify(b){try{var adminUrl=(location.origin+location.pathname).replace(
 function healthBanner(){if(!ONLINE||!logged)return;fresh().then(function(){return api('/rest/v1/rpc/tattootobias_health_status',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'},true)}).then(function(r){return r.json()}).then(function(j){
  var el=$('hbanner');if(!el){el=document.createElement('div');el.id='hbanner';var st=el.style;st.position='sticky';st.top='0';st.zIndex='9999';st.background='#b3261e';st.color='#fff';st.padding='10px 16px';st.font='600 14px/1.4 system-ui,sans-serif';st.textAlign='center';document.body.insertBefore(el,document.body.firstChild)}
  var bad=j&&j.ok===false&&j.issues&&j.issues.length;el.hidden=!bad;if(bad)el.textContent='Agenda sync needs attention: '+j.issues.join(' · ')}).catch(function(){})}
-function keepFresh(){if(!ONLINE||document.hidden)return;healthBanner();if(logged){var on=document.querySelector('.atabs button.on'),tb=on?on.dataset.tab:'';if(tb==='bookings')bkLoad().then(renderBookings);else if(tb==='cal')bkLoad().then(function(){renderACal();if(typeof gcalStatus==='function')gcalStatus()})}else bkLoad().then(function(){renderCal();renderSlots()})}
+function keepFresh(){if(!ONLINE||document.hidden)return;healthBanner();if(logged){var ae=document.activeElement;if(!(ae&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)))pull()}if(logged){var on=document.querySelector('.atabs button.on'),tb=on?on.dataset.tab:'';if(tb==='bookings')bkLoad().then(renderBookings);else if(tb==='cal')bkLoad().then(function(){renderACal();if(typeof gcalStatus==='function')gcalStatus()})}else bkLoad().then(function(){renderCal();renderSlots()})}
 setInterval(keepFresh,60000);document.addEventListener('visibilitychange',function(){if(!document.hidden)keepFresh()});
 /* ---- admin: tabs ---- */
 var tabs=document.querySelectorAll('.atabs button');
